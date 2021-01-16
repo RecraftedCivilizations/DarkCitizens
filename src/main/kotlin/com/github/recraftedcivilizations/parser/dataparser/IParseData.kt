@@ -1,8 +1,8 @@
 package com.github.recraftedcivilizations.parser.dataparser
 
-import com.github.recraftedcivilizations.DPlayer.DPlayer
-import com.github.recraftedcivilizations.DPlayer.DPlayerData1
-import com.github.recraftedcivilizations.DPlayer.DPlayerData2
+import com.github.recraftedcivilizations.dPlayer.DPlayer
+import com.github.recraftedcivilizations.dPlayer.DPlayerData1
+import com.github.recraftedcivilizations.dPlayer.DPlayerData2
 import java.util.*
 
 interface IParseData {

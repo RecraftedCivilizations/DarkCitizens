@@ -1,4 +1,4 @@
-package com.github.recraftedcivilizations.DPlayer
+package com.github.recraftedcivilizations.dPlayer
 
 import com.github.recraftedcivilizations.jobs.IJob
 import org.bukkit.entity.Player
