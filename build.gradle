@@ -19,6 +19,7 @@ repositories {
     mavenCentral()
     maven { url 'https://repo.repsy.io/mvn/darkvanityoflight/darkmods' }
     spigot()
+    maven { url 'https://jitpack.io' }
 }
 // Kotlin stuff
 dependencies {
@@ -31,6 +32,7 @@ dependencies {
 dependencies {
     compileOnly spigotApi()
     compileOnly 'com.github.darkvanityoflight:RecraftedCore:2.+'
+    compileOnly "com.github.MilkBowl:VaultAPI:1.7"
 }
 
 // Test stuff
