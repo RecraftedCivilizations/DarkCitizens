@@ -8,6 +8,8 @@ import java.util.*
  * @author DarkVanityOfLight
  */
 
+fun <T> MutableMap<T, Int>.inc(key: T, more: Int = 1) = merge(key, more, Int::plus)
+
 /**
  * This data class represents the data of a DPlayer,
  * This is used to parse a DPlayer
@@ -112,8 +114,7 @@ class DPlayer {
      * @param amount The amount of XP to add
      */
     fun addXP(group: String, amount: Int){
-        groupXps[group]?.plus(amount)
-
+        groupXps.inc(group, amount)
         //TODO Check if lvl increases
     }
 
