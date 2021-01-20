@@ -18,7 +18,7 @@ import java.util.*
  * @param groupLvls All groups and their current lvl
  * @param groupXps All groups and their current XP
  */
-data class DPlayerData1(val uuid: UUID, val job: IJob?, val wanted: Boolean, val isCriminal: Boolean, val groupLvls: MutableMap<String, Int>, val groupXps: MutableMap<String, Int>)
+data class DPlayerData1(val uuid: UUID, val job: IJob?, val wanted: Boolean, val isCriminal: Boolean, val groupLvls: Map<String, Int>, val groupXps: Map<String, Int>)
 /**
  * This data class represents the data of a DPlayer,
  * This is used to parse a DPlayer
@@ -28,7 +28,7 @@ data class DPlayerData1(val uuid: UUID, val job: IJob?, val wanted: Boolean, val
  * @param groupLvls All groups and their current lvl
  * @param groupXps All groups and their current XP
  */
-data class DPlayerData2(val job: IJob?, val wanted: Boolean, val isCriminal: Boolean, val groupLvls: MutableMap<String, Int>, val groupXps: MutableMap<String, Int>)
+data class DPlayerData2(val job: IJob?, val wanted: Boolean, val isCriminal: Boolean, val groupLvls: Map<String, Int>, val groupXps: Map<String, Int>)
 
 
 /**
