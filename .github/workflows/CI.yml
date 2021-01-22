@@ -52,7 +52,7 @@ jobs:
           git config --global user.name "RecraftedCivilizationsCI"
           git config --global user.email "recrafted-cd@recraftedcivilizations.com"
           git pull --ff
-          git add .
+          git add -f .
           git commit -m "feat: Upload dev-build artifacts results for version: $VERSION"
           git push
   Test:
@@ -108,7 +108,7 @@ jobs:
         run: |
           git config --global user.name "RecraftedCivilizationsCI"
           git config --global user.email "recrafted-ci@recraftedcivilizations.com"
-          git add .
+          git add -f .
           git commit -m "feat: Upload test results for: $VERSION"
           git push
       - name: Upload test results
@@ -166,7 +166,7 @@ jobs:
           git config --global user.email "recrafted-cd@recraftedcivilizations.com"
           sleep 15
           git pull --ff
-          git add .
+          git add -f .
           git commit -m "feat: Upload prod-build artifacts results for version: $VERSION"
           git pull --ff
           git push
@@ -216,6 +216,6 @@ jobs:
           git config --global user.name "RecraftedCivilizationsCI"
           git config --global user.email "recrafted-cd@recraftedcivilizations.com"
           git pull --ff
-          git add .
+          git add -f .
           git commit -m "feat: Upload prod-build artifacts results for version: $VERSION"
           git push
