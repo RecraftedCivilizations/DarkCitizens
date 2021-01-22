@@ -10,7 +10,6 @@ import org.bukkit.entity.Player
 class Job(override val name: String,
           override val group: String,
           override val playerLimit: Int,
-          override val currentMembers: Set<DPlayer>,
           override val tasks: Set<ITask>,
           override val canDemote: Set<String>,
           override val baseIncome: Int,
@@ -20,6 +19,8 @@ class Job(override val name: String,
           override val permissionRequired: Boolean,
           val dPlayerManager: DPlayerManager
           ): IJob {
+
+    override val currentMembers: Set<DPlayer> = emptySet<DPlayer>()
 
     override fun removePlayer(player: DPlayer) {
         currentMembers.minus(player)
