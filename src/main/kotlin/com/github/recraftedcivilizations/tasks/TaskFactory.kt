@@ -24,19 +24,8 @@ object TaskFactory {
      * @param dPlayerManager The DPlayer manager
      * @param econ The economy to pay too
      */
-    fun createTask(name: String, income: Int, xp: Int, actions: List<String>, description: String, dPlayerManager: DPlayerManager, econ: Economy): ITask{
-        val parsedActions = emptyList<IAction>().toMutableList()
-
-        for (action in actions){
-            try{
-                val parsedAction = Actions.valueOf(action)
-                parsedActions.plus(parsedAction)
-
-            } catch (e: IllegalArgumentException){}
-
-        }
-
-        return Task(name, income, xp, parsedActions, description, dPlayerManager, econ)
+    fun createTask(name: String, income: Int, xp: Int, actions: List<IAction>, description: String, dPlayerManager: DPlayerManager, econ: Economy): ITask{
+        return Task(name, income, xp, actions, description, dPlayerManager, econ)
     }
 
 }
