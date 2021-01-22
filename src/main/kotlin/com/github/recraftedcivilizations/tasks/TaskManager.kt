@@ -26,4 +26,13 @@ class TaskManager(val econ: Economy, val dPlayerManager: DPlayerManager) {
         val task = TaskFactory.createTask(name, income, xp, action, description, dPlayerManager, econ)
         tasks.add(task)
     }
+
+    fun getTask(name: String): ITask?{
+        for (task in tasks){
+            if (task.name.equals(name, ignoreCase = true)){
+                return task
+            }
+        }
+        return null
+    }
 }
