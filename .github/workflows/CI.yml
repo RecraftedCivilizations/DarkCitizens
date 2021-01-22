@@ -98,13 +98,13 @@ jobs:
       - name: Checkout source repo
         uses: actions/Checkout@v2
         with:
-          path: /tmp/source
+          path: ./temp/source
       - name: Checkout destination repo
         uses: actions/Checkout@v2
         with:
           repository: RecraftedCivilizations/RecraftedCivilizations.github.io
           ssh-key: ${{ secrets.SSH_KEY }}
-          path: /tmp/destination
+          path: ./tmp/destination
       - name: Get the version
         run: |
           while read line; do
@@ -113,39 +113,39 @@ jobs:
                   VERSION=${line:9}
                   VERSION=${VERSION::-1}
               fi
-          done < /tmp/source/build.gradle
+          done < ./tmp/source/build.gradle
           echo "VERSION=$VERSION" >> $GITHUB_ENV
       - name: Copie the files
         run: |
-          if [ -d "/tmp/destination/Projects/${{ github.REPOSITORY}}/docs/$VERSION" ]
+          if [ -d "./tmp/destination/Projects/${{ github.REPOSITORY}}/docs/$VERSION" ]
           then
               echo "Deleting old artifacts for the same version"
-              rm -rf /tmp/destination/Projects/{{ github.REPOSITORY}}/docs/$VERSION
+              rm -rf ./tmp/destination/Projects/{{ github.REPOSITORY}}/docs/$VERSION
           fi
-          if [ -d "/tmp/destination/Projects/${{ github.REPOSITORY}}/prod-builds/$VERSION" ]
+          if [ -d "./tmp/destination/Projects/${{ github.REPOSITORY}}/prod-builds/$VERSION" ]
           then
               echo "Deleting old artifacts for the same version"
-              rm -rf /tmp/destination/Projects/{{ github.REPOSITORY}}/prod-builds/$VERSION
+              rm -rf ./tmp/destination/Projects/{{ github.REPOSITORY}}/prod-builds/$VERSION
           fi
-          mkdir -p ./temp/Projects/${{ github.REPOSITORY }}/prod-builds/$VERSION
-          if [ -d "/tmp/destination/Projects/${{ github.REPOSITORY}}/dev-builds/$VERSION" ]
+          mkdir -p ./tmp/Projects/${{ github.REPOSITORY }}/prod-builds/$VERSION
+          if [ -d "./tmp/destination/Projects/${{ github.REPOSITORY}}/dev-builds/$VERSION" ]
           then
               echo "Deleting old artifacts for the same version"
-              rm -rf /tmp/destination/Projects/{{ github.REPOSITORY}}/dev-builds/$VERSION
+              rm -rf ./tmp/destination/Projects/{{ github.REPOSITORY}}/dev-builds/$VERSION
           fi
           mkdir -p ./temp/Projects/${{ github.REPOSITORY }}/dev-builds/$VERSION
-          if [ -d "/tmp/destination/Projects/${{ github.REPOSITORY}}/tests/$VERSION" ]
+          if [ -d "./tmp/destination/Projects/${{ github.REPOSITORY}}/tests/$VERSION" ]
           then
               echo "Deleting old artifacts for the same version"
-              rm -rf /tmp/destination/Projects/{{ github.REPOSITORY}}/tests/$VERSION
+              rm -rf ./tmp/destination/Projects/{{ github.REPOSITORY}}/tests/$VERSION
           fi
           mkdir -p ./temp/Projects/${{ github.REPOSITORY }}/tests/$VERSION
-          cp -r ./Docs/html/. /tmp/destiantion/Projects/${{ github.REPOSITORY }}/docs/$VERSION
-          cp -r ./Dev-Build/libs/. /tmp/destination/Projects/${{ github.REPOSITORY }}/dev-builds/$VERSION
-          cp -r ./Prod-Build/libs/. /tmp/destination/Projects/${{ github.REPOSITORY }}/prod-builds/$VERSION
-          cp -r ./test-results/. /tmp/destination/Projects/${{ github.REPOSITORY }}/tests/$VERSION
+          cp -r ./Docs/html/. ./tmp/destiantion/Projects/${{ github.REPOSITORY }}/docs/$VERSION
+          cp -r ./Dev-Build/libs/. ./tmp/destination/Projects/${{ github.REPOSITORY }}/dev-builds/$VERSION
+          cp -r ./Prod-Build/libs/. ./tmp/destination/Projects/${{ github.REPOSITORY }}/prod-builds/$VERSION
+          cp -r ./test-results/. ./tmp/destination/Projects/${{ github.REPOSITORY }}/tests/$VERSION
       - name: Push the changes
-        working-directory: /tmp/destination
+        working-directory: ./tmp/destination
         run: |
           git config --global user.name "RecraftedCivilizationsCI"
           git config --global user.email "recrafted-cd@recraftedcivilizations.com"
