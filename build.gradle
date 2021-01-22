@@ -20,6 +20,7 @@ repositories {
     maven { url 'https://repo.repsy.io/mvn/darkvanityoflight/darkmods' }
     spigot()
     maven { url 'https://jitpack.io' }
+    jcenter()
 }
 // Kotlin stuff
 dependencies {
