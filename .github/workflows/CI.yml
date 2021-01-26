@@ -85,18 +85,22 @@ jobs:
         uses: actions/download-artifact@master
         with:
           name: Dev-Build
+          path: dev-build
       - name: Download the unit-test results
         uses: actions/download-artifact@master
         with:
           name: test-results
+          path: test-results
       - name: Download the Production build
         uses: actions/download-artifact@master
         with:
           name: Prod-Build
+          path: prod-build
       - name: Download the docs
         uses: actions/download-artifact@master
         with:
           name: Docs
+          path: docs
       - name: List directy
         run: |
             pwd
