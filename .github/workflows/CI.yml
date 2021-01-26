@@ -127,25 +127,25 @@ jobs:
               echo "Deleting old artifacts for the same version"
               rm -rf ./tmp/destination/Projects/{{ github.REPOSITORY}}/docs/$VERSION
           fi
-          mkdir -p ./tmp/Projects/${{ github.REPOSITORY }}/docs/$VERSION
+          mkdir -p ./tmp/destination/Projects/${{ github.REPOSITORY }}/docs/$VERSION
           if [ -d "./tmp/destination/Projects/${{ github.REPOSITORY}}/prod-builds/$VERSION" ]
           then
               echo "Deleting old artifacts for the same version"
               rm -rf ./tmp/destination/Projects/{{ github.REPOSITORY}}/prod-builds/$VERSION
           fi
-          mkdir -p ./tmp/Projects/${{ github.REPOSITORY }}/prod-builds/$VERSION
+          mkdir -p ./tmp/destination/Projects/${{ github.REPOSITORY }}/prod-builds/$VERSION
           if [ -d "./tmp/destination/Projects/${{ github.REPOSITORY}}/dev-builds/$VERSION" ]
           then
               echo "Deleting old artifacts for the same version"
               rm -rf ./tmp/destination/Projects/{{ github.REPOSITORY}}/dev-builds/$VERSION
           fi
-          mkdir -p ./tmp/Projects/${{ github.REPOSITORY }}/dev-builds/$VERSION
+          mkdir -p ./tmp/destination/Projects/${{ github.REPOSITORY }}/dev-builds/$VERSION
           if [ -d "./tmp/destination/Projects/${{ github.REPOSITORY}}/tests/$VERSION" ]
           then
               echo "Deleting old artifacts for the same version"
               rm -rf ./tmp/destination/Projects/{{ github.REPOSITORY}}/tests/$VERSION
           fi
-          mkdir -p ./temp/Projects/${{ github.REPOSITORY }}/tests/$VERSION
+          mkdir -p ./temp/destination/Projects/${{ github.REPOSITORY }}/tests/$VERSION
           cp -r ./docs/html/. ./tmp/destiantion/Projects/${{ github.REPOSITORY }}/docs/$VERSION
           cp -r ./dev-build/Dev-Build/libs/. ./tmp/destination/Projects/${{ github.REPOSITORY }}/dev-builds/$VERSION
           cp -r ./prod-build/Prod-Build/libs/. ./tmp/destination/Projects/${{ github.REPOSITORY }}/prod-builds/$VERSION
