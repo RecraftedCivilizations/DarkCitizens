@@ -101,10 +101,6 @@ jobs:
         with:
           name: Docs
           path: docs
-      - name: List directy
-        run: |
-            pwd
-            ls -R
       - name: Checkout source repo
         uses: actions/Checkout@v2
         with:
@@ -115,6 +111,10 @@ jobs:
           repository: RecraftedCivilizations/RecraftedCivilizations.github.io
           ssh-key: ${{ secrets.SSH_KEY }}
           path: ./tmp/destination
+      - name: List directory
+        run: |
+          pwd
+          ls -R
       - name: Get the version
         run: |
           while read line; do
