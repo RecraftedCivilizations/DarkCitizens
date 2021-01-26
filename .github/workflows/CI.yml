@@ -79,8 +79,6 @@ jobs:
     needs: [DevBuild, UnitTest, ProdBuild, Docs]
 
     steps:
-      - name: Get current dir
-        run: pwd
       - name: Download the dev build
         uses: actions/download-artifact@master
         with:
@@ -111,10 +109,6 @@ jobs:
           repository: RecraftedCivilizations/RecraftedCivilizations.github.io
           ssh-key: ${{ secrets.SSH_KEY }}
           path: ./tmp/destination
-      - name: List directory
-        run: |
-          pwd
-          ls -R
       - name: Get the version
         run: |
           while read line; do
