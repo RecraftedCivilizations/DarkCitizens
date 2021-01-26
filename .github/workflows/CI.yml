@@ -104,7 +104,7 @@ jobs:
       - name: Checkout source repo
         uses: actions/Checkout@v2
         with:
-          path: ./temp/source
+          path: ./tmp/source
       - name: Checkout destination repo
         uses: actions/Checkout@v2
         with:
