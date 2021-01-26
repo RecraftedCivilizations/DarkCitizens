@@ -97,6 +97,10 @@ jobs:
         uses: actions/download-artifact@master
         with:
           name: Docs
+      - name: List directy
+        run: |
+            pwd
+            ls
       - name: Checkout source repo
         uses: actions/Checkout@v2
         with:
