@@ -128,6 +128,7 @@ jobs:
               echo "Deleting old artifacts for the same version"
               rm -rf ./tmp/destination/Projects/{{ github.REPOSITORY}}/docs/$VERSION
           fi
+          mkdir -p ./tmp/Projects/${{ github.REPOSITORY }}/docs/$VERSION
           if [ -d "./tmp/destination/Projects/${{ github.REPOSITORY}}/prod-builds/$VERSION" ]
           then
               echo "Deleting old artifacts for the same version"
@@ -139,7 +140,7 @@ jobs:
               echo "Deleting old artifacts for the same version"
               rm -rf ./tmp/destination/Projects/{{ github.REPOSITORY}}/dev-builds/$VERSION
           fi
-          mkdir -p ./temp/Projects/${{ github.REPOSITORY }}/dev-builds/$VERSION
+          mkdir -p ./tmp/Projects/${{ github.REPOSITORY }}/dev-builds/$VERSION
           if [ -d "./tmp/destination/Projects/${{ github.REPOSITORY}}/tests/$VERSION" ]
           then
               echo "Deleting old artifacts for the same version"
