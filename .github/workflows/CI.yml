@@ -79,6 +79,8 @@ jobs:
     needs: [DevBuild, UnitTest, ProdBuild, Docs]
 
     steps:
+      - name: Get current dir
+        run: pwd
       - name: Download the dev build
         uses: actions/download-artifact@master
         with:
