@@ -151,10 +151,10 @@ jobs:
               rm -rf ./tmp/destination/Projects/{{ github.REPOSITORY}}/tests/$VERSION
           fi
           mkdir -p ./temp/Projects/${{ github.REPOSITORY }}/tests/$VERSION
-          cp -r ./html/. ./tmp/destiantion/Projects/${{ github.REPOSITORY }}/docs/$VERSION
-          cp -r ./Dev-Build/libs/. ./tmp/destination/Projects/${{ github.REPOSITORY }}/dev-builds/$VERSION
-          cp -r ./Prod-Build/libs/. ./tmp/destination/Projects/${{ github.REPOSITORY }}/prod-builds/$VERSION
-          cp -r ./test-results/. ./tmp/destination/Projects/${{ github.REPOSITORY }}/tests/$VERSION
+          cp -r ./docs/html/. ./tmp/destiantion/Projects/${{ github.REPOSITORY }}/docs/$VERSION
+          cp -r ./dev-build/Dev-Build/libs/. ./tmp/destination/Projects/${{ github.REPOSITORY }}/dev-builds/$VERSION
+          cp -r ./prod-build/Prod-Build/libs/. ./tmp/destination/Projects/${{ github.REPOSITORY }}/prod-builds/$VERSION
+          cp -r ./test-result/test-results/. ./tmp/destination/Projects/${{ github.REPOSITORY }}/tests/$VERSION
       - name: Push the changes
         working-directory: ./tmp/destination
         run: |
