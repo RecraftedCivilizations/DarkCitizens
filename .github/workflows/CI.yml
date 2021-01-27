@@ -146,7 +146,6 @@ jobs:
               rm -rf ./tmp/destination/Projects/{{ github.REPOSITORY}}/tests/$VERSION
           fi
           mkdir -p ./tmp/destination/Projects/${{ github.REPOSITORY }}/tests/$VERSION
-          ls -R ./tmp
           cp -r ./docs/html/. ./tmp/destination/Projects/${{ github.REPOSITORY }}/docs/$VERSION
           cp -r ./dev-build/Dev-Build/libs/. ./tmp/destination/Projects/${{ github.REPOSITORY }}/dev-builds/$VERSION
           cp -r ./prod-build/Prod-Build/libs/. ./tmp/destination/Projects/${{ github.REPOSITORY }}/prod-builds/$VERSION
