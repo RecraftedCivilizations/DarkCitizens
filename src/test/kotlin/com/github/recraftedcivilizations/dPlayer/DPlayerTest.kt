@@ -71,4 +71,5 @@ internal class DPlayerTest {
         assertEquals(dPlayerData.isCriminal, dPlayer.isCriminal)
         assertEquals(dPlayerData.groupLvls, dPlayer.groupLvls)
         assertEquals(dPlayer.groupXps, dPlayer.groupXps)
+    }
 }
