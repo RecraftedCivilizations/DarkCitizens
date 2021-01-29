@@ -101,5 +101,13 @@ internal class DPlayerTest {
         assertEquals(dPlayerData.isCriminal, dPlayer.isCriminal)
         assertEquals(dPlayerData.groupLvls, dPlayer.groupLvls)
         assertEquals(dPlayer.groupXps, dPlayer.groupXps)
+
+        // With player
+        dPlayer = DPlayer(player)
+        assertEquals(uuid, dPlayer.uuid)
+        assertEquals(false, dPlayer.wanted)
+        assertEquals(false, dPlayer.isCriminal)
+        assertEquals(emptyMap<String, Int>().toMutableMap(), dPlayer.groupLvls)
+        assertEquals(emptyMap<String, Int>().toMutableMap(), dPlayer.groupXps)
     }
 }
