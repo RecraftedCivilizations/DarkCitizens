@@ -160,6 +160,6 @@ jobs:
         run: |
           git config --global user.name "RecraftedCivilizationsCI"
           git config --global user.email "recrafted-cd@recraftedcivilizations.com"
-          git pull --ff
           git add .
+          git pull --ff
           git push
