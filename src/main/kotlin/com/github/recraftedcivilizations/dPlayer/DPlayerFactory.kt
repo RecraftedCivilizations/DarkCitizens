@@ -28,7 +28,7 @@ object DPlayerFactory {
      * For the arguments take a look at DPlayerData2
      * @see [DPlayerData2]
      */
-    fun createDPLayer(job: IJob?, wanted: Boolean,isCriminal: Boolean, groupLvls: Map<String, Int>, groupXps: Map<String, Int>, player: Player): DPlayer{
+    fun createDPlayer(job: IJob?, wanted: Boolean,isCriminal: Boolean, groupLvls: Map<String, Int>, groupXps: Map<String, Int>, player: Player): DPlayer{
         val dData = DPlayerData2(job, wanted ,isCriminal , groupLvls , groupXps)
         return DPlayer(dData, player)
     }
