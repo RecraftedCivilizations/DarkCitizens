@@ -150,6 +150,11 @@ jobs:
           cp -r ./dev-build/libs/. ./tmp/destination/Projects/${{ github.REPOSITORY }}/dev-builds/$VERSION
           cp -r ./prod-build/libs/. ./tmp/destination/Projects/${{ github.REPOSITORY }}/prod-builds/$VERSION
           cp -r ./test-results/. ./tmp/destination/Projects/${{ github.REPOSITORY }}/tests/$VERSION
+      - name: List destination dir and changes
+        working-directory: ./tmp/destination
+        run: |
+          ls -R Projects/${{ github.REPOSITORY }}
+          git status
       - name: Push the changes
         working-directory: ./tmp/destination
         run: |
