@@ -160,6 +160,7 @@ jobs:
         run: |
           git config --global user.name "RecraftedCivilizationsCI"
           git config --global user.email "recrafted-cd@recraftedcivilizations.com"
-          git add .
+          git add Projects/${{ github.REPOSITORY }}
+          git commit -m "feat: Upload CI results for ${{ github.REPOSITORY }} version $VERSION"
           git pull --ff
           git push
