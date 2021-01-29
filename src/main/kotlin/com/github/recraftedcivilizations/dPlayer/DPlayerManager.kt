@@ -12,7 +12,7 @@ import java.util.*
  * This is used to get DPlayers from the data parser
  * @constructor Construct a new DPlayerManager using  [dataParser]
  */
-class DPlayerManager(val dataParser: IParseData) {
+class DPlayerManager(private val dataParser: IParseData) {
 
     /**
      * Get a DPlayer using an UUID
