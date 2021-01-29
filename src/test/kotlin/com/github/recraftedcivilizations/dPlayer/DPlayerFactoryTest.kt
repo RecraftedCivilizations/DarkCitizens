@@ -3,19 +3,26 @@ package com.github.recraftedcivilizations.dPlayer
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
 import org.bukkit.entity.Player
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-
-import org.junit.jupiter.api.Assertions.*
 import java.util.*
 
 internal class DPlayerFactoryTest {
     val uuid = UUID.randomUUID()
-    val dPlayerData = DPlayerData1(uuid, null, true, true, mapOf(Pair("Foo", 3), Pair("", 10)), mapOf(Pair("Foo", 3), Pair("", 10)))
-    val player = mock<Player> { on { getUniqueId() } doReturn uuid }
+    val dPlayerData =
+        DPlayerData1(uuid, null, true, true, mapOf(Pair("Foo", 3), Pair("", 10)), mapOf(Pair("Foo", 3), Pair("", 10)))
+    val player = mock<Player> { on { uniqueId } doReturn uuid }
 
     @Test
     fun createDPlayer() {
-        val dPlayer = DPlayerFactory.createDPlayer(dPlayerData.uuid, dPlayerData.job, dPlayerData.wanted, dPlayerData.isCriminal, dPlayerData.groupLvls, dPlayerData.groupXps)
+        val dPlayer = DPlayerFactory.createDPlayer(
+            dPlayerData.uuid,
+            dPlayerData.job,
+            dPlayerData.wanted,
+            dPlayerData.isCriminal,
+            dPlayerData.groupLvls,
+            dPlayerData.groupXps
+        )
         assertEquals(dPlayerData.uuid, dPlayer.uuid)
         assertEquals(dPlayerData.job, dPlayer.job)
         assertEquals(dPlayerData.wanted, dPlayer.wanted)
@@ -26,7 +33,14 @@ internal class DPlayerFactoryTest {
 
     @Test
     fun createDPLayer() {
-        val dPlayer = DPlayerFactory.createDPlayer(dPlayerData.job, dPlayerData.wanted, dPlayerData.isCriminal, dPlayerData.groupLvls, dPlayerData.groupXps, player)
+        val dPlayer = DPlayerFactory.createDPlayer(
+            dPlayerData.job,
+            dPlayerData.wanted,
+            dPlayerData.isCriminal,
+            dPlayerData.groupLvls,
+            dPlayerData.groupXps,
+            player
+        )
         assertEquals(dPlayerData.uuid, dPlayer.uuid)
         assertEquals(dPlayerData.job, dPlayer.job)
         assertEquals(dPlayerData.wanted, dPlayer.wanted)
