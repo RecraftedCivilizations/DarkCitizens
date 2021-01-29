@@ -44,7 +44,9 @@ class GroupManager {
 
         }
 
-        groups.plus(newGroup)
+        if (getGroup(newGroup.name) == null){
+            groups.plus(newGroup)
+        }
     }
 
 }
