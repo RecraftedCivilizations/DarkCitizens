@@ -69,6 +69,7 @@ internal class DPlayerTest {
         assertEquals(10, dPlayer.groupXps["FooBar"])
     }
 
+    @Test
     fun shouldConstruct() {
         val uuid = UUID.randomUUID()
 
