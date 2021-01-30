@@ -1,9 +1,7 @@
 package com.github.recraftedcivilizations.jobs
 
-import com.github.recraftedcivilizations.dPlayer.DPlayer
 import com.github.recraftedcivilizations.dPlayer.DPlayerManager
 import com.github.recraftedcivilizations.tasks.ITask
-import net.milkbowl.vault.economy.Economy
 
 /**
  * @author DarkVanityOfLight
@@ -41,7 +39,19 @@ object JobFactory {
         electionRequired: Boolean,
         permissionRequired: Boolean,
         dPlayerManager: DPlayerManager,
-    ): IJob{
-        return Job(name, group, playerLimit, tasks, canDemote, baseIncome, baseXPGain, minLvl, electionRequired, permissionRequired, dPlayerManager)
+    ): IJob {
+        return Job(
+            name,
+            group,
+            playerLimit,
+            tasks,
+            canDemote,
+            baseIncome,
+            baseXPGain,
+            minLvl,
+            electionRequired,
+            permissionRequired,
+            dPlayerManager
+        )
     }
 }

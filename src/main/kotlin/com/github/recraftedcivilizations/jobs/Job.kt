@@ -20,18 +20,19 @@ import org.bukkit.entity.Player
  * an election is required [electionRequired], if permissions are required to join the job([permissionRequired]) and a
  * [DPlayerManager]
  */
-class Job(override val name: String,
-          override val group: String,
-          override val playerLimit: Int,
-          override val tasks: Set<ITask>,
-          override val canDemote: Set<String>,
-          override val baseIncome: Int,
-          override val baseXPGain: Int,
-          override val minLvl: Int,
-          override val electionRequired: Boolean,
-          override val permissionRequired: Boolean,
-          val dPlayerManager: DPlayerManager
-          ): IJob {
+class Job(
+    override val name: String,
+    override val group: String,
+    override val playerLimit: Int,
+    override val tasks: Set<ITask>,
+    override val canDemote: Set<String>,
+    override val baseIncome: Int,
+    override val baseXPGain: Int,
+    override val minLvl: Int,
+    override val electionRequired: Boolean,
+    override val permissionRequired: Boolean,
+    val dPlayerManager: DPlayerManager
+) : IJob {
 
     override val currentMembers: MutableSet<DPlayer> = emptySet<DPlayer>().toMutableSet()
 
@@ -44,9 +45,9 @@ class Job(override val name: String,
     }
 
     override fun addPlayer(player: DPlayer) {
-        if (canJoin(player)){
+        if (canJoin(player)) {
             currentMembers.add(player)
-        }else{
+        } else {
             Bukkit.getPlayer(player.uuid)?.sendMessage("${ChatColor.RED}You lack the permissions to join this job!")
         }
     }

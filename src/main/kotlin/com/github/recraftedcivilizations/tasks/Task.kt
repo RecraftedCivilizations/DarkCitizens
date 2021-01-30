@@ -37,8 +37,8 @@ class Task(
      */
     override fun isCompletedForPlayer(player: DPlayer): Boolean {
 
-        for (action in actions){
-            if (!action.isCompletedForPlayer(player)){
+        for (action in actions) {
+            if (!action.isCompletedForPlayer(player)) {
                 return false
             }
         }

@@ -4,7 +4,6 @@ import com.github.recraftedcivilizations.dPlayer.DPlayerManager
 import com.github.recraftedcivilizations.tasks.actions.Actions
 import com.github.recraftedcivilizations.tasks.actions.IAction
 import net.milkbowl.vault.economy.Economy
-import java.lang.IllegalArgumentException
 
 /**
  * @author DarkVanityOfLight
@@ -25,15 +24,16 @@ class TaskManager(val econ: Economy, val dPlayerManager: DPlayerManager) {
      * @param action A list of actions this task consist of
      * @param description A description of this task
      */
-    fun createTask(name: String, income: Int, xp: Int, actions: List<String>, description: String){
+    fun createTask(name: String, income: Int, xp: Int, actions: List<String>, description: String) {
         val parsedActions = emptyList<IAction>().toMutableList()
 
-        for (action in actions){
-            try{
+        for (action in actions) {
+            try {
                 val parsedAction = Actions.valueOf(action)
                 parsedActions.plus(parsedAction)
 
-            } catch (e: IllegalArgumentException){}
+            } catch (e: IllegalArgumentException) {
+            }
 
         }
         val task = TaskFactory.createTask(name, income, xp, parsedActions, description, dPlayerManager, econ)
@@ -44,9 +44,9 @@ class TaskManager(val econ: Economy, val dPlayerManager: DPlayerManager) {
      * Get a task from the task manager
      * @param name The name of the job to get
      */
-    fun getTask(name: String): ITask?{
-        for (task in tasks){
-            if (task.name.equals(name, ignoreCase = true)){
+    fun getTask(name: String): ITask? {
+        for (task in tasks) {
+            if (task.name.equals(name, ignoreCase = true)) {
                 return task
             }
         }
