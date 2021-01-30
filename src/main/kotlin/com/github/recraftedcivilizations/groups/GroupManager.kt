@@ -8,7 +8,7 @@ package com.github.recraftedcivilizations.groups
  * Holds all groups
  */
 class GroupManager {
-    companion object { val defaultSteps = 50 }
+    companion object { const val defaultSteps = 50 }
     private val groups: MutableSet<Group> = emptySet<Group>().toMutableSet()
 
     /**
