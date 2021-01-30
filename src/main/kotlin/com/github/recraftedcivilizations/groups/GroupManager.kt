@@ -35,15 +35,16 @@ class GroupManager {
      */
     fun createGroup(name: String, maxLvl: Int, lvlThresholds: List<Int>, friendlyFire: Boolean, canBeCriminal: Boolean){
 
+        val fixedThresholds = lvlThresholds.toMutableList()
         if(maxLvl > lvlThresholds.size){
             val newLvlsToCreate = maxLvl - lvlThresholds.size
             for (lvl in 0..newLvlsToCreate){
-                lvlThresholds.plus(defaultSteps)
+                fixedThresholds.add(defaultSteps)
             }
 
         }
 
-        val newGroup = Group(name, maxLvl, lvlThresholds, friendlyFire, canBeCriminal)
+        val newGroup = Group(name, maxLvl, fixedThresholds, friendlyFire, canBeCriminal)
 
         if (getGroup(newGroup.name) == null){
             groups.add(newGroup)
