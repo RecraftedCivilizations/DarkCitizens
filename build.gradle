@@ -42,6 +42,8 @@ test {
 }
 
 dependencies {
+
+    implementation 'junit:junit:4.12'
     testCompile spigotApi()
     testCompile 'com.github.darkvanityoflight:RecraftedCore:2.+'
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
