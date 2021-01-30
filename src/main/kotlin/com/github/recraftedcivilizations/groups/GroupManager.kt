@@ -38,7 +38,7 @@ class GroupManager {
         val fixedThresholds = lvlThresholds.toMutableList()
         if(maxLvl > lvlThresholds.size){
             val newLvlsToCreate = maxLvl - lvlThresholds.size
-            for (lvl in 0..newLvlsToCreate){
+            for (lvl in 0 until newLvlsToCreate){
                 fixedThresholds.add(defaultSteps + fixedThresholds.getOrElse(lvl - 1, { return@getOrElse 0 } ))
             }
 
