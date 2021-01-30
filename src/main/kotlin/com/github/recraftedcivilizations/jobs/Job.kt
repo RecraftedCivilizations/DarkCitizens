@@ -33,10 +33,10 @@ class Job(override val name: String,
           val dPlayerManager: DPlayerManager
           ): IJob {
 
-    override val currentMembers: Set<DPlayer> = emptySet<DPlayer>()
+    override val currentMembers: MutableSet<DPlayer> = emptySet<DPlayer>().toMutableSet()
 
     override fun removePlayer(player: DPlayer) {
-        currentMembers.minus(player)
+        currentMembers.remove(player)
     }
 
     override fun removePlayer(player: Player) {
@@ -45,7 +45,7 @@ class Job(override val name: String,
 
     override fun addPlayer(player: DPlayer) {
         if (canJoin(player)){
-            currentMembers.plus(player)
+            currentMembers.add(player)
         }else{
             Bukkit.getPlayer(player.uuid)?.sendMessage("${ChatColor.RED}You lack the permissions to join this job!")
         }
