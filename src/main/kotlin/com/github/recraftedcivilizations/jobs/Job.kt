@@ -31,7 +31,7 @@ class Job(
     override val minLvl: Int,
     override val electionRequired: Boolean,
     override val permissionRequired: Boolean,
-    val dPlayerManager: DPlayerManager
+    private val dPlayerManager: DPlayerManager
 ) : IJob {
 
     override val currentMembers: MutableSet<DPlayer> = emptySet<DPlayer>().toMutableSet()
