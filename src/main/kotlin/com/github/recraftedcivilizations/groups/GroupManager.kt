@@ -46,7 +46,7 @@ class GroupManager {
         val newGroup = Group(name, maxLvl, lvlThresholds, friendlyFire, canBeCriminal)
 
         if (getGroup(newGroup.name) == null){
-            groups.plus(newGroup)
+            groups.add(newGroup)
         }
     }
 
