@@ -17,7 +17,7 @@ internal class GroupManagerTest {
     @Test
     fun createGroup() {
         val groupManager = GroupManager()
-        val group =  Group("Foo", 10, (1..500 step 50).toList(), false, canBeCriminal = false)
+        val group =  Group("Foo", 10, (0..500 step 50).toList(), false, canBeCriminal = false)
 
         groupManager.createGroup("Foo", 10, emptyList(),false,false)
 
