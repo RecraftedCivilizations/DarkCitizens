@@ -7,6 +7,19 @@ import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.entity.Player
 
+/**
+ * @author DarkVanityOfLight
+ */
+
+/**
+ * The default implementation for a job,
+ * @see IJob
+ * @constructor Construct using a [name], a [group] the job belongs,
+ * a [playerLimit] a [tasks] set consisting of [ITask], a [canDemote] set consisting
+ * of other job names they can demote, a [baseIncome], a [baseXPGain], a [minLvl] to join the job, if
+ * an election is required [electionRequired], if permissions are required to join the job([permissionRequired]) and a
+ * [DPlayerManager]
+ */
 class Job(override val name: String,
           override val group: String,
           override val playerLimit: Int,

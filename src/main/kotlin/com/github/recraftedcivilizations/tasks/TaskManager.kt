@@ -40,6 +40,10 @@ class TaskManager(val econ: Economy, val dPlayerManager: DPlayerManager) {
         tasks.add(task)
     }
 
+    /**
+     * Get a task from the task manager
+     * @param name The name of the job to get
+     */
     fun getTask(name: String): ITask?{
         for (task in tasks){
             if (task.name.equals(name, ignoreCase = true)){
