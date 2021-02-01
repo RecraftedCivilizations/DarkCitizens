@@ -37,7 +37,11 @@ class Job(
     override val currentMembers: MutableSet<DPlayer> = emptySet<DPlayer>().toMutableSet()
 
     override fun removePlayer(player: DPlayer) {
-        currentMembers.remove(player)
+        for (member in currentMembers){
+            if (member.uuid == player.uuid){
+                currentMembers.remove(member)
+            }
+        }
     }
 
     override fun removePlayer(player: Player) {
