@@ -6,6 +6,7 @@ import com.github.recraftedcivilizations.tasks.ITask
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.entity.Player
+import java.util.*
 
 /**
  * @author DarkVanityOfLight
@@ -75,4 +76,20 @@ class Job(
         return (!permissionRequired || permissionRequired && player.hasPermission("drp.job.join.$name")) && currentMembers.size < playerLimit && !isDuplicate
     }
 
+    override fun isMember(uuid: UUID): Boolean {
+        for (member in currentMembers){
+            if (member.uuid == uuid){
+                return true
+            }
+        }
+        return false
+    }
+
+    override fun isMember(player: DPlayer): Boolean {
+        return isMember(player.uuid)
+    }
+
+    override fun isMember(player: Player): Boolean {
+        return isMember(player.uniqueId)
+    }
 }

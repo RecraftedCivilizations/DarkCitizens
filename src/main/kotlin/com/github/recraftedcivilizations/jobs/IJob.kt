@@ -3,6 +3,7 @@ package com.github.recraftedcivilizations.jobs
 import com.github.recraftedcivilizations.dPlayer.DPlayer
 import com.github.recraftedcivilizations.tasks.ITask
 import org.bukkit.entity.Player
+import java.util.*
 
 /**
  * @author DarkVanityOfLight
@@ -69,4 +70,21 @@ interface IJob {
      */
     fun canJoin(player: Player): Boolean
 
+    /**
+     * Check if a player of type [DPlayer] is a member of this job
+     * @param player The player to check for
+     */
+    fun isMember(player: DPlayer): Boolean
+
+    /**
+     * Check if a player of type [Player] is a member of this job
+     * @param player The player to check for
+     */
+    fun isMember(player: Player): Boolean
+
+    /**
+     * Check if a player represented through his UUID is a member of this job
+     * @param uuid The uuid to check for
+     */
+    fun isMember(uuid: UUID): Boolean
 }
