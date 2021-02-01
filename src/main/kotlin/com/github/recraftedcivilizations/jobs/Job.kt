@@ -67,13 +67,7 @@ class Job(
 
     override fun canJoin(player: Player): Boolean {
         // This checks if the job  requires permissions if the player has these permissions and if the player limit is already reached
-        var isDuplicate = false
-        for(member in currentMembers){
-            if (member.uuid == player.uniqueId){
-                isDuplicate = true
-            }
-        }
-        return (!permissionRequired || permissionRequired && player.hasPermission("drp.job.join.$name")) && currentMembers.size < playerLimit && !isDuplicate
+        return (!permissionRequired || permissionRequired && player.hasPermission("drp.job.join.$name")) && currentMembers.size < playerLimit && isMember(player)
     }
 
     override fun isMember(uuid: UUID): Boolean {
