@@ -6,6 +6,7 @@ import com.github.recraftedcivilizations.tasks.ITask
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.entity.Player
+import java.lang.NullPointerException
 import java.util.*
 
 /**
@@ -89,11 +90,13 @@ class Job(
     override fun canJoin(player: Player): Boolean {
         val dPlayer = dPlayerManager.getDPlayer(player)
 
-        if (dPlayer?.groupLvls?.get(group) == null){
-            dPlayer?.groupLvls?.set(group, 0)
-            dPlayer?.groupXps?.set(group, 0)
+        dPlayer!!
+
+        if (dPlayer.groupLvls[group] == null){
+            dPlayer.groupLvls[group] = 0
+            dPlayer.groupXps[group] = 0
         }
-        if (dPlayer!!.groupLvls[group]!! >= minLvl){
+        if (dPlayer.groupLvls[group]!! >= minLvl){
             if (!permissionRequired || permissionRequired && player.hasPermission("drp.job.join.$name"))
             {
                 return if (currentMembers.size < playerLimit){
