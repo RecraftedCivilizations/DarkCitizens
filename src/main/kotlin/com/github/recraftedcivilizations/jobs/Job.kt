@@ -89,33 +89,33 @@ class Job(
     override fun canJoin(player: Player): Boolean {
         val dPlayer = dPlayerManager.getDPlayer(player)
 
-        if (dPlayer?.groupLvls?.get(group) != null){
-            if (dPlayer.groupLvls[group]!! >= minLvl){
-                if (!permissionRequired || permissionRequired && player.hasPermission("drp.job.join.$name"))
-                {
-                    return if (currentMembers.size < playerLimit){
-                        if (!isMember(player)){
-                            true
-                        }else{
-                            player.sendMessage("${ChatColor.RED}You are already in this job")
-                            false
-                        }
-                    } else{
-                        player.sendMessage("${ChatColor.RED}There are too many players in this job")
+        if (dPlayer?.groupLvls?.get(group) == null){
+            dPlayer?.groupLvls?.set(group, 0)
+            dPlayer?.groupXps?.set(group, 0)
+        }
+        if (dPlayer!!.groupLvls[group]!! >= minLvl){
+            if (!permissionRequired || permissionRequired && player.hasPermission("drp.job.join.$name"))
+            {
+                return if (currentMembers.size < playerLimit){
+                    if (!isMember(player)){
+                        true
+                    }else{
+                        player.sendMessage("${ChatColor.RED}You are already in this job")
                         false
                     }
-                }else{
-                    player.sendMessage("${ChatColor.RED}You don't have the required permissions to join this job!")
-                    return false
+                } else{
+                    player.sendMessage("${ChatColor.RED}There are too many players in this job")
+                    false
                 }
             }else{
-                player.sendMessage("${ChatColor.RED}You don't have the required level to join this job!")
+                player.sendMessage("${ChatColor.RED}You don't have the required permissions to join this job!")
                 return false
             }
         }else{
-            player.sendMessage("${ChatColor.RED}We could not find you in our database, try rejoining or contact an admin")
+            player.sendMessage("${ChatColor.RED}You don't have the required level to join this job!")
             return false
         }
+
     }
 
     override fun isMember(uuid: UUID): Boolean {
