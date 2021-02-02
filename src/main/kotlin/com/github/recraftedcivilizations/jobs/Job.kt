@@ -16,13 +16,13 @@ import java.util.*
  * A wrapper for the getPlayer function from Bukkit
  * this is mainly for testing purposes
  */
-class BukkitWrapper{
+open class BukkitWrapper{
 
     /**
      * Get a Bukkit player from a [DPlayer]
      * @param player The player to get the Bukkit player for
      */
-    fun getPlayer(player: DPlayer): Player? {
+    open fun getPlayer(player: DPlayer): Player? {
         return Bukkit.getPlayer(player.uuid)
     }
 
@@ -30,7 +30,7 @@ class BukkitWrapper{
      * Get a Bukkit player from a UUID
      * @param uuid The UUID of the player to get
      */
-    fun getPlayer(uuid: UUID): Player? {
+    open fun getPlayer(uuid: UUID): Player? {
         return Bukkit.getPlayer(uuid)
     }
 }
