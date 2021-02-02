@@ -89,8 +89,35 @@ class Job(
     }
 
     override fun canJoin(player: Player): Boolean {
-        // This checks if the job  requires permissions if the player has these permissions and if the player limit is already reached
-        return (!permissionRequired || permissionRequired && player.hasPermission("drp.job.join.$name")) && currentMembers.size < playerLimit && !isMember(player)
+        val dPlayer = dPlayerManager.getDPlayer(player)
+
+        if (dPlayer?.groupLvls?.get(group) != null){
+            if (dPlayer.groupLvls[group]!! >= minLvl){
+                if (!permissionRequired || permissionRequired && player.hasPermission("drp.job.join.$name"))
+                {
+                    return if (currentMembers.size < playerLimit){
+                        if (!isMember(player)){
+                            true
+                        }else{
+                            player.sendMessage("${ChatColor.RED}You are already in this job")
+                            false
+                        }
+                    } else{
+                        player.sendMessage("${ChatColor.RED}There are too many players in this job")
+                        false
+                    }
+                }else{
+                    player.sendMessage("${ChatColor.RED}You don't have the required permissions to join this job!")
+                    return false
+                }
+            }else{
+                player.sendMessage("${ChatColor.RED}You don't have the required level to join this job!")
+                return false
+            }
+        }else{
+            player.sendMessage("${ChatColor.RED}We could not find you in our database, try rejoining or contact an admin")
+            return false
+        }
     }
 
     override fun isMember(uuid: UUID): Boolean {
