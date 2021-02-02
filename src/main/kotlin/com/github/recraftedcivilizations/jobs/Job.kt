@@ -12,6 +12,16 @@ import java.util.*
  * @author DarkVanityOfLight
  */
 
+class BukkitWrapper{
+
+    fun getPlayer(player: DPlayer): Player? {
+        return Bukkit.getPlayer(player.uuid)
+    }
+    fun getPlayer(uuid: UUID): Player? {
+        return Bukkit.getPlayer(uuid)
+    }
+}
+
 /**
  * The default implementation for a job,
  * @see IJob
@@ -19,7 +29,7 @@ import java.util.*
  * a [playerLimit] a [tasks] set consisting of [ITask], a [canDemote] set consisting
  * of other job names they can demote, a [baseIncome], a [baseXPGain], a [minLvl] to join the job, if
  * an election is required [electionRequired], if permissions are required to join the job([permissionRequired]) and a
- * [DPlayerManager]
+ * [DPlayerManager]. The [bukkitWrapper] is only for testing purposes and should not be passed
  */
 class Job(
     override val name: String,
@@ -32,9 +42,9 @@ class Job(
     override val minLvl: Int,
     override val electionRequired: Boolean,
     override val permissionRequired: Boolean,
-    private val dPlayerManager: DPlayerManager
+    private val dPlayerManager: DPlayerManager,
+    private val bukkitWrapper: BukkitWrapper = BukkitWrapper()
 ) : IJob {
-
     override val currentMembers: MutableSet<DPlayer> = emptySet<DPlayer>().toMutableSet()
 
     override fun removePlayer(player: DPlayer) {
@@ -53,7 +63,7 @@ class Job(
         if (canJoin(player)) {
             currentMembers.add(player)
         } else {
-            Bukkit.getPlayer(player.uuid)?.sendMessage("${ChatColor.RED}You lack the permissions to join this job!")
+            bukkitWrapper.getPlayer(player)?.sendMessage("${ChatColor.RED}You lack the permissions to join this job!")
         }
     }
 
@@ -62,7 +72,7 @@ class Job(
     }
 
     override fun canJoin(player: DPlayer): Boolean {
-        return canJoin(Bukkit.getPlayer(player.uuid)!!)
+        return canJoin(bukkitWrapper.getPlayer(player)!!)
     }
 
     override fun canJoin(player: Player): Boolean {
