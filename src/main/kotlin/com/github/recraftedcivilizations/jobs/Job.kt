@@ -75,8 +75,6 @@ class Job(
     override fun addPlayer(player: DPlayer) {
         if (canJoin(player)) {
             currentMembers.add(player)
-        } else {
-            bukkitWrapper.getPlayer(player)?.sendMessage("${ChatColor.RED}You lack the permissions to join this job!")
         }
     }
 
