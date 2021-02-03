@@ -47,6 +47,7 @@ dependencies {
     testCompile spigotApi()
     testCompile 'com.github.darkvanityoflight:RecraftedCore:2.+'
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
+    testImplementation 'org.mockito:mockito-inline:2.13.0'
 }
 
 // Jvm Target
