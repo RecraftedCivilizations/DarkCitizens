@@ -79,7 +79,7 @@ class Task(
      * @param player The [DPlayer] to pay out
      */
     override fun pay(player: DPlayer) {
-        econ.depositPlayer(Bukkit.getPlayer(player.uuid), income.toDouble())
+        econ.depositPlayer(bukkitWrapper.getPlayer(player.uuid), income.toDouble())
         player.addXP(player.job!!.group, xp)
     }
 
