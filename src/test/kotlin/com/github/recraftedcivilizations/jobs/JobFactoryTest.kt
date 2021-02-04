@@ -23,7 +23,15 @@ internal class JobFactoryTest {
     @Test
     fun createJob() {
         val job = Job(randomString(), randomString(), Random.nextInt(), emptySet(), emptySet(), Random.nextInt(), Random.nextInt(), Random.nextInt(), Random.nextBoolean(), Random.nextBoolean(), dPlayerManager)
-        val job1 = JobFactory.createJob(job.name, job.group, job.playerLimit, job.tasks, job.canDemote, job.baseIncome, job.baseXPGain, job.minLvl, job.electionRequired, job.permissionRequired, dPlayerManager)
-        assertEquals(job, job1)
+        val thatJob = JobFactory.createJob(job.name, job.group, job.playerLimit, job.tasks, job.canDemote, job.baseIncome, job.baseXPGain, job.minLvl, job.electionRequired, job.permissionRequired, dPlayerManager)
+        assertEquals(job.name, thatJob.name)
+        assertEquals(job.group, thatJob.group)
+        assertEquals(job.playerLimit, thatJob.playerLimit)
+        assertEquals(job.canDemote, thatJob.canDemote)
+        assertEquals(job.baseIncome, thatJob.baseIncome)
+        assertEquals(job.baseXPGain, thatJob.baseXPGain)
+        assertEquals(job.minLvl, thatJob.minLvl)
+        assertEquals(job.electionRequired, thatJob.electionRequired)
+        assertEquals(job.permissionRequired, thatJob.permissionRequired)
     }
 }
