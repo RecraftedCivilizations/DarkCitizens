@@ -1,6 +1,7 @@
 package com.github.recraftedcivilizations.tasks
 
 import com.github.darkvanityoflight.recraftedcore.utils.notifyutils.notify
+import com.github.recraftedcivilizations.BukkitWrapper
 import com.github.recraftedcivilizations.dPlayer.DPlayer
 import com.github.recraftedcivilizations.dPlayer.DPlayerManager
 import com.github.recraftedcivilizations.tasks.actions.IAction
@@ -28,7 +29,8 @@ class Task(
     override val actions: List<IAction>,
     override val description: String,
     val dPlayerManager: DPlayerManager,
-    val econ: Economy
+    val econ: Economy,
+    private val bukkitWrapper: BukkitWrapper = BukkitWrapper()
 ) : ITask {
 
     /**
@@ -43,7 +45,12 @@ class Task(
             }
         }
 
-        return true
+        return if (actions.isNotEmpty()){
+            true
+        }else{
+            bukkitWrapper.warning("The Task $name has no actions assigned!")
+            false
+        }
     }
 
     /**
