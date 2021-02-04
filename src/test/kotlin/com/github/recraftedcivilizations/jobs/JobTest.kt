@@ -1,5 +1,6 @@
 package com.github.recraftedcivilizations.jobs
 
+import com.github.recraftedcivilizations.BukkitWrapper
 import com.github.recraftedcivilizations.dPlayer.DPlayer
 import com.github.recraftedcivilizations.dPlayer.DPlayerFactory
 import com.github.recraftedcivilizations.dPlayer.DPlayerManager
