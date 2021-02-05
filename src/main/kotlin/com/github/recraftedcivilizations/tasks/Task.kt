@@ -26,8 +26,8 @@ class Task(
     override val xp: Int,
     override val actions: List<IAction>,
     override val description: String,
-    val dPlayerManager: DPlayerManager,
-    val econ: Economy,
+    private val dPlayerManager: DPlayerManager,
+    private val econ: Economy,
     private val bukkitWrapper: BukkitWrapper = BukkitWrapper()
 ) : ITask {
 
