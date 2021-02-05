@@ -21,7 +21,7 @@ class TaskManager(val econ: Economy, val dPlayerManager: DPlayerManager) {
      * @param name The name of the task
      * @param income The reward income for this task
      * @param xp The reward XP for this task
-     * @param action A list of actions this task consist of
+     * @param actions A list of actions this task consist of
      * @param description A description of this task
      */
     fun createTask(name: String, income: Int, xp: Int, actions: List<String>, description: String) {
