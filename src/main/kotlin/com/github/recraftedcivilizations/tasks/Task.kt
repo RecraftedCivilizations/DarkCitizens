@@ -1,6 +1,5 @@
 package com.github.recraftedcivilizations.tasks
 
-import com.github.darkvanityoflight.recraftedcore.utils.notifyutils.notify
 import com.github.recraftedcivilizations.BukkitWrapper
 import com.github.recraftedcivilizations.dPlayer.DPlayer
 import com.github.recraftedcivilizations.dPlayer.DPlayerManager
@@ -77,7 +76,7 @@ class Task(
      */
     override fun completeForPlayer(player: Player) {
         val playerSet = setOf(player)
-        notify("You completed the task $name", BarColor.GREEN, BarStyle.SOLID, 5, playerSet)
+        bukkitWrapper.notify("You completed the task $name", BarColor.GREEN, BarStyle.SOLID, 5, playerSet)
         pay(player)
     }
 
