@@ -6,7 +6,6 @@ import com.github.recraftedcivilizations.dPlayer.DPlayer
 import com.github.recraftedcivilizations.dPlayer.DPlayerManager
 import com.github.recraftedcivilizations.tasks.actions.IAction
 import net.milkbowl.vault.economy.Economy
-import org.bukkit.Bukkit
 import org.bukkit.boss.BarColor
 import org.bukkit.boss.BarStyle
 import org.bukkit.entity.Player
@@ -33,6 +32,12 @@ class Task(
     private val bukkitWrapper: BukkitWrapper = BukkitWrapper()
 ) : ITask {
 
+    init {
+        if (actions.isEmpty()){
+            bukkitWrapper.warning("The Task $name has no actions assigned!")
+        }
+    }
+
     /**
      * Check if all actions are completed for a given player
      * @param player The [DPlayer] to check for
@@ -45,12 +50,7 @@ class Task(
             }
         }
 
-        return if (actions.isNotEmpty()){
-            true
-        }else{
-            bukkitWrapper.warning("The Task $name has no actions assigned!")
-            false
-        }
+        return actions.isNotEmpty()
     }
 
     /**
@@ -67,7 +67,7 @@ class Task(
      * @param player The [DPlayer] to complete for
      */
     override fun completeForPlayer(player: DPlayer) {
-        completeForPlayer(Bukkit.getPlayer(player.uuid)!!)
+        completeForPlayer(bukkitWrapper.getPlayer(player)!!)
     }
 
     /**
