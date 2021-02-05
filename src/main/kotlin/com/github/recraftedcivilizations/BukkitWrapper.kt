@@ -2,6 +2,8 @@ package com.github.recraftedcivilizations
 
 import com.github.recraftedcivilizations.dPlayer.DPlayer
 import org.bukkit.Bukkit
+import org.bukkit.boss.BarColor
+import org.bukkit.boss.BarStyle
 import org.bukkit.entity.Player
 import java.util.*
 import java.util.logging.Level
@@ -59,5 +61,9 @@ open class BukkitWrapper{
 
     open fun warning(message: String?, vararg vars: Any?) {
         Bukkit.getLogger().log(Level.WARNING, message, vars)
+    }
+
+    open fun notify(msg: String, color: BarColor, style: BarStyle, displayTime: Int, players: Collection<Player>){
+        com.github.darkvanityoflight.recraftedcore.utils.notifyutils.notify(msg, color, style, displayTime, players)
     }
 }
