@@ -17,8 +17,6 @@ import java.util.logging.Level
  */
 open class BukkitWrapper{
 
-    private val logger = Bukkit.getLogger()
-
     /**
      * Get a Bukkit player from a [DPlayer]
      * @param player The player to get the Bukkit player for
@@ -36,30 +34,30 @@ open class BukkitWrapper{
     }
 
     open fun info(message: String?) {
-        logger.log(Level.INFO, message)
+        Bukkit.getLogger().log(Level.INFO, message)
     }
 
     open fun info(message: String?, vararg vars: Any?) {
-        logger.log(Level.INFO, message, vars)
+        Bukkit.getLogger().log(Level.INFO, message, vars)
     }
 
     open fun severe(message: String?) {
-        logger.log(Level.SEVERE, message)
+        Bukkit.getLogger().log(Level.SEVERE, message)
     }
 
     open fun severe(message: String?, error: Throwable?) {
-        logger.log(Level.SEVERE, message, error)
+        Bukkit.getLogger().log(Level.SEVERE, message, error)
     }
 
     open fun warning(message: String?) {
-        logger.log(Level.WARNING, message)
+        Bukkit.getLogger().log(Level.WARNING, message)
     }
 
     open fun warning(message: String?, error: Throwable?) {
-        logger.log(Level.WARNING, message, error)
+        Bukkit.getLogger().log(Level.WARNING, message, error)
     }
 
     open fun warning(message: String?, vararg vars: Any?) {
-        logger.log(Level.WARNING, message, vars)
+        Bukkit.getLogger().log(Level.WARNING, message, vars)
     }
 }
