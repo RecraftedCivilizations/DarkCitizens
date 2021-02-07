@@ -12,8 +12,13 @@ import com.github.recraftedcivilizations.tasks.TaskManager
  * Contains all jobs and create new Jobs from here using [createJob]
  * @constructor Construct using a [TaskManager] and a [DPlayerManager]
  */
-class JobManager(private val taskManager: TaskManager, private val dPlayerManager: DPlayerManager) {
+class JobManager(private val dPlayerManager: DPlayerManager) {
     private val jobs: MutableSet<IJob> = emptySet<IJob>().toMutableSet()
+    private lateinit var taskManager: TaskManager
+
+    fun setTaskManager(taskManager: TaskManager){
+        this.taskManager = taskManager
+    }
 
     /**
      * Get a job using its name

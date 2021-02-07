@@ -14,8 +14,13 @@ import net.milkbowl.vault.economy.Economy
  * Contains all tasks and create new tasks from here using [createTask]
  * @constructor Construct a new [TaskManager] using an economy and a [DPlayerManager]
  */
-class TaskManager(private val econ: Economy, private val dPlayerManager: DPlayerManager, private val jobManager: JobManager) {
+class TaskManager(private val econ: Economy, private val dPlayerManager: DPlayerManager) {
     val tasks: MutableSet<ITask> = emptySet<ITask>().toMutableSet()
+    private lateinit var jobManager: JobManager
+
+    fun setJobManager(jobManager: JobManager){
+        this.jobManager = jobManager
+    }
 
     /**
      * Create a new task through the [TaskFactory] and add it to the [tasks] list
