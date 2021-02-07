@@ -27,18 +27,21 @@ internal class JobManagerTest {
     val taskManager = TaskManager(econ, dPlayerManager)
 
     @BeforeAll
-    fun init() {}
+    fun init() {
+    }
 
     @Test
     fun shouldConstruct(){
-        val jobManager = JobManager(taskManager, dPlayerManager)
+        val jobManager = JobManager(dPlayerManager)
+        jobManager.setTaskManager(taskManager)
     }
 
     @Test
     fun createJob() {
         val tasks = setOf<String>("Foo", "Bar", "FooBar")
 
-        val jobManager = JobManager(taskManager, dPlayerManager)
+        val jobManager = JobManager(dPlayerManager)
+        jobManager.setTaskManager(taskManager)
         val job = Job(randomString(), randomString(), Random.nextInt(), setOf(task1, task2), emptySet(), Random.nextInt(), Random.nextInt(), Random.nextInt(), Random.nextBoolean(), Random.nextBoolean(), dPlayerManager)
         jobManager.createJob(job.name, job.group, job.playerLimit, tasks, job.canDemote, job.baseIncome, job.baseXPGain, job.minLvl, job.electionRequired, job.permissionRequired)
 
@@ -68,7 +71,8 @@ internal class JobManagerTest {
     fun getJob() {
         val tasks = setOf<String>("Foo", "Bar", "FooBar")
 
-        val jobManager = JobManager(taskManager, dPlayerManager)
+        val jobManager = JobManager(dPlayerManager)
+        jobManager.setTaskManager(taskManager)
         val job = Job(randomString(), randomString(), Random.nextInt(), setOf(task1, task2), emptySet(), Random.nextInt(), Random.nextInt(), Random.nextInt(), Random.nextBoolean(), Random.nextBoolean(), dPlayerManager)
 
         assertEquals(null, jobManager.getJob(randomString()))

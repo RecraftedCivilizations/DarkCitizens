@@ -35,7 +35,11 @@ internal class TaskManagerTest {
     @Test
     fun createTask() {
         val taskManager = TaskManager(econ, dPlayerManager)
-        val task1 = Task(randomString(), Random.nextInt(), Random.nextInt(), listOf(Actions.DEBUG), randomString(), dPlayerManager, econ)
+        val task1 = Task(randomString(), Random.nextInt(), Random.nextInt(), listOf(Actions.DEBUG), randomString(), dPlayerManager, econ, jobManager)
+
+        taskManager.setJobManager(jobManager)
+        jobManager.setTaskManager(taskManager)
+
         taskManager.createTask(task1.name, task1.income, task1.xp, listOf("DEBUG", "FOO"), task1.description)
 
         val tasks = taskField.get(taskManager) as Set<*>
