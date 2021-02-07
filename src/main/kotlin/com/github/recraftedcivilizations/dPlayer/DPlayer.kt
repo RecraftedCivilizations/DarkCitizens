@@ -20,7 +20,7 @@ fun <T> MutableMap<T, Int>.inc(key: T, more: Int = 1) = merge(key, more, Int::pl
  * @param groupLvls All groups and their current lvl
  * @param groupXps All groups and their current XP
  */
-data class DPlayerData1(val uuid: UUID, val job: IJob?, val wanted: Boolean, val isCriminal: Boolean, val groupLvls: Map<String, Int>, val groupXps: Map<String, Int>)
+data class DPlayerData1(val uuid: UUID, val job: String?, val wanted: Boolean, val isCriminal: Boolean, val groupLvls: Map<String, Int>, val groupXps: Map<String, Int>)
 /**
  * This data class represents the data of a DPlayer,
  * This is used to parse a DPlayer
@@ -30,7 +30,7 @@ data class DPlayerData1(val uuid: UUID, val job: IJob?, val wanted: Boolean, val
  * @param groupLvls All groups and their current lvl
  * @param groupXps All groups and their current XP
  */
-data class DPlayerData2(val job: IJob?, val wanted: Boolean, val isCriminal: Boolean, val groupLvls: Map<String, Int>, val groupXps: Map<String, Int>)
+data class DPlayerData2(val job: String?, val wanted: Boolean, val isCriminal: Boolean, val groupLvls: Map<String, Int>, val groupXps: Map<String, Int>)
 
 
 /**
@@ -39,7 +39,7 @@ data class DPlayerData2(val job: IJob?, val wanted: Boolean, val isCriminal: Boo
  */
 class DPlayer {
     val uuid: UUID
-    var job: IJob? = null
+    var job: String? = null
     var wanted: Boolean = false
     var isCriminal: Boolean = false
     val groupLvls: MutableMap<String, Int> = emptyMap<String, Int>().toMutableMap()

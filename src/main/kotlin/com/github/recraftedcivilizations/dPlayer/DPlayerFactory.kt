@@ -18,7 +18,7 @@ object DPlayerFactory {
      * For the arguments take a look at DPlayerData1
      * @see [DPlayerData1]
      */
-    fun createDPlayer(uuid: UUID, job: IJob?, wanted: Boolean,isCriminal: Boolean, groupLvls: Map<String, Int>, groupXps: Map<String, Int>): DPlayer{
+    fun createDPlayer(uuid: UUID, job: String?, wanted: Boolean,isCriminal: Boolean, groupLvls: Map<String, Int>, groupXps: Map<String, Int>): DPlayer{
         val dData = DPlayerData1(uuid, job, wanted ,isCriminal , groupLvls , groupXps)
         return DPlayer(dData)
     }
@@ -28,7 +28,7 @@ object DPlayerFactory {
      * For the arguments take a look at DPlayerData2
      * @see [DPlayerData2]
      */
-    fun createDPlayer(job: IJob?, wanted: Boolean,isCriminal: Boolean, groupLvls: Map<String, Int>, groupXps: Map<String, Int>, player: Player): DPlayer{
+    fun createDPlayer(job: String?, wanted: Boolean,isCriminal: Boolean, groupLvls: Map<String, Int>, groupXps: Map<String, Int>, player: Player): DPlayer{
         val dData = DPlayerData2(job, wanted ,isCriminal , groupLvls , groupXps)
         return DPlayer(dData, player)
     }
