@@ -1,6 +1,7 @@
 package com.github.recraftedcivilizations.tasks
 
 import com.github.recraftedcivilizations.dPlayer.DPlayerManager
+import com.github.recraftedcivilizations.jobs.JobManager
 import com.github.recraftedcivilizations.tasks.actions.Actions
 import com.github.recraftedcivilizations.tasks.actions.IAction
 import net.milkbowl.vault.economy.Economy
@@ -13,7 +14,7 @@ import net.milkbowl.vault.economy.Economy
  * Contains all tasks and create new tasks from here using [createTask]
  * @constructor Construct a new [TaskManager] using an economy and a [DPlayerManager]
  */
-class TaskManager(val econ: Economy, val dPlayerManager: DPlayerManager) {
+class TaskManager(private val econ: Economy, private val dPlayerManager: DPlayerManager, private val jobManager: JobManager) {
     val tasks: MutableSet<ITask> = emptySet<ITask>().toMutableSet()
 
     /**
@@ -36,7 +37,7 @@ class TaskManager(val econ: Economy, val dPlayerManager: DPlayerManager) {
             }
 
         }
-        val task = TaskFactory.createTask(name, income, xp, parsedActions, description, dPlayerManager, econ)
+        val task = TaskFactory.createTask(name, income, xp, parsedActions, description, dPlayerManager, econ, jobManager)
         tasks.add(task)
     }
 

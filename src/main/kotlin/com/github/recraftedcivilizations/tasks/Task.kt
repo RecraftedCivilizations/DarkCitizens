@@ -3,6 +3,7 @@ package com.github.recraftedcivilizations.tasks
 import com.github.recraftedcivilizations.BukkitWrapper
 import com.github.recraftedcivilizations.dPlayer.DPlayer
 import com.github.recraftedcivilizations.dPlayer.DPlayerManager
+import com.github.recraftedcivilizations.jobs.JobManager
 import com.github.recraftedcivilizations.tasks.actions.IAction
 import net.milkbowl.vault.economy.Economy
 import org.bukkit.boss.BarColor
@@ -28,6 +29,7 @@ class Task(
     override val description: String,
     private val dPlayerManager: DPlayerManager,
     private val econ: Economy,
+    private val jobManager: JobManager,
     private val bukkitWrapper: BukkitWrapper = BukkitWrapper()
 ) : ITask {
 
@@ -86,7 +88,8 @@ class Task(
      */
     override fun pay(player: DPlayer) {
         econ.depositPlayer(bukkitWrapper.getPlayer(player.uuid), income.toDouble())
-        player.addXP(player.job!!.group, xp)
+        val group = jobManager.getJob(player.job!!)?.group
+        player.addXP(group!!, xp)
     }
 
     /**
