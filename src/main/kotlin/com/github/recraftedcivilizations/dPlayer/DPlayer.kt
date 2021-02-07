@@ -104,9 +104,11 @@ class DPlayer {
     }
 
     /**
-     * Serialize this DPlayer to a String so it can be saved to a file
+     * Serialize this DPlayer to a [DPlayerData1]
      */
-    fun serializeData(): String { return "Foo" }
+    fun serializeData(): DPlayerData1 {
+        return DPlayerData1(uuid, job, wanted, isCriminal, groupLvls, groupXps)
+    }
 
     /**
      * Join a new Job
