@@ -19,7 +19,7 @@ import java.util.*
  * @see IParseData
  * @constructor Construct using a base [filePath] and an optional bukkitWrapper for testing
  */
-class YMLDataSource(var filePath: String, val bukkitWrapper: BukkitWrapper = BukkitWrapper()) : IParseData {
+class YMLDataSource(var filePath: String, private val bukkitWrapper: BukkitWrapper = BukkitWrapper()) : IParseData {
     private val dataFile : YamlConfiguration = YamlConfiguration()
 
     /**
