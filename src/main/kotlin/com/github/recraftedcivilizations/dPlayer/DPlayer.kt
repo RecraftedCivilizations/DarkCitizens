@@ -20,7 +20,11 @@ fun <T> MutableMap<T, Int>.inc(key: T, more: Int = 1) = merge(key, more, Int::pl
  * @param groupLvls All groups and their current lvl
  * @param groupXps All groups and their current XP
  */
-data class DPlayerData1(val uuid: UUID, val job: String?, val wanted: Boolean, val isCriminal: Boolean, val groupLvls: Map<String, Int>, val groupXps: Map<String, Int>)
+data class DPlayerData1(val uuid: UUID, val job: String?, val wanted: Boolean, val isCriminal: Boolean, val groupLvls: Map<String, Int>, val groupXps: Map<String, Int>){
+    fun toDPlayerData2(): DPlayerData2 {
+        return DPlayerData2(job, wanted, isCriminal, groupLvls, groupXps)
+    }
+}
 /**
  * This data class represents the data of a DPlayer,
  * This is used to parse a DPlayer
@@ -30,7 +34,11 @@ data class DPlayerData1(val uuid: UUID, val job: String?, val wanted: Boolean, v
  * @param groupLvls All groups and their current lvl
  * @param groupXps All groups and their current XP
  */
-data class DPlayerData2(val job: String?, val wanted: Boolean, val isCriminal: Boolean, val groupLvls: Map<String, Int>, val groupXps: Map<String, Int>)
+data class DPlayerData2(val job: String?, val wanted: Boolean, val isCriminal: Boolean, val groupLvls: Map<String, Int>, val groupXps: Map<String, Int>){
+    fun toDPlayerData1(uuid: UUID): DPlayerData1{
+        return DPlayerData1(uuid, job, wanted, isCriminal, groupLvls, groupXps)
+    }
+}
 
 
 /**
