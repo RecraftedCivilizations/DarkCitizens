@@ -48,6 +48,8 @@ class YMLDataSource(var filePath: String, private val bukkitWrapper: BukkitWrapp
         if (file.exists()){
             dataFile.load(file)
             bukkitWrapper.info("Found old data file, loading data")
+        }else{
+            file.createNewFile()
         }
     }
 
