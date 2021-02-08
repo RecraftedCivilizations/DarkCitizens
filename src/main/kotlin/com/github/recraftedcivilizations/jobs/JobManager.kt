@@ -63,8 +63,8 @@ class JobManager(private val dPlayerManager: DPlayerManager) {
             if (task != null){
                 iTasks.add(task)
             }
-            jobs.add(JobFactory.createJob(name, group, playerLimit, iTasks, canDemote, baseIncome, baseXPGain, minLvl, electionRequired, permissionRequired, dPlayerManager))
         }
+        jobs.add(JobFactory.createJob(name, group, playerLimit, iTasks, canDemote, baseIncome, baseXPGain, minLvl, electionRequired, permissionRequired, dPlayerManager))
 
 
     }
