@@ -23,8 +23,7 @@ internal class DPlayerTest {
         )
         val dPlayer = DPlayer(dPlayerData)
 
-        //TODO("Write an actual test if this is implemented")
-        assertEquals("Foo", dPlayer.serializeData())
+        assertEquals(dPlayerData, dPlayer.serializeData())
     }
 
     @Disabled("There is nothing to test here, (yet)")
