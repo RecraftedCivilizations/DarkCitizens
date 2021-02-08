@@ -153,7 +153,7 @@ class YMLDataSource(var filePath: String, private val bukkitWrapper: BukkitWrapp
      */
     private fun saveMap(path: String, map: Map<String, Any>){
         for (key in map.keys){
-            dataFile.set(key, map[key])
+            dataFile.set("$path.$key", map[key])
         }
     }
 
