@@ -167,6 +167,7 @@ internal class YMLDataSourceTest {
         config.load(dataSource.filePath)
 
         config.createSection("${YMLDataSource.dPlayerDataPath}.$playerUUID")
+        config.save(dataSource.filePath)
 
         assertEquals(DPlayer(playerMock).serializeData(), dataSource.getDPlayer(playerUUID).serializeData())
     }
