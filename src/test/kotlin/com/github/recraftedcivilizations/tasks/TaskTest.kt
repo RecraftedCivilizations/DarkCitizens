@@ -5,6 +5,7 @@ import com.github.recraftedcivilizations.dPlayer.DPlayer
 import com.github.recraftedcivilizations.dPlayer.DPlayerFactory
 import com.github.recraftedcivilizations.dPlayer.DPlayerManager
 import com.github.recraftedcivilizations.jobs.IJob
+import com.github.recraftedcivilizations.jobs.JobManager
 import com.github.recraftedcivilizations.jobs.randomString
 import com.github.recraftedcivilizations.parser.dataparser.IParseData
 import com.github.recraftedcivilizations.tasks.actions.IAction
@@ -52,10 +53,7 @@ internal class TaskTest {
             on { hasPermission("drp.job.join.Foo") } doReturn true
         }
 
-    val jobMock = mock<IJob> {
-        on { name } doReturn "Foo"
-        on { group } doReturn "Bar"
-    }
+    val jobMock = "Foo"
 
     // DPlayers
     private val dPlayerMock1 =
@@ -71,8 +69,16 @@ internal class TaskTest {
 
     private val bukkitWrapper = mock<BukkitWrapper> {}
 
+    private val jobManager = JobManager(dPlayerManager)
+    private val taskManager = TaskManager(economy, dPlayerManager)
+
     @BeforeAll
     fun init(){
+
+        jobManager.setTaskManager(taskManager)
+        taskManager.setJobManager(jobManager)
+
+        jobManager.createJob(jobMock, "Bar", 10, emptySet(), emptySet(), 10, 10,10, false, false)
 
         doNothing().whenever(bukkitWrapper).warning(any())
         doNothing().whenever(bukkitWrapper).notify(any(), any(), any(), any(), any())
@@ -158,7 +164,7 @@ internal class TaskTest {
         val bukkitWrapperField = Task::class.java.getDeclaredField("bukkitWrapper")
         bukkitWrapperField.isAccessible = true
 
-        var task = Task(randomString(), Random.nextInt(), Random.nextInt(), emptyList(), randomString(), dPlayerManager, economy, bukkitWrapper)
+        var task = Task(randomString(), Random.nextInt(), Random.nextInt(), emptyList(), randomString(), dPlayerManager, economy, jobManager, bukkitWrapper)
         verify(bukkitWrapper).warning("The Task ${task.name} has no actions assigned!")
         // Dummy tests
         assertEquals(task.name, task.name)
@@ -168,7 +174,7 @@ internal class TaskTest {
         assertEquals(task.description, task.description)
         assertEquals(bukkitWrapper, bukkitWrapperField.get(task))
 
-        task = Task(randomString(), Random.nextInt(), Random.nextInt(), listOf(action1, action2), randomString(), dPlayerManager, economy)
+        task = Task(randomString(), Random.nextInt(), Random.nextInt(), listOf(action1, action2), randomString(), dPlayerManager, economy, jobManager)
         assertEquals(listOf(action1, action2), task.actions)
         assertEquals(bukkitWrapperField.get(task), bukkitWrapperField.get(task))
 
@@ -176,7 +182,7 @@ internal class TaskTest {
 
     @Test
     fun isCompletedForPlayer() {
-        val task = Task(randomString(), Random.nextInt(), Random.nextInt(), listOf<IAction>(action1, action2), randomString(), dPlayerManager, economy, bukkitWrapper)
+        val task = Task(randomString(), Random.nextInt(), Random.nextInt(), listOf<IAction>(action1, action2), randomString(), dPlayerManager, economy, jobManager, bukkitWrapper)
 
         assertEquals(true, task.isCompletedForPlayer(dPlayerMock1))
         assertEquals(false, task.isCompletedForPlayer(dPlayerMock2))
@@ -186,7 +192,7 @@ internal class TaskTest {
 
     @Test
     fun testIsCompletedForPlayer() {
-        val task = Task(randomString(), Random.nextInt(), Random.nextInt(), listOf<IAction>(action1, action2), randomString(), dPlayerManager, economy, bukkitWrapper)
+        val task = Task(randomString(), Random.nextInt(), Random.nextInt(), listOf<IAction>(action1, action2), randomString(), dPlayerManager, economy, jobManager, bukkitWrapper)
 
         assertEquals(true, task.isCompletedForPlayer(playerMock1))
         assertEquals(false, task.isCompletedForPlayer(playerMock2))
@@ -195,14 +201,14 @@ internal class TaskTest {
 
     @Test
     fun testIsCompletedForPlayerWithEmptyActions(){
-        val task = Task(randomString(), Random.nextInt(), Random.nextInt(), emptyList(), randomString(), dPlayerManager, economy, bukkitWrapper)
+        val task = Task(randomString(), Random.nextInt(), Random.nextInt(), emptyList(), randomString(), dPlayerManager, economy, jobManager, bukkitWrapper)
         verify(bukkitWrapper, times(2)).warning(any())
         assertEquals(false, task.isCompletedForPlayer(playerMock1))
     }
 
     @Test
     fun isCompletedForPlayerWithEmptyActions(){
-        val task = Task(randomString(), Random.nextInt(), Random.nextInt(), emptyList(), randomString(), dPlayerManager, economy, bukkitWrapper)
+        val task = Task(randomString(), Random.nextInt(), Random.nextInt(), emptyList(), randomString(), dPlayerManager, economy, jobManager, bukkitWrapper)
         verify(bukkitWrapper, times(3)).warning(any())
         assertEquals(false, task.isCompletedForPlayer(dPlayerMock1))
     }
@@ -210,36 +216,36 @@ internal class TaskTest {
     @Test
     fun completeForPlayer() {
         val playerSet = setOf<Player>(playerMock1)
-        val task = Task(randomString(), Random.nextInt(), Random.nextInt(), listOf<IAction>(action1, action2), randomString(), dPlayerManager, economy, bukkitWrapper)
+        val task = Task(randomString(), Random.nextInt(), Random.nextInt(), listOf<IAction>(action1, action2), randomString(), dPlayerManager, economy, jobManager, bukkitWrapper)
         task.completeForPlayer(dPlayerMock1)
         verify(bukkitWrapper).notify("You completed the task ${task.name}", BarColor.GREEN, BarStyle.SOLID, 5, playerSet)
         verify(economy).depositPlayer(playerMock1, task.income.toDouble())
-        assertEquals(task.xp, dPlayerMock1.groupXps[jobMock.group])
+        assertEquals(task.xp, dPlayerMock1.groupXps[jobManager.getJob(jobMock)?.group])
     }
 
     @Test
     fun testCompleteForPlayer() {
         val playerSet = setOf<Player>(playerMock1)
-        val task = Task(randomString(), Random.nextInt(), Random.nextInt(), listOf<IAction>(action1, action2), randomString(), dPlayerManager, economy, bukkitWrapper)
+        val task = Task(randomString(), Random.nextInt(), Random.nextInt(), listOf<IAction>(action1, action2), randomString(), dPlayerManager, economy, jobManager, bukkitWrapper)
         task.completeForPlayer(playerMock1)
         verify(bukkitWrapper).notify("You completed the task ${task.name}", BarColor.GREEN, BarStyle.SOLID, 5, playerSet)
         verify(economy).depositPlayer(playerMock1, task.income.toDouble())
-        assertEquals(task.xp, dPlayerMock1.groupXps[jobMock.group])
+        assertEquals(task.xp, dPlayerMock1.groupXps[jobManager.getJob(jobMock)?.group])
     }
 
     @Test
     fun pay() {
-        val task = Task(randomString(), Random.nextInt(), Random.nextInt(), listOf<IAction>(action1, action2), randomString(), dPlayerManager, economy, bukkitWrapper)
+        val task = Task(randomString(), Random.nextInt(), Random.nextInt(), listOf<IAction>(action1, action2), randomString(), dPlayerManager, economy, jobManager, bukkitWrapper)
         task.pay(dPlayerMock1)
         verify(economy).depositPlayer(playerMock1, task.income.toDouble())
-        assertEquals(task.xp, dPlayerMock1.groupXps[jobMock.group])
+        assertEquals(task.xp, dPlayerMock1.groupXps[jobManager.getJob(jobMock)?.group])
     }
 
     @Test
     fun testPay() {
-        val task = Task(randomString(), Random.nextInt(), Random.nextInt(), listOf<IAction>(action1, action2), randomString(), dPlayerManager, economy, bukkitWrapper)
+        val task = Task(randomString(), Random.nextInt(), Random.nextInt(), listOf<IAction>(action1, action2), randomString(), dPlayerManager, economy, jobManager, bukkitWrapper)
         task.pay(playerMock1)
         verify(economy).depositPlayer(playerMock1, task.income.toDouble())
-        assertEquals(task.xp, dPlayerMock1.groupXps[jobMock.group])
+        assertEquals(task.xp, dPlayerMock1.groupXps[jobManager.getJob(jobMock)?.group])
     }
 }
