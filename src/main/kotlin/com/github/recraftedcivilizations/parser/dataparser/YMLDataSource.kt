@@ -56,6 +56,9 @@ class YMLDataSource(var filePath: String, private val bukkitWrapper: BukkitWrapp
      * @param playerUUID The UUID of the player you want to get
      */
     override fun getDPlayer(playerUUID: UUID): DPlayer {
+
+        load()
+
         val configSection = dataFile.getConfigurationSection("$dPlayerDataPath.$playerUUID")
 
         val dPlayer =  if (configSection == null){
@@ -89,6 +92,9 @@ class YMLDataSource(var filePath: String, private val bukkitWrapper: BukkitWrapp
      * @param playerUUID The UUID of the player
      */
     override fun setDPlayer(dData: DPlayerData2, playerUUID: UUID) {
+
+        load()
+
         val path = "$dPlayerDataPath.$playerUUID"
 
         dataFile.set("$path.$jobName", dData.job)
@@ -97,6 +103,8 @@ class YMLDataSource(var filePath: String, private val bukkitWrapper: BukkitWrapp
 
         saveMap("$path.$groupLvlName", dData.groupLvls)
         saveMap("$path.$groupXpName", dData.groupXps)
+
+        save()
     }
 
     /**
@@ -145,5 +153,13 @@ class YMLDataSource(var filePath: String, private val bukkitWrapper: BukkitWrapp
         for (key in map.keys){
             dataFile.set(key, map[key])
         }
+    }
+
+    private fun load(){
+        dataFile.load(filePath)
+    }
+
+    private fun save(){
+        dataFile.save(filePath)
     }
 }
