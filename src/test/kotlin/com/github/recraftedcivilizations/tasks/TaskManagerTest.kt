@@ -1,6 +1,7 @@
 package com.github.recraftedcivilizations.tasks
 
 import com.github.recraftedcivilizations.dPlayer.DPlayerManager
+import com.github.recraftedcivilizations.jobs.JobManager
 import com.github.recraftedcivilizations.jobs.randomString
 import com.github.recraftedcivilizations.parser.dataparser.IParseData
 import com.github.recraftedcivilizations.tasks.actions.Actions
@@ -18,6 +19,7 @@ internal class TaskManagerTest {
     val dataParser = mock<IParseData>{}
     val dPlayerManager = DPlayerManager(dataParser)
     val action = mock<IAction>{}
+    val jobManager = JobManager(dPlayerManager)
 
     val taskField = TaskManager::class.java.getDeclaredField("tasks")
 
@@ -53,7 +55,11 @@ internal class TaskManagerTest {
     @Test
     fun getTask() {
         val taskManager = TaskManager(econ, dPlayerManager)
-        val task1 = Task(randomString(), Random.nextInt(), Random.nextInt(), listOf(Actions.DEBUG), randomString(), dPlayerManager, econ)
+
+        taskManager.setJobManager(jobManager)
+        jobManager.setTaskManager(taskManager)
+
+        val task1 = Task(randomString(), Random.nextInt(), Random.nextInt(), listOf(Actions.DEBUG), randomString(), dPlayerManager, econ, jobManager)
         taskManager.createTask(task1.name, task1.income, task1.xp, listOf("DEBUG"), task1.description)
         val task2 = taskManager.getTask(task1.name)
 
