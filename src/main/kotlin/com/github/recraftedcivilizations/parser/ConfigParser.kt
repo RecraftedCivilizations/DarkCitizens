@@ -50,12 +50,24 @@ class ConfigParser(
     }
 
     private fun parseTasks(tasksSection: ConfigurationSection) {
+        for (taskName in tasksSection.getKeys(false)) {
+            val taskSection = tasksSection.getConfigurationSection(taskName)!!
+            configSectionToTask(taskName, taskSection)
+        }
     }
 
     private fun parseJobs(jobsSection: ConfigurationSection) {
+        for (jobName in jobsSection.getKeys(false)) {
+            val jobSection = jobsSection.getConfigurationSection(jobName)!!
+            configSectionToJob(jobName, jobSection)
+        }
     }
 
     private fun parseGroups(groupSection: ConfigurationSection) {
+        for (groupName in groupSection.getKeys(false)) {
+            val jobSection = groupSection.getConfigurationSection(groupName)!!
+            configSectionToJob(groupName, jobSection)
+        }
     }
 
     private fun configSectionToTask(taskName: String, configurationSection: ConfigurationSection) {
