@@ -8,6 +8,15 @@ import com.github.recraftedcivilizations.tasks.TaskManager
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.configuration.file.FileConfiguration
 
+/**
+ * @author DarkVanityOfLight
+ */
+
+/**
+ * Parse, create and store all values form the config file.
+ * Store all task, group and job names in [taskNames], [jobNames] and [groupNames]
+ * @constructor Construct using a [config], a [taskManager], a [jobManager], a [groupManager] and an optional [bukkitWrapper] for debugging purposes
+ */
 class ConfigParser(
     config: FileConfiguration,
     private val taskManager: TaskManager,
@@ -19,6 +28,9 @@ class ConfigParser(
     val groupNames = emptySet<String>().toMutableSet()
 
 
+    /**
+     * Call this method to read and parse the config
+     */
     override fun read() {
         // Check that the group section exists
         if (config.isSet(groupSectionName)) {
@@ -57,6 +69,10 @@ class ConfigParser(
         }
     }
 
+    /**
+     * Parse all tasks in the task section
+     * @param tasksSection The task section to parse
+     */
     private fun parseTasks(tasksSection: ConfigurationSection) {
         for (taskName in tasksSection.getKeys(false)) {
             val taskSection = tasksSection.getConfigurationSection(taskName)!!
@@ -64,6 +80,10 @@ class ConfigParser(
         }
     }
 
+    /**
+     * Parse all jobs in the jobs section
+     * @param jobsSection The jobs section to parse
+     */
     private fun parseJobs(jobsSection: ConfigurationSection) {
         for (jobName in jobsSection.getKeys(false)) {
             val jobSection = jobsSection.getConfigurationSection(jobName)!!
@@ -71,6 +91,10 @@ class ConfigParser(
         }
     }
 
+    /**
+     * Parse all groups in the groups section
+     * @param groupSection The group section to parse
+     */
     private fun parseGroups(groupSection: ConfigurationSection) {
         for (groupName in groupSection.getKeys(false)) {
             val jobSection = groupSection.getConfigurationSection(groupName)!!
@@ -78,6 +102,11 @@ class ConfigParser(
         }
     }
 
+    /**
+     * Parse a config section to a task and add it to the [taskManager], this is called for every task in the task section
+     * @param taskName The name of the task
+     * @param configurationSection The config section to parse
+     */
     private fun configSectionToTask(taskName: String, configurationSection: ConfigurationSection) {
 
         var income = configurationSection.getInt(taskIncomeName, -1)
@@ -106,6 +135,11 @@ class ConfigParser(
         taskManager.createTask(taskName, income, xp, actions, description)
     }
 
+    /**
+     * Parse a config section to a job and add it to the [jobManager], this is called for every job in the jobs section
+     * @param jobName The name of the task
+     * @param configurationSection The config section to parse
+     */
     private fun configSectionToJob(jobName: String, configurationSection: ConfigurationSection) {
 
         var group = configurationSection.getString(jobGroupName)
@@ -145,6 +179,11 @@ class ConfigParser(
         jobManager.createJob(jobName, group, playerLimit, tasks.toSet(), canDemote.toSet(), baseIncome, baseXp, minLvl, electionRequired, permissionRequired)
     }
 
+    /**
+     * Parse a config section to a group and add it to the [groupManager], this is called for every group in the groups section
+     * @param groupName The name of the task
+     * @param configurationSection The config section to parse
+     */
     private fun configSectionToGroup(groupName: String, configurationSection: ConfigurationSection) {
 
         var maxLvl = configurationSection.getInt(groupMaxLvlName, -1)
@@ -164,6 +203,9 @@ class ConfigParser(
         groupManager.createGroup(groupName, maxLvl, lvlThresholds, friendlyFire, canBeCriminal)
     }
 
+    /**
+     * Verify that the config is parsed correctly
+     */
     private fun verify(): Boolean {
 
         var valid = true
@@ -203,7 +245,9 @@ class ConfigParser(
         return valid
     }
 
-
+    /**
+     * Save the config file
+     */
     private fun save() {
         config.save(config.currentPath)
     }
