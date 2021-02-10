@@ -20,6 +20,33 @@ class ConfigParser(
 
 
     override fun read() {
+        // Check that the group section exists
+        if (config.isSet(groupSectionName)) {
+            bukkitWrapper.severe("Could not find the Groups section, please define it using the $groupSectionName tag, I created it for you, but it does not contain any groups")
+            config.createSection(groupSectionName)
+            save()
+        }
+        // Parse the group section
+        val groupSection = config.getConfigurationSection(groupSectionName)!!
+        parseGroups(groupSection)
+
+        // Check that the Task section exists
+        if (config.isSet(jobSectionName)) {
+            bukkitWrapper.severe("Could not find the Tasks section, please define it using the $taskSectionName tag, I created it for you, but it does not contain any tasks")
+        }
+        // Parse the task section
+        val taskSection = config.getConfigurationSection(taskSectionName)!!
+        parseTasks(taskSection)
+
+        // Check that the Jobs section exists
+        if (config.isSet(jobSectionName)) {
+            bukkitWrapper.severe("Could not find the Jobs section, please define it using the $jobSectionName tag, I created it for you, but it does not contain any jobs")
+        }
+        // Parse the job section
+        val jobSection = config.getConfigurationSection(jobSectionName)!!
+        parseJobs(jobSection)
+
+        verify()
     }
 
     private fun parseTasks(tasksSection: ConfigurationSection) {
@@ -48,6 +75,7 @@ class ConfigParser(
 
 
     private fun save() {
+        config.save(config.currentPath)
     }
 
     companion object {
