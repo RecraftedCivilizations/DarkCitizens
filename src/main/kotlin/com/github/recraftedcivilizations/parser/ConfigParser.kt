@@ -50,7 +50,11 @@ class ConfigParser(
         val jobSection = config.getConfigurationSection(jobSectionName)!!
         parseJobs(jobSection)
 
-        verify()
+        if(verify()){
+            bukkitWrapper.info("Your config is valid, good job, now get a cookie and some hot choc and enjoy your server.")
+        }else{
+            bukkitWrapper.info("Your config is invalid at some point, it may work anyway, but do you really want to live with the knowledge that something may go wrong at any point?")
+        }
     }
 
     private fun parseTasks(tasksSection: ConfigurationSection) {
@@ -161,7 +165,42 @@ class ConfigParser(
     }
 
     private fun verify(): Boolean {
-        TODO("Not yet implemented")
+
+        var valid = true
+
+        for (jobName in jobNames){
+            val job = jobManager.getJob(jobName)
+            if (job == null){
+                bukkitWrapper.warning("The job $jobName was parsed but not created, please check your config again!")
+                valid = false
+                continue
+            }
+
+            val group = groupManager.getGroup(job.group)
+            if (group == null){
+                bukkitWrapper.warning("The job $jobName has $group defined as its group, but the group could not be found, please define the group!")
+                valid = false
+                continue
+            }
+        }
+
+        for(taskName in taskNames){
+            val task = taskManager.getTask(taskName)
+            if (task == null){
+                bukkitWrapper.warning("The task $taskName was parsed but not created, please check your config again!")
+                valid = false
+                continue
+            }
+        }
+
+        for (groupName in groupNames){
+            val group = groupManager.getGroup(groupName)
+            if (group == null){
+                bukkitWrapper.warning("The group $groupName was parsed but nit created, please check your config again!")
+            }
+        }
+
+        return valid
     }
 
 
