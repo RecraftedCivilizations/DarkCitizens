@@ -94,6 +94,7 @@ class ConfigParser(
             description = ""
         }
 
+        taskNames.add(taskName)
         taskManager.createTask(taskName, income, xp, actions, description)
     }
 
