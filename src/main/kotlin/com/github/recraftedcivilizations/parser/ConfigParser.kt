@@ -71,6 +71,30 @@ class ConfigParser(
     }
 
     private fun configSectionToTask(taskName: String, configurationSection: ConfigurationSection) {
+
+        var income = configurationSection.getInt(taskIncomeName, -1)
+        if (income == -1) {
+            bukkitWrapper.warning("The task $taskName has no income defined, I ll default it to 100, but you should define it using the $taskIncomeName tag!")
+            income = 100
+        }
+
+        var xp = configurationSection.getInt(taskXpName, -1)
+        if (xp == -1) {
+            bukkitWrapper.warning("The task $taskName has no xp defined, I ll default it to 100, but you should define it using the $taskXpName tag!")
+            xp = 100
+        }
+
+        val actions = configurationSection.getStringList(taskActionName)
+        if (actions.isEmpty()) {
+            bukkitWrapper.info("The task $taskName has no defined actions, define them using the $taskActionName tag.")
+        }
+        var description = configurationSection.getString(taskDescriptionName)
+        if (description == null) {
+            bukkitWrapper.warning("The task $taskName has no description defined, define it using the $taskDescriptionName!")
+            description = ""
+        }
+
+        taskManager.createTask(taskName, income, xp, actions, description)
     }
 
     private fun configSectionToJob(jobName: String, configurationSection: ConfigurationSection) {
