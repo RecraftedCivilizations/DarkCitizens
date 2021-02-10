@@ -99,7 +99,42 @@ class ConfigParser(
     }
 
     private fun configSectionToJob(jobName: String, configurationSection: ConfigurationSection) {
-        TODO("Not yet implemented")
+
+        var group = configurationSection.getString(jobGroupName)
+        if (group == null){
+            bukkitWrapper.warning("The job $jobName has no group defined, this may lead to severe errors later on, please define the group using the $jobGroupName tag!")
+            group = ""
+        }
+
+        var playerLimit = configurationSection.getInt(jobPlayerLimitName, -1)
+        if (playerLimit == -1){
+            bukkitWrapper.warning("The job $jobName has no player limit defined, I'll default it to 10 but you should define it using the $jobPlayerLimitName")
+            playerLimit = 10
+        }
+
+        val tasks = configurationSection.getStringList(jobTasksName)
+        if (tasks.isEmpty()){
+            bukkitWrapper.info("The job $jobName has no tasks defined, you can define tasks for the Job using the tasks name in the $jobTasksName section")
+        }
+
+        val canDemote = configurationSection.getStringList(jobCanDemoteName)
+
+        var baseIncome = configurationSection.getInt(jobBaseIncomeName, -1)
+        if (baseIncome == -1){
+            bukkitWrapper.warning("The job $jobName has no base income defined, I'll default it to 10, but please define it using the $jobBaseIncomeName tag!")
+            baseIncome = 10
+        }
+        var baseXp = configurationSection.getInt(jobBaseXpName, -1)
+        if (baseXp == -1){
+            bukkitWrapper.warning("The job $jobName has no base Xp gain defined, I'll default it to 10, but you should define it using the $jobBaseXpName tag!")
+            baseXp = 10
+        }
+        val minLvl = configurationSection.getInt(jobMinLvlName, 0)
+        val electionRequired = configurationSection.getBoolean(jobElectionRequiredName, false)
+        val permissionRequired = configurationSection.getBoolean(jobPermissionRequiredName, false)
+
+        jobNames.add(jobName)
+        jobManager.createJob(jobName, group, playerLimit, tasks.toSet(), canDemote.toSet(), baseIncome, baseXp, minLvl, electionRequired, permissionRequired)
     }
 
     private fun configSectionToGroup(groupName: String, configurationSection: ConfigurationSection) {
@@ -123,5 +158,14 @@ class ConfigParser(
         const val taskXpName = "xp"
         const val taskActionName = "actions"
         const val taskDescriptionName = "description"
+        const val jobGroupName = "group"
+        const val jobPlayerLimitName = "playerLimit"
+        const val jobTasksName = "tasks"
+        const val jobCanDemoteName = "canDemote"
+        const val jobBaseIncomeName = "baseIncome"
+        const val jobBaseXpName = "baseXp"
+        const val jobMinLvlName = "minLvl"
+        const val jobElectionRequiredName = "electionRequired"
+        const val jobPermissionRequiredName = "permissionRequired"
     }
 }
