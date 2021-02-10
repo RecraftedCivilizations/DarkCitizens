@@ -138,7 +138,22 @@ class ConfigParser(
     }
 
     private fun configSectionToGroup(groupName: String, configurationSection: ConfigurationSection) {
-        TODO("Not yet implemented")
+
+        var maxLvl = configurationSection.getInt(groupMaxLvlName, -1)
+        if (maxLvl == -1){
+            bukkitWrapper.warning("The group $groupName has no maximum lvl defined, I'll default it to 50, but you should define it using the $groupMaxLvlName tag!")
+            maxLvl = 50
+        }
+        val lvlThresholds = configurationSection.getIntegerList(groupLvlThresholdsName)
+        if (lvlThresholds.size < maxLvl || lvlThresholds.isEmpty()){
+            bukkitWrapper.warning("The group $groupName has no or not enough level thresholds defined, I'll fill them in for you, but you should define them using the $groupLvlThresholdsName tag!")
+        }
+
+        val friendlyFire = configurationSection.getBoolean(groupFriendlyFireName, false)
+        val canBeCriminal = configurationSection.getBoolean(groupCanBeCriminalName, false)
+
+        groupNames.add(groupName)
+        groupManager.createGroup(groupName, maxLvl, lvlThresholds, friendlyFire, canBeCriminal)
     }
 
     private fun verify(): Boolean {
@@ -167,5 +182,9 @@ class ConfigParser(
         const val jobMinLvlName = "minLvl"
         const val jobElectionRequiredName = "electionRequired"
         const val jobPermissionRequiredName = "permissionRequired"
+        const val groupMaxLvlName = "maxLvl"
+        const val groupLvlThresholdsName = "lvlThresholds"
+        const val groupFriendlyFireName = "friendlyFire"
+        const val groupCanBeCriminalName = "canBeCriminal"
     }
 }
