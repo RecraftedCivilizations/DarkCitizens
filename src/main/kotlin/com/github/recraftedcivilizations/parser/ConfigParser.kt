@@ -33,6 +33,8 @@ class ConfigParser(
         // Check that the Task section exists
         if (config.isSet(jobSectionName)) {
             bukkitWrapper.severe("Could not find the Tasks section, please define it using the $taskSectionName tag, I created it for you, but it does not contain any tasks")
+            config.createSection(taskSectionName)
+            save()
         }
         // Parse the task section
         val taskSection = config.getConfigurationSection(taskSectionName)!!
@@ -41,6 +43,8 @@ class ConfigParser(
         // Check that the Jobs section exists
         if (config.isSet(jobSectionName)) {
             bukkitWrapper.severe("Could not find the Jobs section, please define it using the $jobSectionName tag, I created it for you, but it does not contain any jobs")
+            config.createSection(jobSectionName)
+            save()
         }
         // Parse the job section
         val jobSection = config.getConfigurationSection(jobSectionName)!!
