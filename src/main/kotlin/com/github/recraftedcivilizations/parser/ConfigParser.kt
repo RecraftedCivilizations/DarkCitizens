@@ -98,7 +98,7 @@ class ConfigParser(
     private fun parseGroups(groupSection: ConfigurationSection) {
         for (groupName in groupSection.getKeys(false)) {
             val jobSection = groupSection.getConfigurationSection(groupName)!!
-            configSectionToJob(groupName, jobSection)
+            configSectionToGroup(groupName, jobSection)
         }
     }
 
