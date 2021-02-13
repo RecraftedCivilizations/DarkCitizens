@@ -7,6 +7,7 @@ import com.github.recraftedcivilizations.jobs.JobManager
 import com.github.recraftedcivilizations.tasks.TaskManager
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.configuration.file.FileConfiguration
+import java.io.File
 
 /**
  * @author DarkVanityOfLight
@@ -19,6 +20,7 @@ import org.bukkit.configuration.file.FileConfiguration
  */
 class ConfigParser(
     config: FileConfiguration,
+    private val dataDir: String,
     private val taskManager: TaskManager,
     private val jobManager: JobManager,
     private val groupManager: GroupManager, private val bukkitWrapper: BukkitWrapper = BukkitWrapper()
@@ -249,7 +251,7 @@ class ConfigParser(
      * Save the config file
      */
     private fun save() {
-        config.save(config.currentPath)
+        config.save(File(dataDir, "config.yml"))
     }
 
     companion object {
