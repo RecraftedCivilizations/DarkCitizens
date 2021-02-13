@@ -35,7 +35,7 @@ class ConfigParser(
      */
     override fun read() {
         // Check that the group section exists
-        if (config.isSet(groupSectionName)) {
+        if (!config.isSet(groupSectionName)) {
             bukkitWrapper.severe("Could not find the Groups section, please define it using the $groupSectionName tag, I created it for you, but it does not contain any groups")
             config.createSection(groupSectionName)
             save()
@@ -45,7 +45,7 @@ class ConfigParser(
         parseGroups(groupSection)
 
         // Check that the Task section exists
-        if (config.isSet(jobSectionName)) {
+        if (!config.isSet(jobSectionName)) {
             bukkitWrapper.severe("Could not find the Tasks section, please define it using the $taskSectionName tag, I created it for you, but it does not contain any tasks")
             config.createSection(taskSectionName)
             save()
@@ -55,7 +55,7 @@ class ConfigParser(
         parseTasks(taskSection)
 
         // Check that the Jobs section exists
-        if (config.isSet(jobSectionName)) {
+        if (!config.isSet(jobSectionName)) {
             bukkitWrapper.severe("Could not find the Jobs section, please define it using the $jobSectionName tag, I created it for you, but it does not contain any jobs")
             config.createSection(jobSectionName)
             save()
