@@ -23,6 +23,13 @@ import kotlin.random.Random
 // The ConfigParser has way to much possibilities then I could effort to test
 // So I will just test the cases that result in a coverage ofm 100% even if not everything is tested
 
+inline fun <reified T> T.callPrivateFunc(name: String, vararg args: Any?): Any? {
+    val classArray: Array<Class<*>> = args.map { it!!::class.java}.toTypedArray()
+    return T::class.java.getDeclaredMethod(name, *classArray)
+        .apply { isAccessible = true }
+        .invoke(this, *args)
+}
+
 const val filePath = "config.yml"
 const val dataDir = "."
 
@@ -220,6 +227,41 @@ internal class ConfigParserTest {
             Pair(ConfigParser.groupFriendlyFireName, false)
             )
         )
+    }
+
+    @Test
+    fun shouldVerify(){
+        val configParser = ConfigParser(fileConfig, dataDir, taskManager, jobManager, groupManager, bukkitWrapper)
+
+        val groupName = randomString()
+        val jobName1 = randomString()
+        val taskName = randomString()
+        val jobName2 = randomString(11)
+        val groupName2 = randomString(11)
+
+        configParser.groupNames.add(groupName)
+        configParser.jobNames.add(jobName1)
+        configParser.taskNames.add(taskName)
+        configParser.jobNames.add(jobName2)
+
+        val jobArgs = createRandomJob(emptySet(), groupName2)
+
+        jobManager.createJob(jobName2, jobArgs[ConfigParser.jobGroupName] as String, jobArgs[ConfigParser.jobPlayerLimitName] as Int,
+            jobArgs[ConfigParser.jobTasksName ]as Set<String>, jobArgs[ConfigParser.jobCanDemoteName] as Set<String>,
+            jobArgs[ConfigParser.jobBaseIncomeName] as Int, jobArgs[ConfigParser.jobBaseXpName] as Int,
+            jobArgs[ConfigParser.jobMinLvlName] as Int, jobArgs[ConfigParser.jobElectionRequiredName] as Boolean,
+            jobArgs[ConfigParser.jobPermissionRequiredName] as Boolean
+            )
+
+        val res = configParser.callPrivateFunc("verify") as Boolean
+
+        verify(bukkitWrapper).warning("The job $jobName1 was parsed but not created, please check your config again!")
+        verify(bukkitWrapper).warning("The task $taskName was parsed but not created, please check your config again!")
+        verify(bukkitWrapper).warning("The group $groupName was parsed but nit created, please check your config again!")
+        verify(bukkitWrapper).warning("The job $jobName2 has $groupName2 defined as its group, but the group could not be found, please define the group!")
+        verifyNoMoreInteractions(bukkitWrapper)
+
+        assertEquals(false, res)
     }
 
     private fun assertGroup(group: Group?, groupArgs: Map<Any, Any>){
