@@ -165,7 +165,6 @@ internal class TaskTest {
         bukkitWrapperField.isAccessible = true
 
         var task = Task(randomString(), Random.nextInt(), Random.nextInt(), emptyList(), randomString(), dPlayerManager, economy, jobManager, bukkitWrapper)
-        verify(bukkitWrapper).warning("The Task ${task.name} has no actions assigned!")
         // Dummy tests
         assertEquals(task.name, task.name)
         assertEquals(task.income, task.income)
@@ -202,14 +201,12 @@ internal class TaskTest {
     @Test
     fun testIsCompletedForPlayerWithEmptyActions(){
         val task = Task(randomString(), Random.nextInt(), Random.nextInt(), emptyList(), randomString(), dPlayerManager, economy, jobManager, bukkitWrapper)
-        verify(bukkitWrapper, times(2)).warning(any())
         assertEquals(false, task.isCompletedForPlayer(playerMock1))
     }
 
     @Test
     fun isCompletedForPlayerWithEmptyActions(){
         val task = Task(randomString(), Random.nextInt(), Random.nextInt(), emptyList(), randomString(), dPlayerManager, economy, jobManager, bukkitWrapper)
-        verify(bukkitWrapper, times(3)).warning(any())
         assertEquals(false, task.isCompletedForPlayer(dPlayerMock1))
     }
 
