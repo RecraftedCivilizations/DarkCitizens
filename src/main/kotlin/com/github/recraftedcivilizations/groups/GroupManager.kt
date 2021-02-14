@@ -39,7 +39,11 @@ class GroupManager {
         if(maxLvl > lvlThresholds.size){
             val newLvlsToCreate = maxLvl - lvlThresholds.size
             for (lvl in 0 until newLvlsToCreate){
-                fixedThresholds.add(defaultSteps + fixedThresholds.last())
+                var last = 0
+                try {
+                    last = fixedThresholds.last()
+                }catch (e: NoSuchElementException){ }
+                fixedThresholds.add(defaultSteps + last)
             }
 
         }

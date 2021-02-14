@@ -33,12 +33,6 @@ class Task(
     private val bukkitWrapper: BukkitWrapper = BukkitWrapper()
 ) : ITask {
 
-    init {
-        if (actions.isEmpty()){
-            bukkitWrapper.warning("The Task $name has no actions assigned!")
-        }
-    }
-
     /**
      * Check if all actions are completed for a given player
      * @param player The [DPlayer] to check for
