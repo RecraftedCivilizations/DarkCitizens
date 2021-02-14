@@ -222,7 +222,7 @@ class ConfigParser(
 
             val group = groupManager.getGroup(job.group)
             if (group == null){
-                bukkitWrapper.warning("The job $jobName has $group defined as its group, but the group could not be found, please define the group!")
+                bukkitWrapper.warning("The job $jobName has ${job.group} defined as its group, but the group could not be found, please define the group!")
                 valid = false
                 continue
             }
