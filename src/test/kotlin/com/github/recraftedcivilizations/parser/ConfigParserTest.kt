@@ -183,6 +183,45 @@ internal class ConfigParserTest {
         assertJob(job, jobArgs)
     }
 
+    @Test
+    fun shouldFixGroup(){
+        val groupName = randomString()
+
+        val jobsSection = fileConfig.createSection(ConfigParser.jobSectionName)
+        val tasksSection = fileConfig.createSection(ConfigParser.taskSectionName)
+        val groupsSection = fileConfig.createSection(ConfigParser.groupSectionName)
+
+        groupsSection.createSection(groupName)
+
+        val configParser = ConfigParser(fileConfig, dataDir, taskManager, jobManager, groupManager, bukkitWrapper)
+        configParser.read()
+
+        verify(bukkitWrapper).warning("The group $groupName has no maximum lvl defined, I'll default it to 50, but you should define it using the ${ConfigParser.groupMaxLvlName} tag!")
+        verify(bukkitWrapper).warning("The group $groupName has no or not enough level thresholds defined, I'll fill them in for you, but you should define them using the ${ConfigParser.groupLvlThresholdsName} tag!")
+        verify(bukkitWrapper).info("Your config is valid, good job, now get a cookie and some hot choc and enjoy your server.")
+        verifyNoMoreInteractions(bukkitWrapper)
+
+
+        val fixedThresholds = emptyList<Int>().toMutableList()
+        val newLvlsToCreate = 50
+        for (lvl in 0 until newLvlsToCreate){
+            var last = 0
+            try {
+                last = fixedThresholds.last()
+            }catch (e: NoSuchElementException){ }
+            fixedThresholds.add(GroupManager.defaultSteps + last)
+        }
+
+        val group = groupManager.getGroup(groupName)
+        assertGroup(group, mapOf(
+            Pair(ConfigParser.groupMaxLvlName, 50),
+            Pair(ConfigParser.groupLvlThresholdsName, fixedThresholds),
+            Pair(ConfigParser.groupCanBeCriminalName, false),
+            Pair(ConfigParser.groupFriendlyFireName, false)
+            )
+        )
+    }
+
     private fun assertGroup(group: Group?, groupArgs: Map<Any, Any>){
         group!!
         assertEquals(groupArgs[ConfigParser.groupMaxLvlName], group.maxLvl)
