@@ -12,7 +12,7 @@ version '1.0-SNAPSHOT'
 // plugin.yml values
 def pluginName = 'DarkCitizens'
 def pluginDescription = 'Bring the DarkRP imersion to your server'
-def pluginAuthors = [DarkVanityOfLight]
+def pluginAuthors = ['DarkVanityOfLight']
 
 // Base repos
 repositories {
