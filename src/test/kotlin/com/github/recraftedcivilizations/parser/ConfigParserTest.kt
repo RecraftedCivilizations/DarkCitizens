@@ -151,6 +151,38 @@ internal class ConfigParserTest {
         assertTask(task, mapOf(Pair(ConfigParser.taskIncomeName, 100), Pair(ConfigParser.taskXpName, 100), Pair(ConfigParser.taskDescriptionName, "")))
     }
 
+    @Test
+    fun shouldFixJob(){
+        val jobName = randomString()
+        val group = null
+
+        val jobsSection = fileConfig.createSection(ConfigParser.jobSectionName)
+        val tasksSection = fileConfig.createSection(ConfigParser.taskSectionName)
+        val groupsSection = fileConfig.createSection(ConfigParser.groupSectionName)
+
+        jobsSection.createSection(jobName)
+        
+        val configParser = ConfigParser(fileConfig, dataDir, taskManager, jobManager, groupManager, bukkitWrapper)
+        configParser.read()
+        verify(bukkitWrapper, times(1)).warning("The job $jobName has no group defined, this may lead to severe errors later on, please define the group using the ${ConfigParser.jobGroupName} tag!")
+        verify(bukkitWrapper, times(1)).warning("The job $jobName has no player limit defined, I'll default it to 10 but you should define it using the ${ConfigParser.jobPlayerLimitName}")
+        verify(bukkitWrapper, times(1)).info("The job $jobName has no tasks defined, you can define tasks for the Job using the tasks name in the ${ConfigParser.jobTasksName} section")
+        verify(bukkitWrapper, times(1)).warning("The job $jobName has no base income defined, I'll default it to 10, but please define it using the ${ConfigParser.jobBaseIncomeName} tag!")
+        verify(bukkitWrapper, times(1)).warning("The job $jobName has no base Xp gain defined, I'll default it to 10, but you should define it using the ${ConfigParser.jobBaseXpName} tag!")
+        verify(bukkitWrapper, times(1)).warning("The job $jobName has $group defined as its group, but the group could not be found, please define the group!")
+        verify(bukkitWrapper, times(1)).info("Your config is invalid at some point, it may work anyway, but do you really want to live with the knowledge that something may go wrong at any point?")
+        verifyNoMoreInteractions(bukkitWrapper)
+
+        val job = jobManager.getJob(jobName)
+        val jobArgs = mapOf<Any, Any>(Pair(ConfigParser.jobGroupName, ""), Pair(ConfigParser.jobPlayerLimitName, 10),
+            Pair(ConfigParser.jobTasksName, emptySet<String>()), Pair(ConfigParser.jobBaseIncomeName, 10),
+            Pair(ConfigParser.jobBaseXpName, 10), Pair(ConfigParser.jobMinLvlName, 0),
+            Pair(ConfigParser.jobElectionRequiredName, false), Pair(ConfigParser.jobPermissionRequiredName, false),
+            Pair(ConfigParser.jobCanDemoteName, emptySet<String>())
+            )
+        assertJob(job, jobArgs)
+    }
+
     private fun assertGroup(group: Group?, groupArgs: Map<Any, Any>){
         group!!
         assertEquals(groupArgs[ConfigParser.groupMaxLvlName], group.maxLvl)
