@@ -146,6 +146,7 @@ internal class ConfigParserTest {
         verify(bukkitWrapper, times(1)).warning("The task $taskName has no xp defined, I ll default it to 100, but you should define it using the ${ConfigParser.taskXpName} tag!")
         verify(bukkitWrapper, times(1)).info("The task $taskName has no defined actions, define them using the ${ConfigParser.taskActionName} tag.")
         verify(bukkitWrapper, times(1)).warning("The task $taskName has no description defined, define it using the ${ConfigParser.taskDescriptionName}!")
+        verify(bukkitWrapper, times(1)).info("Your config is valid, good job, now get a cookie and some hot choc and enjoy your server.")
         val task = taskManager.getTask(taskName)
         assertTask(task, mapOf(Pair(ConfigParser.taskIncomeName, 100), Pair(ConfigParser.taskXpName, 100), Pair(ConfigParser.taskDescriptionName, "")))
     }
@@ -163,7 +164,7 @@ internal class ConfigParserTest {
         job!!
         assertEquals(jobArgs[ConfigParser.jobGroupName], job.group)
         assertEquals(jobArgs[ConfigParser.jobPlayerLimitName], job.playerLimit)
-        assertEquals((jobArgs[ConfigParser.jobCanDemoteName] as List<*>).toSet(), job.canDemote)
+        assertEquals((jobArgs[ConfigParser.jobCanDemoteName] as Set<*>), job.canDemote)
         assertEquals(jobArgs[ConfigParser.jobMinLvlName], job.minLvl)
         assertEquals(jobArgs[ConfigParser.jobElectionRequiredName], job.electionRequired)
         assertEquals(jobArgs[ConfigParser.jobPermissionRequiredName], job.permissionRequired)
