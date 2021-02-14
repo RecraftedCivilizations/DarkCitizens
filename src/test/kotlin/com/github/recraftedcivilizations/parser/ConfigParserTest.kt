@@ -214,7 +214,7 @@ internal class ConfigParserTest {
             Pair(ConfigParser.jobGroupName, group),
             Pair(ConfigParser.jobPlayerLimitName, Random.nextInt()),
             Pair(ConfigParser.jobTasksName, tasks),
-            Pair<String, List<String>>(ConfigParser.jobCanDemoteName, emptyList()),
+            Pair(ConfigParser.jobCanDemoteName, emptySet<String>()),
             Pair(ConfigParser.jobMinLvlName, Random.nextInt()),
             Pair(ConfigParser.jobElectionRequiredName, Random.nextBoolean()),
             Pair(ConfigParser.jobPermissionRequiredName, Random.nextBoolean()),
