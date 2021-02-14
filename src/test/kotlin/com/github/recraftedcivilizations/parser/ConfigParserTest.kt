@@ -161,7 +161,7 @@ internal class ConfigParserTest {
     @Test
     fun shouldFixJob(){
         val jobName = randomString()
-        val group = null
+        val group = ""
 
         val jobsSection = fileConfig.createSection(ConfigParser.jobSectionName)
         val tasksSection = fileConfig.createSection(ConfigParser.taskSectionName)
