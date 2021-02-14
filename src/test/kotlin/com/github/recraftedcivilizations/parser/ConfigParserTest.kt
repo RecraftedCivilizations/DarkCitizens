@@ -86,7 +86,7 @@ internal class ConfigParserTest {
         val groupsSection = fileConfig.createSection(ConfigParser.groupSectionName)
 
         // Create new jobs
-        val jobArgs = createRandomJob(listOf(taskName1), groupName1)
+        val jobArgs = createRandomJob(setOf(taskName1), groupName1)
         var jobSection = jobsSection.createSection(jobName1, jobArgs)
 
         // Create new Tasks
@@ -248,7 +248,7 @@ internal class ConfigParserTest {
         assertEquals(taskArgs[ConfigParser.taskDescriptionName], task.description)
     }
 
-    private fun createRandomJob(tasks: List<String>, group: String): Map<Any, Any> {
+    private fun createRandomJob(tasks: Set<String>, group: String): Map<Any, Any> {
         return mapOf(
             Pair(ConfigParser.jobGroupName, group),
             Pair(ConfigParser.jobPlayerLimitName, Random.nextInt()),
