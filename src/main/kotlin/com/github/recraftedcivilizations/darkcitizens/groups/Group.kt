@@ -1,4 +1,4 @@
-package com.github.recraftedcivilizations.groups
+package com.github.recraftedcivilizations.darkcitizens.groups
 
 /**
  * @author DarkVanityOfLight

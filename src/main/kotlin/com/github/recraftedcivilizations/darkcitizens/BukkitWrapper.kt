@@ -1,6 +1,6 @@
-package com.github.recraftedcivilizations
+package com.github.recraftedcivilizations.darkcitizens
 
-import com.github.recraftedcivilizations.dPlayer.DPlayer
+import com.github.recraftedcivilizations.darkcitizens.recraftedcivilizations.dPlayer.DPlayer
 import org.bukkit.Bukkit
 import org.bukkit.boss.BarColor
 import org.bukkit.boss.BarStyle

@@ -1,9 +1,9 @@
-package com.github.recraftedcivilizations.jobs
+package com.github.recraftedcivilizations.darkcitizens.jobs
 
-import com.github.recraftedcivilizations.BukkitWrapper
-import com.github.recraftedcivilizations.dPlayer.DPlayer
-import com.github.recraftedcivilizations.dPlayer.DPlayerManager
-import com.github.recraftedcivilizations.tasks.ITask
+import com.github.recraftedcivilizations.darkcitizens.BukkitWrapper
+import com.github.recraftedcivilizations.darkcitizens.recraftedcivilizations.dPlayer.DPlayer
+import com.github.recraftedcivilizations.darkcitizens.recraftedcivilizations.dPlayer.DPlayerManager
+import com.github.recraftedcivilizations.darkcitizens.recraftedcivilizations.tasks.ITask
 import org.bukkit.ChatColor
 import org.bukkit.entity.Player
 import java.util.*
@@ -35,7 +35,7 @@ class Job(
     override val electionRequired: Boolean,
     override val permissionRequired: Boolean,
     private val dPlayerManager: DPlayerManager,
-    private val bukkitWrapper: BukkitWrapper = BukkitWrapper()
+    private val bukkitWrapper: com.github.recraftedcivilizations.darkcitizens.BukkitWrapper = com.github.recraftedcivilizations.darkcitizens.BukkitWrapper()
 ) : IJob {
     override val currentMembers: MutableSet<DPlayer> = emptySet<DPlayer>().toMutableSet()
 

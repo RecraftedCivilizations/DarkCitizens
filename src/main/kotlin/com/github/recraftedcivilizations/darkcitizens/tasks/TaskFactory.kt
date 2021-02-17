@@ -1,11 +1,9 @@
-package com.github.recraftedcivilizations.tasks
+package com.github.recraftedcivilizations.darkcitizens.tasks
 
-import com.github.recraftedcivilizations.dPlayer.DPlayerManager
-import com.github.recraftedcivilizations.jobs.JobManager
-import com.github.recraftedcivilizations.tasks.actions.Actions
-import com.github.recraftedcivilizations.tasks.actions.IAction
+import com.github.recraftedcivilizations.darkcitizens.recraftedcivilizations.dPlayer.DPlayerManager
+import com.github.recraftedcivilizations.darkcitizens.recraftedcivilizations.jobs.JobManager
+import com.github.recraftedcivilizations.darkcitizens.recraftedcivilizations.tasks.actions.IAction
 import net.milkbowl.vault.economy.Economy
-import java.lang.IllegalArgumentException
 
 /**
  * @author DarkVanityOfLight
@@ -25,7 +23,7 @@ object TaskFactory {
      * @param dPlayerManager The DPlayer manager
      * @param econ The economy to pay too
      */
-    fun createTask(name: String, income: Int, xp: Int, actions: List<IAction>, description: String, dPlayerManager: DPlayerManager, econ: Economy, jobManager: JobManager): ITask{
+    fun createTask(name: String, income: Int, xp: Int, actions: List<IAction>, description: String, dPlayerManager: DPlayerManager, econ: Economy, jobManager: JobManager): ITask {
         return Task(name, income, xp, actions, description, dPlayerManager, econ, jobManager)
     }
 

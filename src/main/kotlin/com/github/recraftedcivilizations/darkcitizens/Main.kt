@@ -1,13 +1,13 @@
-package com.github.recraftedcivilizations
+package com.github.recraftedcivilizations.darkcitizens
 
 import com.github.darkvanityoflight.recraftedcore.ARecraftedPlugin
-import com.github.recraftedcivilizations.dPlayer.DPlayerManager
-import com.github.recraftedcivilizations.groups.GroupManager
-import com.github.recraftedcivilizations.jobs.JobManager
-import com.github.recraftedcivilizations.parser.ConfigParser
-import com.github.recraftedcivilizations.parser.dataparser.IParseData
-import com.github.recraftedcivilizations.parser.dataparser.YMLDataSource
-import com.github.recraftedcivilizations.tasks.TaskManager
+import com.github.recraftedcivilizations.darkcitizens.recraftedcivilizations.dPlayer.DPlayerManager
+import com.github.recraftedcivilizations.darkcitizens.recraftedcivilizations.groups.GroupManager
+import com.github.recraftedcivilizations.darkcitizens.recraftedcivilizations.jobs.JobManager
+import com.github.recraftedcivilizations.darkcitizens.recraftedcivilizations.parser.ConfigParser
+import com.github.recraftedcivilizations.darkcitizens.recraftedcivilizations.parser.dataparser.IParseData
+import com.github.recraftedcivilizations.darkcitizens.recraftedcivilizations.parser.dataparser.YMLDataSource
+import com.github.recraftedcivilizations.darkcitizens.recraftedcivilizations.tasks.TaskManager
 import net.milkbowl.vault.economy.Economy
 import org.bukkit.Bukkit
 import org.bukkit.plugin.RegisteredServiceProvider
@@ -26,7 +26,7 @@ class Main : ARecraftedPlugin() {
         if (Bukkit.getPluginManager().isPluginEnabled("Vault")){
             val rsp : RegisteredServiceProvider<Economy>? =  server.servicesManager.getRegistration(Economy::class.java)
             if (rsp != null) {
-                econ = rsp.provider
+                com.github.recraftedcivilizations.darkcitizens.Main.Companion.econ = rsp.provider
             }
         }
 
@@ -42,7 +42,7 @@ class Main : ARecraftedPlugin() {
 
     private fun initManagers(){
         dPlayerManager = DPlayerManager(dataParser)
-        taskManager = TaskManager(econ!!, dPlayerManager)
+        taskManager = TaskManager(com.github.recraftedcivilizations.darkcitizens.Main.Companion.econ!!, dPlayerManager)
         jobManager = JobManager(dPlayerManager)
 
         taskManager.setJobManager(jobManager)

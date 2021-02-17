@@ -1,10 +1,10 @@
-package com.github.recraftedcivilizations.parser.dataparser
+package com.github.recraftedcivilizations.darkcitizens.parser.dataparser
 
-import com.github.recraftedcivilizations.BukkitWrapper
-import com.github.recraftedcivilizations.dPlayer.DPlayer
-import com.github.recraftedcivilizations.dPlayer.DPlayerData1
-import com.github.recraftedcivilizations.dPlayer.DPlayerData2
-import com.github.recraftedcivilizations.dPlayer.DPlayerFactory
+import com.github.recraftedcivilizations.darkcitizens.BukkitWrapper
+import com.github.recraftedcivilizations.darkcitizens.recraftedcivilizations.dPlayer.DPlayer
+import com.github.recraftedcivilizations.darkcitizens.recraftedcivilizations.dPlayer.DPlayerData1
+import com.github.recraftedcivilizations.darkcitizens.recraftedcivilizations.dPlayer.DPlayerData2
+import com.github.recraftedcivilizations.darkcitizens.recraftedcivilizations.dPlayer.DPlayerFactory
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.configuration.file.YamlConfiguration
 import java.io.File
@@ -19,7 +19,7 @@ import java.util.*
  * @see IParseData
  * @constructor Construct using a base [filePath] and an optional bukkitWrapper for testing
  */
-class YMLDataSource(var filePath: String, private val bukkitWrapper: BukkitWrapper = BukkitWrapper()) : IParseData {
+class YMLDataSource(var filePath: String, private val bukkitWrapper: com.github.recraftedcivilizations.darkcitizens.BukkitWrapper = com.github.recraftedcivilizations.darkcitizens.BukkitWrapper()) : IParseData {
     private val dataFile : YamlConfiguration = YamlConfiguration()
 
     /**
@@ -121,7 +121,9 @@ class YMLDataSource(var filePath: String, private val bukkitWrapper: BukkitWrapp
         val wanted = configurationSection.getBoolean(wantedName)
         val isCriminal = configurationSection.getBoolean(criminalName)
 
-        if ( configurationSection.getConfigurationSection(groupLvlName) == null || configurationSection.getConfigurationSection(groupXpName) == null){
+        if ( configurationSection.getConfigurationSection(groupLvlName) == null || configurationSection.getConfigurationSection(
+                groupXpName
+            ) == null){
             return null
         }
 

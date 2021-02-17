@@ -1,6 +1,6 @@
-package com.github.recraftedcivilizations.dPlayer
+package com.github.recraftedcivilizations.darkcitizens.dPlayer
 
-import com.github.recraftedcivilizations.parser.dataparser.IParseData
+import com.github.recraftedcivilizations.darkcitizens.recraftedcivilizations.parser.dataparser.IParseData
 import org.bukkit.entity.Player
 import java.util.*
 

@@ -1,7 +1,7 @@
-package com.github.recraftedcivilizations.jobs
+package com.github.recraftedcivilizations.darkcitizens.jobs
 
-import com.github.recraftedcivilizations.dPlayer.DPlayerManager
-import com.github.recraftedcivilizations.tasks.ITask
+import com.github.recraftedcivilizations.darkcitizens.recraftedcivilizations.dPlayer.DPlayerManager
+import com.github.recraftedcivilizations.darkcitizens.recraftedcivilizations.tasks.ITask
 
 /**
  * @author DarkVanityOfLight

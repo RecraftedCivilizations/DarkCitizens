@@ -1,8 +1,8 @@
-package com.github.recraftedcivilizations.parser.dataparser
+package com.github.recraftedcivilizations.darkcitizens.parser.dataparser
 
-import com.github.recraftedcivilizations.dPlayer.DPlayer
-import com.github.recraftedcivilizations.dPlayer.DPlayerData1
-import com.github.recraftedcivilizations.dPlayer.DPlayerData2
+import com.github.recraftedcivilizations.darkcitizens.recraftedcivilizations.dPlayer.DPlayer
+import com.github.recraftedcivilizations.darkcitizens.recraftedcivilizations.dPlayer.DPlayerData1
+import com.github.recraftedcivilizations.darkcitizens.recraftedcivilizations.dPlayer.DPlayerData2
 import java.util.*
 
 /**
