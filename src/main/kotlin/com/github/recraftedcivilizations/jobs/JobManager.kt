@@ -68,4 +68,11 @@ class JobManager(private val dPlayerManager: DPlayerManager) {
 
 
     }
+
+    /**
+     * Returns all registered jobs
+     */
+    fun getJobs(): Set<IJob>{
+        return jobs
+    }
 }
