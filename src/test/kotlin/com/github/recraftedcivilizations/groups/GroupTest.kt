@@ -1,5 +1,6 @@
 package com.github.recraftedcivilizations.groups
 
+import com.github.recraftedcivilizations.darkcitizens.groups.Group
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 

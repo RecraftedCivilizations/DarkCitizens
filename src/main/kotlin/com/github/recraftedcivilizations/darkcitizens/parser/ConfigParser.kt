@@ -1,10 +1,9 @@
-package com.github.recraftedcivilizations.parser
+package com.github.recraftedcivilizations.darkcitizens.parser
 
 import com.github.darkvanityoflight.recraftedcore.configparser.ARecraftedConfigParser
-import com.github.recraftedcivilizations.BukkitWrapper
-import com.github.recraftedcivilizations.groups.GroupManager
-import com.github.recraftedcivilizations.jobs.JobManager
-import com.github.recraftedcivilizations.tasks.TaskManager
+import com.github.recraftedcivilizations.darkcitizens.groups.GroupManager
+import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
+import com.github.recraftedcivilizations.darkcitizens.tasks.TaskManager
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.configuration.file.FileConfiguration
 import java.io.File
@@ -23,7 +22,7 @@ class ConfigParser(
     private val dataDir: String,
     private val taskManager: TaskManager,
     private val jobManager: JobManager,
-    private val groupManager: GroupManager, private val bukkitWrapper: BukkitWrapper = BukkitWrapper()
+    private val groupManager: GroupManager, private val bukkitWrapper: com.github.recraftedcivilizations.darkcitizens.BukkitWrapper = com.github.recraftedcivilizations.darkcitizens.BukkitWrapper()
 ) : ARecraftedConfigParser(config) {
     val taskNames = emptySet<String>().toMutableSet()
     val jobNames = emptySet<String>().toMutableSet()

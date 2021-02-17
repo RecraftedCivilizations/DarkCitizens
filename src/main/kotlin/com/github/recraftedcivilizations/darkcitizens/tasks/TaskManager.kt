@@ -1,9 +1,9 @@
-package com.github.recraftedcivilizations.tasks
+package com.github.recraftedcivilizations.darkcitizens.tasks
 
-import com.github.recraftedcivilizations.dPlayer.DPlayerManager
-import com.github.recraftedcivilizations.jobs.JobManager
-import com.github.recraftedcivilizations.tasks.actions.Actions
-import com.github.recraftedcivilizations.tasks.actions.IAction
+import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
+import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
+import com.github.recraftedcivilizations.darkcitizens.tasks.actions.Actions
+import com.github.recraftedcivilizations.darkcitizens.tasks.actions.IAction
 import net.milkbowl.vault.economy.Economy
 
 /**
@@ -42,7 +42,8 @@ class TaskManager(private val econ: Economy, private val dPlayerManager: DPlayer
             }
 
         }
-        val task = TaskFactory.createTask(name, income, xp, parsedActions, description, dPlayerManager, econ, jobManager)
+        val task =
+            TaskFactory.createTask(name, income, xp, parsedActions, description, dPlayerManager, econ, jobManager)
         tasks.add(task)
     }
 

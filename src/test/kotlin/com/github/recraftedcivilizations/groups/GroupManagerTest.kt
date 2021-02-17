@@ -1,6 +1,7 @@
 package com.github.recraftedcivilizations.groups
 
-import org.junit.Ignore
+import com.github.recraftedcivilizations.darkcitizens.groups.Group
+import com.github.recraftedcivilizations.darkcitizens.groups.GroupManager
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*

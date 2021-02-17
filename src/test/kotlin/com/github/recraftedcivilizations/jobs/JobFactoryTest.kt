@@ -1,6 +1,9 @@
 package com.github.recraftedcivilizations.jobs
 
-import com.github.recraftedcivilizations.dPlayer.DPlayerManager
+
+import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
+import com.github.recraftedcivilizations.darkcitizens.jobs.Job
+import com.github.recraftedcivilizations.darkcitizens.jobs.JobFactory
 import com.nhaarman.mockitokotlin2.mock
 import org.junit.jupiter.api.Test
 

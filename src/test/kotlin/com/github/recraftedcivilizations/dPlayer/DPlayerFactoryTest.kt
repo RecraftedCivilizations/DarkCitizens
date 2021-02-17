@@ -1,5 +1,7 @@
 package com.github.recraftedcivilizations.dPlayer
 
+import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerData1
+import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerFactory
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
 import org.bukkit.entity.Player

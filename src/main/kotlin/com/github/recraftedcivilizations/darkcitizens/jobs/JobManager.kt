@@ -1,8 +1,8 @@
-package com.github.recraftedcivilizations.jobs
+package com.github.recraftedcivilizations.darkcitizens.jobs
 
-import com.github.recraftedcivilizations.dPlayer.DPlayerManager
-import com.github.recraftedcivilizations.tasks.ITask
-import com.github.recraftedcivilizations.tasks.TaskManager
+import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
+import com.github.recraftedcivilizations.darkcitizens.tasks.ITask
+import com.github.recraftedcivilizations.darkcitizens.tasks.TaskManager
 
 /**
  * @author DarkVanityOfLight
@@ -64,8 +64,29 @@ class JobManager(private val dPlayerManager: DPlayerManager) {
                 iTasks.add(task)
             }
         }
-        jobs.add(JobFactory.createJob(name, group, playerLimit, iTasks, canDemote, baseIncome, baseXPGain, minLvl, electionRequired, permissionRequired, dPlayerManager))
+        jobs.add(
+            JobFactory.createJob(
+                name,
+                group,
+                playerLimit,
+                iTasks,
+                canDemote,
+                baseIncome,
+                baseXPGain,
+                minLvl,
+                electionRequired,
+                permissionRequired,
+                dPlayerManager
+            )
+        )
 
 
+    }
+
+    /**
+     * Returns all registered jobs
+     */
+    fun getJobs(): Set<IJob>{
+        return jobs
     }
 }

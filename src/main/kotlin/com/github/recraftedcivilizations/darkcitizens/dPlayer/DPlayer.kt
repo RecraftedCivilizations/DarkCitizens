@@ -1,6 +1,6 @@
-package com.github.recraftedcivilizations.dPlayer
+package com.github.recraftedcivilizations.darkcitizens.dPlayer
 
-import com.github.recraftedcivilizations.jobs.IJob
+import com.github.recraftedcivilizations.darkcitizens.jobs.IJob
 import org.bukkit.entity.Player
 import java.util.*
 
@@ -35,7 +35,7 @@ data class DPlayerData1(val uuid: UUID, val job: String?, val wanted: Boolean, v
  * @param groupXps All groups and their current XP
  */
 data class DPlayerData2(val job: String?, val wanted: Boolean, val isCriminal: Boolean, val groupLvls: Map<String, Int>, val groupXps: Map<String, Int>){
-    fun toDPlayerData1(uuid: UUID): DPlayerData1{
+    fun toDPlayerData1(uuid: UUID): DPlayerData1 {
         return DPlayerData1(uuid, job, wanted, isCriminal, groupLvls, groupXps)
     }
 }

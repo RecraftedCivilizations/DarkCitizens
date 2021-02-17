@@ -1,8 +1,8 @@
 package com.github.recraftedcivilizations.parser.dataparser
 
-import com.github.recraftedcivilizations.BukkitWrapper
-import com.github.recraftedcivilizations.dPlayer.DPlayer
-import com.github.recraftedcivilizations.dPlayer.DPlayerData2
+import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayer
+import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerData2
+import com.github.recraftedcivilizations.darkcitizens.parser.dataparser.YMLDataSource
 import com.github.recraftedcivilizations.jobs.randomString
 import com.nhaarman.mockitokotlin2.*
 import org.bukkit.configuration.file.YamlConfiguration
@@ -26,7 +26,7 @@ internal class YMLDataSourceTest {
 
     private val playerMock = mock<Player>{ on { uniqueId } doReturn playerUUID }
 
-    private val bukkitWrapper = mock<BukkitWrapper>{ on { getPlayer(playerUUID) } doReturn playerMock }
+    private val bukkitWrapper = mock<com.github.recraftedcivilizations.darkcitizens.BukkitWrapper>{ on { getPlayer(playerUUID) } doReturn playerMock }
 
 
     @BeforeAll

@@ -1,9 +1,13 @@
 package com.github.recraftedcivilizations.jobs
 
-import com.github.recraftedcivilizations.dPlayer.DPlayerManager
-import com.github.recraftedcivilizations.parser.dataparser.IParseData
-import com.github.recraftedcivilizations.tasks.ITask
-import com.github.recraftedcivilizations.tasks.TaskManager
+
+import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
+import com.github.recraftedcivilizations.darkcitizens.jobs.IJob
+import com.github.recraftedcivilizations.darkcitizens.jobs.Job
+import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
+import com.github.recraftedcivilizations.darkcitizens.parser.dataparser.IParseData
+import com.github.recraftedcivilizations.darkcitizens.tasks.ITask
+import com.github.recraftedcivilizations.darkcitizens.tasks.TaskManager
 import com.nhaarman.mockitokotlin2.*
 import net.milkbowl.vault.economy.Economy
 import org.junit.jupiter.api.Test

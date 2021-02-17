@@ -1,7 +1,7 @@
-package com.github.recraftedcivilizations.tasks
+package com.github.recraftedcivilizations.darkcitizens.tasks
 
-import com.github.recraftedcivilizations.dPlayer.DPlayer
-import com.github.recraftedcivilizations.tasks.actions.IAction
+import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayer
+import com.github.recraftedcivilizations.darkcitizens.tasks.actions.IAction
 import org.bukkit.entity.Player
 
 /**

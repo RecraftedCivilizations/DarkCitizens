@@ -1,14 +1,15 @@
 package com.github.recraftedcivilizations.tasks
 
-import com.github.recraftedcivilizations.BukkitWrapper
-import com.github.recraftedcivilizations.dPlayer.DPlayer
-import com.github.recraftedcivilizations.dPlayer.DPlayerFactory
-import com.github.recraftedcivilizations.dPlayer.DPlayerManager
-import com.github.recraftedcivilizations.jobs.IJob
-import com.github.recraftedcivilizations.jobs.JobManager
+import com.github.recraftedcivilizations.darkcitizens.BukkitWrapper
+import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayer
+import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerFactory
+import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
+import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
+import com.github.recraftedcivilizations.darkcitizens.parser.dataparser.IParseData
+import com.github.recraftedcivilizations.darkcitizens.tasks.Task
+import com.github.recraftedcivilizations.darkcitizens.tasks.TaskManager
+import com.github.recraftedcivilizations.darkcitizens.tasks.actions.IAction
 import com.github.recraftedcivilizations.jobs.randomString
-import com.github.recraftedcivilizations.parser.dataparser.IParseData
-import com.github.recraftedcivilizations.tasks.actions.IAction
 import com.nhaarman.mockitokotlin2.*
 import net.milkbowl.vault.economy.Economy
 import org.bukkit.boss.BarColor
