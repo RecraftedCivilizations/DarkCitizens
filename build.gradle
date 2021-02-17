@@ -17,7 +17,7 @@ def pluginAuthors = ['DarkVanityOfLight']
 // Base repos
 repositories {
     mavenCentral()
-    maven { url 'https://repo.repsy.io/mvn/darkvanityoflight/darkmods' }
+    maven { url 'https://repo.repsy.io/mvn/darkvanityoflight/recraftedcivilizations' }
     spigot()
     maven { url 'https://jitpack.io' }
     jcenter()
@@ -32,7 +32,7 @@ dependencies {
 // Minecraft deps
 dependencies {
     compileOnly spigotApi()
-    compileOnly 'com.github.darkvanityoflight:RecraftedCore:2.+'
+    compileOnly 'com.github.recraftedcivilizations:RecraftedCore:3.+'
     compileOnly "com.github.MilkBowl:VaultAPI:1.7"
 }
 
@@ -45,7 +45,7 @@ dependencies {
 
     implementation 'junit:junit:4.12'
     testCompile spigotApi()
-    testCompile 'com.github.darkvanityoflight:RecraftedCore:2.+'
+    testCompile 'com.github.recraftedcivilizations:RecraftedCore:3.+'
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
     testImplementation 'org.mockito:mockito-inline:2.13.0'
     testCompile "com.github.MilkBowl:VaultAPI:1.7"
