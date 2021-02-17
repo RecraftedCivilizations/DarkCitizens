@@ -1,14 +1,16 @@
 package com.github.recraftedcivilizations.dPlayer
 
-import com.github.recraftedcivilizations.parser.dataparser.IParseData
+
+import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayer
+import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerData1
+import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
+import com.github.recraftedcivilizations.darkcitizens.parser.dataparser.IParseData
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
 import org.bukkit.entity.Player
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
-import org.mockito.Mockito
-import org.mockito.stubbing.Answer
 import java.util.*
 
 internal class DPlayerManagerTest {

@@ -1,15 +1,15 @@
 package com.github.recraftedcivilizations.parser
 
-import com.github.recraftedcivilizations.BukkitWrapper
-import com.github.recraftedcivilizations.dPlayer.DPlayerManager
-import com.github.recraftedcivilizations.groups.Group
-import com.github.recraftedcivilizations.groups.GroupManager
-import com.github.recraftedcivilizations.jobs.IJob
-import com.github.recraftedcivilizations.jobs.JobManager
+import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
+import com.github.recraftedcivilizations.darkcitizens.groups.Group
+import com.github.recraftedcivilizations.darkcitizens.groups.GroupManager
+import com.github.recraftedcivilizations.darkcitizens.jobs.IJob
+import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
+import com.github.recraftedcivilizations.darkcitizens.parser.ConfigParser
+import com.github.recraftedcivilizations.darkcitizens.parser.dataparser.IParseData
+import com.github.recraftedcivilizations.darkcitizens.tasks.ITask
+import com.github.recraftedcivilizations.darkcitizens.tasks.TaskManager
 import com.github.recraftedcivilizations.jobs.randomString
-import com.github.recraftedcivilizations.parser.dataparser.IParseData
-import com.github.recraftedcivilizations.tasks.ITask
-import com.github.recraftedcivilizations.tasks.TaskManager
 import com.nhaarman.mockitokotlin2.*
 import net.milkbowl.vault.economy.Economy
 import org.bukkit.configuration.file.YamlConfiguration
@@ -40,7 +40,7 @@ internal class ConfigParserTest {
     val jobManager = JobManager(dPlayerManager)
     val taskManager = TaskManager(economy, dPlayerManager)
     val groupManager = GroupManager()
-    val bukkitWrapper = mock<BukkitWrapper>{}
+    val bukkitWrapper = mock<com.github.recraftedcivilizations.darkcitizens.BukkitWrapper>{}
     lateinit var fileConfig: YamlConfiguration
 
     private val jobsField = JobManager::class.java.getDeclaredField("jobs")
@@ -155,7 +155,8 @@ internal class ConfigParserTest {
         verify(bukkitWrapper, times(1)).warning("The task $taskName has no description defined, define it using the ${ConfigParser.taskDescriptionName}!")
         verify(bukkitWrapper, times(1)).info("Your config is valid, good job, now get a cookie and some hot choc and enjoy your server.")
         val task = taskManager.getTask(taskName)
-        assertTask(task, mapOf(Pair(ConfigParser.taskIncomeName, 100), Pair(ConfigParser.taskXpName, 100), Pair(ConfigParser.taskDescriptionName, "")))
+        assertTask(task, mapOf(Pair(ConfigParser.taskIncomeName, 100), Pair(ConfigParser.taskXpName, 100), Pair(
+            ConfigParser.taskDescriptionName, "")))
     }
 
     @Test

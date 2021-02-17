@@ -1,10 +1,9 @@
 package com.github.recraftedcivilizations.darkcitizens.parser
 
 import com.github.darkvanityoflight.recraftedcore.configparser.ARecraftedConfigParser
-import com.github.recraftedcivilizations.darkcitizens.BukkitWrapper
-import com.github.recraftedcivilizations.darkcitizens.recraftedcivilizations.groups.GroupManager
-import com.github.recraftedcivilizations.darkcitizens.recraftedcivilizations.jobs.JobManager
-import com.github.recraftedcivilizations.darkcitizens.recraftedcivilizations.tasks.TaskManager
+import com.github.recraftedcivilizations.darkcitizens.groups.GroupManager
+import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
+import com.github.recraftedcivilizations.darkcitizens.tasks.TaskManager
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.configuration.file.FileConfiguration
 import java.io.File

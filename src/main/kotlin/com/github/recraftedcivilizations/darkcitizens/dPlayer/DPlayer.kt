@@ -1,6 +1,6 @@
 package com.github.recraftedcivilizations.darkcitizens.dPlayer
 
-import com.github.recraftedcivilizations.darkcitizens.recraftedcivilizations.jobs.IJob
+import com.github.recraftedcivilizations.darkcitizens.jobs.IJob
 import org.bukkit.entity.Player
 import java.util.*
 

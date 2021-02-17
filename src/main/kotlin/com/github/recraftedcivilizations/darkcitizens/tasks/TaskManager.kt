@@ -1,9 +1,9 @@
 package com.github.recraftedcivilizations.darkcitizens.tasks
 
-import com.github.recraftedcivilizations.darkcitizens.recraftedcivilizations.dPlayer.DPlayerManager
-import com.github.recraftedcivilizations.darkcitizens.recraftedcivilizations.jobs.JobManager
-import com.github.recraftedcivilizations.darkcitizens.recraftedcivilizations.tasks.actions.Actions
-import com.github.recraftedcivilizations.darkcitizens.recraftedcivilizations.tasks.actions.IAction
+import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
+import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
+import com.github.recraftedcivilizations.darkcitizens.tasks.actions.Actions
+import com.github.recraftedcivilizations.darkcitizens.tasks.actions.IAction
 import net.milkbowl.vault.economy.Economy
 
 /**

@@ -1,9 +1,8 @@
 package com.github.recraftedcivilizations.darkcitizens.jobs
 
-import com.github.recraftedcivilizations.darkcitizens.BukkitWrapper
-import com.github.recraftedcivilizations.darkcitizens.recraftedcivilizations.dPlayer.DPlayer
-import com.github.recraftedcivilizations.darkcitizens.recraftedcivilizations.dPlayer.DPlayerManager
-import com.github.recraftedcivilizations.darkcitizens.recraftedcivilizations.tasks.ITask
+import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayer
+import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
+import com.github.recraftedcivilizations.darkcitizens.tasks.ITask
 import org.bukkit.ChatColor
 import org.bukkit.entity.Player
 import java.util.*

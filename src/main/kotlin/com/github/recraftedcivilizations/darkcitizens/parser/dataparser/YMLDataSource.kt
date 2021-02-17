@@ -1,10 +1,10 @@
 package com.github.recraftedcivilizations.darkcitizens.parser.dataparser
 
-import com.github.recraftedcivilizations.darkcitizens.BukkitWrapper
-import com.github.recraftedcivilizations.darkcitizens.recraftedcivilizations.dPlayer.DPlayer
-import com.github.recraftedcivilizations.darkcitizens.recraftedcivilizations.dPlayer.DPlayerData1
-import com.github.recraftedcivilizations.darkcitizens.recraftedcivilizations.dPlayer.DPlayerData2
-import com.github.recraftedcivilizations.darkcitizens.recraftedcivilizations.dPlayer.DPlayerFactory
+
+import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayer
+import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerData1
+import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerData2
+import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerFactory
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.configuration.file.YamlConfiguration
 import java.io.File

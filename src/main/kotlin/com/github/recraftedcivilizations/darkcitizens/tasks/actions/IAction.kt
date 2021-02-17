@@ -1,6 +1,6 @@
 package com.github.recraftedcivilizations.darkcitizens.tasks.actions
 
-import com.github.recraftedcivilizations.darkcitizens.recraftedcivilizations.dPlayer.DPlayer
+import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayer
 import org.bukkit.entity.Player
 
 

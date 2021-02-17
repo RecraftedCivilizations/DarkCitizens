@@ -1,13 +1,13 @@
 package com.github.recraftedcivilizations.darkcitizens
 
 import com.github.darkvanityoflight.recraftedcore.ARecraftedPlugin
-import com.github.recraftedcivilizations.darkcitizens.recraftedcivilizations.dPlayer.DPlayerManager
-import com.github.recraftedcivilizations.darkcitizens.recraftedcivilizations.groups.GroupManager
-import com.github.recraftedcivilizations.darkcitizens.recraftedcivilizations.jobs.JobManager
-import com.github.recraftedcivilizations.darkcitizens.recraftedcivilizations.parser.ConfigParser
-import com.github.recraftedcivilizations.darkcitizens.recraftedcivilizations.parser.dataparser.IParseData
-import com.github.recraftedcivilizations.darkcitizens.recraftedcivilizations.parser.dataparser.YMLDataSource
-import com.github.recraftedcivilizations.darkcitizens.recraftedcivilizations.tasks.TaskManager
+import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
+import com.github.recraftedcivilizations.darkcitizens.groups.GroupManager
+import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
+import com.github.recraftedcivilizations.darkcitizens.parser.ConfigParser
+import com.github.recraftedcivilizations.darkcitizens.parser.dataparser.IParseData
+import com.github.recraftedcivilizations.darkcitizens.parser.dataparser.YMLDataSource
+import com.github.recraftedcivilizations.darkcitizens.tasks.TaskManager
 import net.milkbowl.vault.economy.Economy
 import org.bukkit.Bukkit
 import org.bukkit.plugin.RegisteredServiceProvider
