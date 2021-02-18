@@ -2,6 +2,7 @@ package com.github.recraftedcivilizations.darkcitizens.commands
 
 import com.github.darkvanityoflight.recraftedcore.gui.InventoryGUI
 import com.github.darkvanityoflight.recraftedcore.gui.elements.CloseButtonFactory
+import com.github.darkvanityoflight.recraftedcore.utils.itemutils.addLore
 import com.github.darkvanityoflight.recraftedcore.utils.itemutils.setName
 import com.github.recraftedcivilizations.darkcitizens.BukkitWrapper
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
@@ -35,6 +36,11 @@ class ShowJobs(val jobManager: JobManager, val dPlayerManager: DPlayerManager, b
         for (job in jobs){
             val jobItemStack = ItemStack(Material.PLAYER_HEAD, 1)
             jobItemStack.setName(job.name)
+            jobItemStack.addLore("Group: ${job.group}")
+            jobItemStack.addLore("Base Income: ${job.baseIncome}")
+            jobItemStack.addLore("Base XP: ${job.baseXPGain}")
+            jobItemStack.addLore("Minimum lvl: ${job.minLvl}")
+            jobItemStack.addLore("Elected: ${job.electionRequired}")
             val displayItem = JobItem(jobItemStack, job, dPlayerManager)
             jobGUI.addItem(displayItem)
         }
