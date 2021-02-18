@@ -1,6 +1,8 @@
 package com.github.recraftedcivilizations.darkcitizens
 
 import com.github.darkvanityoflight.recraftedcore.ARecraftedPlugin
+import com.github.darkvanityoflight.recraftedcore.gui.GUIListener
+import com.github.recraftedcivilizations.darkcitizens.commands.ShowJobs
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
 import com.github.recraftedcivilizations.darkcitizens.groups.GroupManager
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
