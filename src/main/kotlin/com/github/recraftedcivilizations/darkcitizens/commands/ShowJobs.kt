@@ -15,7 +15,7 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
-class ShowJobs(val jobManager: JobManager, val dPlayerManager: DPlayerManager, bukkitWrapper: BukkitWrapper): CommandExecutor {
+class ShowJobs(val jobManager: JobManager, val dPlayerManager: DPlayerManager, bukkitWrapper: BukkitWrapper = BukkitWrapper()): CommandExecutor {
     private val jobGUI: InventoryGUI
 
     init {
