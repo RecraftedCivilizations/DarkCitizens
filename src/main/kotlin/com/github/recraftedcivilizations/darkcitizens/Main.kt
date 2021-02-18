@@ -28,7 +28,7 @@ class Main : ARecraftedPlugin() {
         if (Bukkit.getPluginManager().isPluginEnabled("Vault")){
             val rsp : RegisteredServiceProvider<Economy>? =  server.servicesManager.getRegistration(Economy::class.java)
             if (rsp != null) {
-                com.github.recraftedcivilizations.darkcitizens.Main.Companion.econ = rsp.provider
+            econ = rsp.provider
             }
         }
 
@@ -39,6 +39,9 @@ class Main : ARecraftedPlugin() {
         // Read the config
         configParser = ConfigParser(config, dataFolder.absolutePath, taskManager, jobManager, groupManager)
         configParser.read()
+
+        Bukkit.getServer().pluginManager.registerEvents(GUIListener(), this)
+        this.getCommand("jobs")?.setExecutor(ShowJobs(jobManager, dPlayerManager))
 
     }
 
