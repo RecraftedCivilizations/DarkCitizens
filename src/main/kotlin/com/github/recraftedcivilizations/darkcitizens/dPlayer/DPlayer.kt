@@ -1,6 +1,7 @@
 package com.github.recraftedcivilizations.darkcitizens.dPlayer
 
 import com.github.recraftedcivilizations.darkcitizens.jobs.IJob
+import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
 import org.bukkit.entity.Player
 import java.util.*
 
@@ -52,6 +53,7 @@ class DPlayer {
     var isCriminal: Boolean = false
     val groupLvls: MutableMap<String, Int> = emptyMap<String, Int>().toMutableMap()
     val groupXps: MutableMap<String, Int> = emptyMap<String, Int>().toMutableMap()
+    private lateinit var jobManager: JobManager
 
     /**
      * Constructs an empty new DPlayer this should only be used
@@ -101,6 +103,10 @@ class DPlayer {
             groupXps[field] = data.groupXps[field]!!
         }
 
+    }
+
+    fun setJobManager(jobManager: JobManager){
+        this.jobManager = jobManager
     }
 
     /**
