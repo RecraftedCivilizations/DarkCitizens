@@ -49,6 +49,7 @@ class Main : ARecraftedPlugin() {
         dPlayerManager = DPlayerManager(dataParser)
         taskManager = TaskManager(com.github.recraftedcivilizations.darkcitizens.Main.Companion.econ!!, dPlayerManager)
         jobManager = JobManager(dPlayerManager)
+        groupManager = GroupManager()
 
         taskManager.setJobManager(jobManager)
         jobManager.setTaskManager(taskManager)
