@@ -41,7 +41,7 @@ class ShowJobs(val jobManager: JobManager, val dPlayerManager: DPlayerManager, b
             jobItemStack.addLore("Base XP: ${job.baseXPGain}")
             jobItemStack.addLore("Minimum lvl: ${job.minLvl}")
             jobItemStack.addLore("Elected: ${job.electionRequired}")
-            val displayItem = JobItem(jobItemStack, job, dPlayerManager)
+            val displayItem = JobItem(jobItemStack, job, dPlayerManager, jobManager)
             jobGUI.addItem(displayItem)
         }
 
