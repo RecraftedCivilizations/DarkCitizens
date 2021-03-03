@@ -126,6 +126,7 @@ class DPlayer {
         if (canJoin){
             if(this.job != null) jobManager.getJob(this.job!!)?.removePlayer(this)
             job.addPlayer(this)
+            this.job = job.name
         }
     }
 
