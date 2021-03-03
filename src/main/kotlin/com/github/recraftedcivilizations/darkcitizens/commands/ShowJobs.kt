@@ -47,7 +47,7 @@ class ShowJobs(val jobManager: JobManager, val dPlayerManager: DPlayerManager, b
 
         // Add the close button
         val closeButton = CloseButtonFactory.getCloseButton()
-       jobGUI.setSlot(closeButton, invSize)
+       jobGUI.setSlot(closeButton, invSize-1)
     }
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
