@@ -22,7 +22,7 @@ class Main : ARecraftedPlugin() {
     lateinit var groupManager: GroupManager
     lateinit var dPlayerManager: DPlayerManager
 
-    override fun onLoad(){
+    override fun onEnable(){
 
         // Get the econ
         if (Bukkit.getPluginManager().isPluginEnabled("Vault")){
