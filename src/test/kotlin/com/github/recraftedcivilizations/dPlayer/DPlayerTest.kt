@@ -73,9 +73,10 @@ internal class DPlayerTest {
 
         // Job stuff
         val jobManager = JobManager(dPlayerManager)
-        val job = Job(randomString(), randomString(), Random.nextInt() + 1, emptySet(), emptySet(), Random.nextInt(), Random.nextInt(), 0, false, false, dPlayerManager, bukkitWrapper)
+        val job = Job(randomString(), randomString(), Random.nextInt(10), emptySet(), emptySet(), Random.nextInt(), Random.nextInt(), 0, false, false, dPlayerManager, bukkitWrapper)
 
         dPlayer.setJobManager(jobManager)
+        dPlayer.setBukkitWrapper(bukkitWrapper)
         dPlayer.joinJob(job)
         assertEquals(job.name, dPlayer.job)
     }
