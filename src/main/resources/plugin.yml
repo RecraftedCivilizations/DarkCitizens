@@ -1,3 +1,4 @@
+depend: [Vault, RecraftedCore]
 commands:
   jobs:
     description: Show all available commands
