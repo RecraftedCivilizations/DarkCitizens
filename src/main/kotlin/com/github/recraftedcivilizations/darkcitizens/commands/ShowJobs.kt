@@ -26,7 +26,7 @@ class ShowJobs(val jobManager: JobManager, val dPlayerManager: DPlayerManager, b
         // +1 Because of the Close button
         var invSize = jobs.size + 1
         if(invSize % 9 != 0){
-            invSize += (9 - (jobs.size % 9))
+            invSize += (9 - (invSize % 9))
         }
 
         // Create a new GUI
