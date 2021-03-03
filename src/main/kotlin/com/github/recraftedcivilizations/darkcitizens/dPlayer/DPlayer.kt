@@ -121,7 +121,12 @@ class DPlayer {
      * @param job The Job to join
      */
     fun joinJob(job: IJob){
-        TODO("Not yet implemented")
+
+        val canJoin = job.canJoin(this)
+        if (canJoin){
+            if(this.job != null) jobManager.getJob(this.job!!)?.removePlayer(this)
+            job.addPlayer(this)
+        }
     }
 
     /**
