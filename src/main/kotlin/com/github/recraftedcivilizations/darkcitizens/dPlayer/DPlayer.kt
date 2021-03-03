@@ -117,7 +117,7 @@ class DPlayer {
     }
 
     /**
-     * Join a new Job
+     * Join a new job, before calling this method make sure you called [setJobManager]
      * @param job The Job to join
      */
     fun joinJob(job: IJob){
