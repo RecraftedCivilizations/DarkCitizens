@@ -1,5 +1,6 @@
 package com.github.recraftedcivilizations.darkcitizens.dPlayer
 
+import com.github.recraftedcivilizations.darkcitizens.BukkitWrapper
 import com.github.recraftedcivilizations.darkcitizens.jobs.IJob
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
 import org.bukkit.entity.Player
@@ -53,6 +54,7 @@ class DPlayer {
     var isCriminal: Boolean = false
     val groupLvls: MutableMap<String, Int> = emptyMap<String, Int>().toMutableMap()
     val groupXps: MutableMap<String, Int> = emptyMap<String, Int>().toMutableMap()
+    private var bukkitWrapper = BukkitWrapper()
     private lateinit var jobManager: JobManager
 
     /**
@@ -109,6 +111,10 @@ class DPlayer {
         this.jobManager = jobManager
     }
 
+    fun setBukkitWrapper(bukkitWrapper: BukkitWrapper){
+        this.bukkitWrapper = bukkitWrapper
+    }
+
     /**
      * Serialize this DPlayer to a [DPlayerData1]
      */
@@ -127,6 +133,7 @@ class DPlayer {
             if(this.job != null) jobManager.getJob(this.job!!)?.removePlayer(this)
             job.addPlayer(this)
             this.job = job.name
+            bukkitWrapper.getPlayer(uuid)?.sendMessage("You successfully joined the job ${job.name}")
         }
     }
 
