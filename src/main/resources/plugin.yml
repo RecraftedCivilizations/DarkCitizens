@@ -1,4 +1,5 @@
 depend: [Vault, RecraftedCore]
+api-version: 1.16
 commands:
   jobs:
     description: Show all available commands
