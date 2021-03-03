@@ -1,15 +1,25 @@
 package com.github.recraftedcivilizations.dPlayer
 
+import com.github.recraftedcivilizations.darkcitizens.BukkitWrapper
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayer
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerData1
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerData2
-import com.nhaarman.mockitokotlin2.doReturn
-import com.nhaarman.mockitokotlin2.mock
+import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
+import com.github.recraftedcivilizations.darkcitizens.jobs.Job
+import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
+import com.github.recraftedcivilizations.darkcitizens.parser.dataparser.IParseData
+import com.github.recraftedcivilizations.darkcitizens.tasks.ITask
+import com.github.recraftedcivilizations.darkcitizens.tasks.Task
+import com.github.recraftedcivilizations.darkcitizens.tasks.TaskManager
+import com.github.recraftedcivilizations.jobs.randomString
+import com.nhaarman.mockitokotlin2.*
+import net.milkbowl.vault.economy.Economy
 import org.bukkit.entity.Player
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import java.util.*
+import kotlin.random.Random
 
 internal class DPlayerTest {
 
@@ -29,10 +39,45 @@ internal class DPlayerTest {
         assertEquals(dPlayerData, dPlayer.serializeData())
     }
 
-    @Disabled("There is nothing to test here, (yet)")
     @Test
     fun joinJob() {
-        TODO("Write test if implemented")
+        // Player Stuff
+        val uuid = UUID.randomUUID()
+        val playerMock = mock<Player>{
+            on {uniqueId} doReturn uuid
+        }
+
+        whenever(playerMock.sendMessage(any<String>())).doAnswer {
+            println(it.getArgument(0) as String)
+        }
+
+        val dPlayerData = DPlayerData1(
+                uuid,
+                null,
+                true,
+                true,
+                emptyMap(),
+                emptyMap()
+        )
+        val dPlayer = DPlayer(dPlayerData)
+
+        val dataParser = mock<IParseData>{
+            on {getDPlayer(any())} doReturn dPlayer
+        }
+        val dPlayerManager = DPlayerManager(dataParser)
+
+        // Bukkit wrapper stuff
+        val bukkitWrapper = mock<BukkitWrapper>{
+            on { getPlayer(dPlayer) } doReturn playerMock
+        }
+
+        // Job stuff
+        val jobManager = JobManager(dPlayerManager)
+        val job = Job(randomString(), randomString(), Random.nextInt() + 1, emptySet(), emptySet(), Random.nextInt(), Random.nextInt(), 0, false, false, dPlayerManager, bukkitWrapper)
+
+        dPlayer.setJobManager(jobManager)
+        dPlayer.joinJob(job)
+        assertEquals(job.name, dPlayer.job)
     }
 
     @Test
