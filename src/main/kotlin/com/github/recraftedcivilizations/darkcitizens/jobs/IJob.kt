@@ -89,4 +89,33 @@ interface IJob {
      * @param uuid The uuid to check for
      */
     fun isMember(uuid: UUID): Boolean
+
+    /**
+     * Handles the leaving of this job
+     * @param dPlayer The dPlayer to leave this job
+     */
+    fun leave(dPlayer: DPlayer)
+
+    /**
+     * Handles the leaving of this job
+     * @param player The player to leave this job
+     */
+    fun leave(player: Player)
+
+    /**
+     * Handles the joining of this job, use this to let a player join a job,
+     * all necessary steps will be taken such as leaving the old job or checking if the
+     * player is actually able to join this job
+     * @param dPlayer The dPlayer to join this job
+     */
+    fun join(dPlayer: DPlayer)
+
+
+    /**
+     * Handles the joining of this job, use this to let a player join a job,
+     * all necessary steps will be taken such as leaving the old job or checking if the
+     * player is actually able to join this job
+     * @param player The player to join this job
+     */
+    fun join(player: Player)
 }
