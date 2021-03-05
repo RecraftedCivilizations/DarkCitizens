@@ -45,13 +45,15 @@ interface IJob {
     fun removePlayer(player: Player)
 
     /**
-     * Add a player of type [DPlayer] to the job, should be called on joining a job.
+     * Add a player of type [DPlayer] to the job, should only be called by the [join] method or if you want to force
+     * join a player.
      * @param player The player to add
      */
     fun addPlayer(player: DPlayer)
 
     /**
-     * Add a player of type [Player] to the job, should be called on joining a job.
+     * Add a player of type [Player] to the job, should only be called by the [join] method or if you want to force
+     * join a player.
      * @param player The player to add
      */
     fun addPlayer(player: Player)
