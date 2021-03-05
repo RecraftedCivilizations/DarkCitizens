@@ -107,6 +107,7 @@ class DPlayer {
 
     }
 
+    @Deprecated("The job manager is no longer required due to the deprecation of joinJob")
     fun setJobManager(jobManager: JobManager){
         this.jobManager = jobManager
     }
@@ -126,6 +127,7 @@ class DPlayer {
      * Join a new job, before calling this method make sure you called [setJobManager]
      * @param job The Job to join
      */
+    @Deprecated("Do not use this method to join a job. Use the join method in the job itself instead")
     fun joinJob(job: IJob){
 
         val canJoin = job.canJoin(this)
