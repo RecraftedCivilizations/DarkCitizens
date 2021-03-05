@@ -220,6 +220,7 @@ internal class JobTest {
 
         toJoin.join(playerMock1)
         verify(playerMock1).sendMessage("${ChatColor.GREEN}You successfully joined the job ${job1.name}")
+        verify(dataParserMock).setDPlayer(dPlayerMock1)
         assertEquals(dPlayerMock1.job, job1.name)
 
         toJoin.removePlayer(dPlayerMock1)
