@@ -243,4 +243,20 @@ internal class JobTest {
         assertEquals(job1.name, dPlayerMock3.job)
 
     }
+
+    @Test
+    fun leave(){
+        val jobManager = JobManager(dPlayerManager)
+        val job1 = Job(randomString(), randomString(), Random.nextInt(1..10), emptySet(), emptySet(), Random.nextInt(), Random.nextInt(), 0, false, false, dPlayerManager, jobManager)
+        val job2 = Job(randomString(), randomString(), Random.nextInt(1..10), emptySet(), emptySet(), Random.nextInt(), Random.nextInt(), 0, false, true, dPlayerManager, jobManager, bukkitWrapper)
+        jobManager.createJob(job1.name, job1.group, job1.playerLimit, emptySet(), job1.canDemote, job1.baseIncome, job1.baseXPGain, job1.minLvl, job1.electionRequired, job1.permissionRequired)
+        jobManager.createJob(job2.name, job2.group, job2.playerLimit, emptySet(), job2.canDemote, job2.baseIncome, job2.baseXPGain, job2.minLvl, job2.electionRequired, job2.permissionRequired)
+
+        val toLeave = jobManager.getJob(job1.name)!!
+        toLeave.setBukkitWrapper(bukkitWrapper)
+        toLeave.join(dPlayerMock1)
+        toLeave.leave(playerMock1)
+        assertEquals(null, dPlayerMock1.job)
+        verify(dataParserMock, times(2)).setDPlayer(dPlayerMock1)
+    }
 }
