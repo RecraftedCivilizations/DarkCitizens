@@ -18,6 +18,8 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.TestInstance.Lifecycle
 import java.util.*
+import kotlin.random.Random
+import kotlin.random.nextInt
 
 @TestInstance(Lifecycle.PER_CLASS)
 internal class JobTest {
@@ -203,5 +205,41 @@ internal class JobTest {
         val dPlayerField = Job::class.java.getDeclaredField("dPlayerManager")
         dPlayerField.isAccessible = true
         assertEquals(dPlayerManager, dPlayerField.get(job))
+    }
+
+    @Test
+    fun join(){
+        val jobManager = JobManager(dPlayerManager)
+        val job1 = Job(randomString(), randomString(), Random.nextInt(1..10), emptySet(), emptySet(), Random.nextInt(), Random.nextInt(), 0, false, false, dPlayerManager, jobManager)
+        val job2 = Job(randomString(), randomString(), Random.nextInt(1..10), emptySet(), emptySet(), Random.nextInt(), Random.nextInt(), 0, false, true, dPlayerManager, jobManager, bukkitWrapper)
+        jobManager.createJob(job1.name, job1.group, job1.playerLimit, emptySet(), job1.canDemote, job1.baseIncome, job1.baseXPGain, job1.minLvl, job1.electionRequired, job1.permissionRequired)
+        jobManager.createJob(job2.name, job2.group, job2.playerLimit, emptySet(), job2.canDemote, job2.baseIncome, job2.baseXPGain, job2.minLvl, job2.electionRequired, job2.permissionRequired)
+
+        var toJoin = jobManager.getJob(job1.name)!!
+        toJoin.setBukkitWrapper(bukkitWrapper)
+
+        toJoin.join(playerMock1)
+        verify(playerMock1).sendMessage("${ChatColor.GREEN}You successfully joined the job ${job1.name}")
+        assertEquals(dPlayerMock1.job, job1.name)
+
+        toJoin.removePlayer(dPlayerMock1)
+        dPlayerMock1.job = null
+
+        dPlayerMock2.job = null
+        toJoin = jobManager.getJob(job2.name)!!
+        toJoin.setBukkitWrapper(bukkitWrapper)
+        toJoin.join(playerMock2)
+        verify(playerMock2).sendMessage("${ChatColor.RED}You don't have the required permissions to join this job!")
+        assertEquals(null, dPlayerMock2.job)
+
+        dPlayerMock3.job = job2.name
+        job2.addPlayer(dPlayerMock3)
+
+        toJoin = jobManager.getJob(job1.name)!!
+        toJoin.setBukkitWrapper(bukkitWrapper)
+
+        toJoin.join(playerMock3)
+        assertEquals(job1.name, dPlayerMock3.job)
+
     }
 }
