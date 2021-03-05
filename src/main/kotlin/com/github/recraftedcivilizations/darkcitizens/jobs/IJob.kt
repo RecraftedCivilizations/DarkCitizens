@@ -1,5 +1,6 @@
 package com.github.recraftedcivilizations.darkcitizens.jobs
 
+import com.github.recraftedcivilizations.darkcitizens.BukkitWrapper
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayer
 import com.github.recraftedcivilizations.darkcitizens.tasks.ITask
 import org.bukkit.entity.Player
@@ -29,6 +30,7 @@ interface IJob {
     val electionRequired: Boolean
     val permissionRequired: Boolean
 
+    fun setBukkitWrapper(bukkitWrapper: BukkitWrapper)
 
     /**
      * Remove a player of type [DPlayer] from the job,

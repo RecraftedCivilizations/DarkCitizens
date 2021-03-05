@@ -1,5 +1,6 @@
 package com.github.recraftedcivilizations.darkcitizens.jobs
 
+import com.github.recraftedcivilizations.darkcitizens.BukkitWrapper
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayer
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
 import com.github.recraftedcivilizations.darkcitizens.tasks.ITask
@@ -35,10 +36,13 @@ class Job(
     override val permissionRequired: Boolean,
     private val dPlayerManager: DPlayerManager,
     private val jobManager: JobManager,
-    private val bukkitWrapper: com.github.recraftedcivilizations.darkcitizens.BukkitWrapper = com.github.recraftedcivilizations.darkcitizens.BukkitWrapper()
+    private var bukkitWrapper: com.github.recraftedcivilizations.darkcitizens.BukkitWrapper = com.github.recraftedcivilizations.darkcitizens.BukkitWrapper()
 ) : IJob {
     override val currentMembers: MutableSet<DPlayer> = emptySet<DPlayer>().toMutableSet()
 
+    override fun setBukkitWrapper(bukkitWrapper: BukkitWrapper){
+        this.bukkitWrapper = bukkitWrapper
+    }
     override fun removePlayer(player: DPlayer) {
         for (member in currentMembers){
             if (member.uuid == player.uuid){
