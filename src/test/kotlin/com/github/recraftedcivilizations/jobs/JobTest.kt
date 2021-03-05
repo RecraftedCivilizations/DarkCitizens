@@ -5,6 +5,7 @@ import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayer
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerFactory
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
 import com.github.recraftedcivilizations.darkcitizens.jobs.Job
+import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
 import com.github.recraftedcivilizations.darkcitizens.parser.dataparser.IParseData
 import com.github.recraftedcivilizations.darkcitizens.tasks.ITask
 import com.nhaarman.mockitokotlin2.*
@@ -57,9 +58,10 @@ internal class JobTest {
 
     private val bukkitWrapper = mock<BukkitWrapper> { }
 
+    val jobManager = mock<JobManager>{}
     // Job Mocks
     private val job =
-        Job("Foo", "Bar", 5, emptySet<ITask>(), emptySet(), 10, 10, 10, false, false, dPlayerManager, bukkitWrapper)
+        Job("Foo", "Bar", 5, emptySet<ITask>(), emptySet(), 10, 10, 10, false, false, dPlayerManager, jobManager, bukkitWrapper)
 
     @BeforeAll
     fun init() {
@@ -118,7 +120,7 @@ internal class JobTest {
         verify(playerMock2).sendMessage("${ChatColor.RED}You don't have the required level to join this job!")
 
         // Permissions
-        var job = Job("Foo", "Bar", 5, emptySet<ITask>(), emptySet(), 10, 10, 10, false, true, dPlayerManager, bukkitWrapper)
+        var job = Job("Foo", "Bar", 5, emptySet<ITask>(), emptySet(), 10, 10, 10, false, true, dPlayerManager, jobManager, bukkitWrapper)
         dPlayerMock2.groupLvls[job.group] = job.minLvl
 
         assertEquals(false, job.canJoin(dPlayerMock2))
@@ -127,13 +129,13 @@ internal class JobTest {
         dPlayerMock2.groupLvls[job.group] = 0
 
         // Player limit
-        job = Job("Foo", "Bar", 1, emptySet<ITask>(), emptySet(), 10, 10, 10, false, false, dPlayerManager, bukkitWrapper)
+        job = Job("Foo", "Bar", 1, emptySet<ITask>(), emptySet(), 10, 10, 10, false, false, dPlayerManager, jobManager, bukkitWrapper)
         job.addPlayer(dPlayerMock1)
         job.canJoin(dPlayerMock3)
         verify(playerMock3).sendMessage("${ChatColor.RED}There are too many players in this job")
 
         // Already in the job
-        job = Job("Foo", "Bar", 2, emptySet<ITask>(), emptySet(), 10, 10, 10, false, false, dPlayerManager, bukkitWrapper)
+        job = Job("Foo", "Bar", 2, emptySet<ITask>(), emptySet(), 10, 10, 10, false, false, dPlayerManager, jobManager, bukkitWrapper)
         job.addPlayer(dPlayerMock1)
         assertEquals(false, job.canJoin(dPlayerMock1))
         verify(playerMock1).sendMessage("${ChatColor.RED}You are already in this job")
@@ -185,7 +187,7 @@ internal class JobTest {
     @Test
     fun shouldConstruct(){
         val job =
-            Job("Foo", "Bar", 5, emptySet<ITask>(), emptySet(), 10, 10, 10, false, false, dPlayerManager)
+            Job("Foo", "Bar", 5, emptySet<ITask>(), emptySet(), 10, 10, 10, false, false, dPlayerManager, jobManager)
 
         assertEquals("Foo", job.name)
         assertEquals("Bar", job.group)
