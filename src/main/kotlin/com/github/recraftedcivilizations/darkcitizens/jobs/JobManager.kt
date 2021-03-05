@@ -76,7 +76,8 @@ class JobManager(private val dPlayerManager: DPlayerManager) {
                 minLvl,
                 electionRequired,
                 permissionRequired,
-                dPlayerManager
+                dPlayerManager,
+                this
             )
         )
 

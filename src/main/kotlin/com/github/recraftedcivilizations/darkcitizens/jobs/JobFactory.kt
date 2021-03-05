@@ -39,6 +39,7 @@ object JobFactory {
         electionRequired: Boolean,
         permissionRequired: Boolean,
         dPlayerManager: DPlayerManager,
+        jobManager: JobManager
     ): IJob {
         return Job(
             name,
@@ -51,7 +52,8 @@ object JobFactory {
             minLvl,
             electionRequired,
             permissionRequired,
-            dPlayerManager
+            dPlayerManager,
+            jobManager
         )
     }
 }
