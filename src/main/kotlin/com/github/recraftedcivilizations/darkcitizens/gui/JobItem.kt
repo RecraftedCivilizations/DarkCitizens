@@ -11,9 +11,12 @@ class JobItem(itemStack: ItemStack, val job: IJob, val dPlayerManager: DPlayerMa
     override fun onClick(player: Player) {
         val dPlayer = dPlayerManager.getDPlayer(player)
 
-        dPlayer?.setJobManager(jobManager)
-        dPlayer?.joinJob(job)
-        //dPlayer?.let { dPlayerManager.setDPlayer(it) }
+        if (dPlayer != null) {
+            job.join(dPlayer)
+        }else{
+            player.sendMessage("Yeah uhm this is kinda awkward, an unusual error occurred please try again or ask someone who has a clue")
+            throw NullPointerException()
+        }
     }
 
 }
