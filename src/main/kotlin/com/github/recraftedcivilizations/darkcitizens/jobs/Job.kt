@@ -137,9 +137,11 @@ class Job(
     }
 
     override fun leave(dPlayer: DPlayer) {
-        removePlayer(dPlayer)
-        dPlayer.job = null
-        dPlayerManager.setDPlayer(dPlayer)
+        if(isMember(dPlayer.uuid)){
+            removePlayer(dPlayer)
+            dPlayer.job = null
+            dPlayerManager.setDPlayer(dPlayer)
+        }
     }
     override fun leave(player: Player) {
         dPlayerManager.getDPlayer(player.uniqueId)?.let { leave(it) }
