@@ -13,7 +13,7 @@ class JobItem(itemStack: ItemStack, val job: IJob, val dPlayerManager: DPlayerMa
 
         dPlayer?.setJobManager(jobManager)
         dPlayer?.joinJob(job)
-        dPlayer?.let { dPlayerManager.setDPlayer(it) }
+        //dPlayer?.let { dPlayerManager.setDPlayer(it) }
     }
 
 }

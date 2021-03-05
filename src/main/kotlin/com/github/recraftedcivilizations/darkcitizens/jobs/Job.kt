@@ -34,6 +34,7 @@ class Job(
     override val electionRequired: Boolean,
     override val permissionRequired: Boolean,
     private val dPlayerManager: DPlayerManager,
+    private val jobManager: JobManager,
     private val bukkitWrapper: com.github.recraftedcivilizations.darkcitizens.BukkitWrapper = com.github.recraftedcivilizations.darkcitizens.BukkitWrapper()
 ) : IJob {
     override val currentMembers: MutableSet<DPlayer> = emptySet<DPlayer>().toMutableSet()
@@ -113,5 +114,30 @@ class Job(
 
     override fun isMember(player: Player): Boolean {
         return isMember(player.uniqueId)
+    }
+
+    override fun join(dPlayer: DPlayer) {
+        if(this.canJoin(dPlayer)){
+            // Leave the old job, ugly ik
+            dPlayer.job?.let { jobManager.getJob(it) }?.leave(dPlayer)
+            this.addPlayer(dPlayer)
+            dPlayer.job = name
+            bukkitWrapper.getPlayer(dPlayer)?.sendMessage("${ChatColor.GREEN}You successfully joined the job $name")
+            dPlayerManager.setDPlayer(dPlayer)
+
+        }
+    }
+
+    override fun join(player: Player) {
+        dPlayerManager.getDPlayer(player.uniqueId)?.let { join(it) }
+    }
+
+    override fun leave(dPlayer: DPlayer) {
+        removePlayer(dPlayer)
+        dPlayer.job = null
+        dPlayerManager.setDPlayer(dPlayer)
+    }
+    override fun leave(player: Player) {
+        dPlayerManager.getDPlayer(player.uniqueId)?.let { leave(it) }
     }
 }
