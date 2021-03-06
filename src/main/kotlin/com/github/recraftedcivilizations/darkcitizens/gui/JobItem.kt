@@ -3,6 +3,7 @@ package com.github.recraftedcivilizations.darkcitizens.gui
 import com.github.darkvanityoflight.recraftedcore.gui.Clickable
 import com.github.darkvanityoflight.recraftedcore.gui.GUIManager
 import com.github.darkvanityoflight.recraftedcore.gui.InventoryGUI
+import com.github.darkvanityoflight.recraftedcore.utils.itemutils.setName
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
 import com.github.recraftedcivilizations.darkcitizens.jobs.IJob
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
@@ -25,11 +26,15 @@ private class NoItem(itemStack: ItemStack): Clickable(itemStack){
 }
 
 class JobItem(itemStack: ItemStack, val job: IJob, val dPlayerManager: DPlayerManager, val jobManager: JobManager) : Clickable(itemStack) {
-    val leaveJobGUI: InventoryGUI = InventoryGUI(9, "Do you want to leave your current job")
+    val leaveJobGUI: InventoryGUI = InventoryGUI(9, "Do you want to leave your job?")
 
     init {
-        leaveJobGUI.setSlot(YesItem(ItemStack(Material.GREEN_WOOL), job), 3)
-        leaveJobGUI.setSlot(NoItem(ItemStack(Material.RED_WOOL)), 5)
+        val greenWool = ItemStack(Material.GREEN_WOOL)
+        greenWool.setName("Yes")
+        val redWool = ItemStack(Material.RED_WOOL)
+        redWool.setName("No")
+        leaveJobGUI.setSlot(YesItem(greenWool, job), 3)
+        leaveJobGUI.setSlot(NoItem(redWool), 5)
     }
 
 
