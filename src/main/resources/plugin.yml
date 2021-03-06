@@ -7,7 +7,7 @@ commands:
     permission: drp.job
     permission-message: You don't have the basic permissions for jobs
   tasks:
-    description: : Show all tasks for your current job
+    description: Show all tasks for your current job
       usage: /tasks
       permission: drp.tasks
     permission-message: You don't have the basic permissions for tasks
