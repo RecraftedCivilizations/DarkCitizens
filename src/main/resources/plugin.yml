@@ -6,6 +6,11 @@ commands:
     usage: /jobs
     permission: drp.job
     permission-message: You don't have the basic permissions for jobs
+  tasks:
+    description: : Show all tasks for your current job
+      usage: /tasks
+      permission: drp.tasks
+    permission-message: You don't have the basic permissions for tasks
 
 permissions:
   drp.*:
@@ -13,9 +18,14 @@ permissions:
     default: false
     children:
       drp.job.*: true
+      drp.tasks.*: true
 
   drp.job:
-    description: Access all basic job commands\
+    description: Access all basic job commands
+    default: true
+
+  drp.tasks:
+    description: Access all basic task commands
     default: true
 
   drp.job.*:
