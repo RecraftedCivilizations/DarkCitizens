@@ -33,7 +33,7 @@ class TaskItem(override val itemStack: ItemStack, val task: ITask) : Clickable(i
             actionGUI.addItem(item)
         }
 
-        actionGUI.addItem(CloseButtonFactory.getCloseButton())
+        actionGUI.setSlot(CloseButtonFactory.getCloseButton(), invSize-1)
     }
     override fun onClick(player: Player) {
         actionGUI.show(player)

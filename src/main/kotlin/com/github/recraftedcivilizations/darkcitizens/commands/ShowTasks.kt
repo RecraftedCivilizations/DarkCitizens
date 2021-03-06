@@ -43,7 +43,7 @@ class ShowTasks(val jobManager: JobManager, val dPlayerManager: DPlayerManager):
             for (taskItem in tasks){
                 taskGUI.addItem(taskItem)
             }
-            taskGUI.addItem(CloseButtonFactory.getCloseButton())
+            taskGUI.setSlot(CloseButtonFactory.getCloseButton(), invSize-1)
 
             taskGUIS[job.name] = taskGUI
 
