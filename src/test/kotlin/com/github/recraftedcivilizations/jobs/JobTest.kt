@@ -257,6 +257,5 @@ internal class JobTest {
         toLeave.join(dPlayerMock1)
         toLeave.leave(playerMock1)
         assertEquals(null, dPlayerMock1.job)
-        verify(dataParserMock, times(2)).setDPlayer(dPlayerMock1)
     }
 }
