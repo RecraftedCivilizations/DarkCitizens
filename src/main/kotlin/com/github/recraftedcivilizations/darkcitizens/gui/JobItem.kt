@@ -15,6 +15,7 @@ private class YesItem(itemStack: ItemStack, val job: IJob) : Clickable(itemStack
     override fun onClick(player: Player) {
         job.leave(player)
         GUIManager.forceClose(player)
+        player.sendMessage("You left the job ${job.name}")
     }
 }
 
