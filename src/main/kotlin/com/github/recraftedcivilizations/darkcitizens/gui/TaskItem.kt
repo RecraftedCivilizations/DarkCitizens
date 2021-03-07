@@ -11,6 +11,13 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
+private class ActionItem(override val itemStack: ItemStack): DisplayItem{
+    override fun clone(): DisplayItem {
+        return ActionItem(itemStack)
+    }
+
+}
+
 class TaskItem(override val itemStack: ItemStack, val task: ITask) : Clickable(itemStack) {
     private val actionGUI: InventoryGUI
 
@@ -27,14 +34,17 @@ class TaskItem(override val itemStack: ItemStack, val task: ITask) : Clickable(i
             val actionItemStack = ItemStack(Material.STONE)
             actionItemStack.setName(action.name)
             actionItemStack.setLore(action.description)
-            val item = object: DisplayItem{
-                override val itemStack: ItemStack = actionItemStack
-            }
+            val item = ActionItem(itemStack)
             actionGUI.addItem(item)
         }
 
         actionGUI.setSlot(CloseButtonFactory.getCloseButton(), invSize-1)
     }
+
+    override fun clone(): DisplayItem {
+        return TaskItem(itemStack, task)
+    }
+
     override fun onClick(player: Player) {
         actionGUI.show(player)
     }

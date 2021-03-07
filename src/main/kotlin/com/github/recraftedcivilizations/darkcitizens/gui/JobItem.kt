@@ -1,6 +1,7 @@
 package com.github.recraftedcivilizations.darkcitizens.gui
 
 import com.github.darkvanityoflight.recraftedcore.gui.Clickable
+import com.github.darkvanityoflight.recraftedcore.gui.DisplayItem
 import com.github.darkvanityoflight.recraftedcore.gui.GUIManager
 import com.github.darkvanityoflight.recraftedcore.gui.InventoryGUI
 import com.github.darkvanityoflight.recraftedcore.utils.itemutils.setName
@@ -12,6 +13,10 @@ import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
 private class YesItem(itemStack: ItemStack, val job: IJob) : Clickable(itemStack) {
+    override fun clone(): DisplayItem {
+        return YesItem(itemStack, job)
+    }
+
     override fun onClick(player: Player) {
         job.leave(player)
         GUIManager.forceClose(player)
@@ -20,6 +25,10 @@ private class YesItem(itemStack: ItemStack, val job: IJob) : Clickable(itemStack
 }
 
 private class NoItem(itemStack: ItemStack): Clickable(itemStack){
+    override fun clone(): DisplayItem {
+        return NoItem(itemStack)
+    }
+
     override fun onClick(player: Player) {
         GUIManager.forceClose(player)
     }
@@ -36,6 +45,10 @@ class JobItem(itemStack: ItemStack, val job: IJob, val dPlayerManager: DPlayerMa
         redWool.setName("No")
         leaveJobGUI.setSlot(YesItem(greenWool, job), 3)
         leaveJobGUI.setSlot(NoItem(redWool), 5)
+    }
+
+    override fun clone(): DisplayItem {
+        TODO("Not yet implemented")
     }
 
 
