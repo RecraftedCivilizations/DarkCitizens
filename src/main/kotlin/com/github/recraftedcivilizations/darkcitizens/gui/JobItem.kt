@@ -48,7 +48,7 @@ class JobItem(itemStack: ItemStack, val job: IJob, val dPlayerManager: DPlayerMa
     }
 
     override fun clone(): DisplayItem {
-        TODO("Not yet implemented")
+        return JobItem(itemStack.clone(), job, dPlayerManager, jobManager)
     }
 
 
