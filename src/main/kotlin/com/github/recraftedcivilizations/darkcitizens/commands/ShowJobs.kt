@@ -3,6 +3,7 @@ package com.github.recraftedcivilizations.darkcitizens.commands
 import com.github.darkvanityoflight.recraftedcore.gui.InventoryGUI
 import com.github.darkvanityoflight.recraftedcore.gui.elements.CloseButtonFactory
 import com.github.darkvanityoflight.recraftedcore.utils.itemutils.addLore
+import com.github.darkvanityoflight.recraftedcore.utils.itemutils.getName
 import com.github.darkvanityoflight.recraftedcore.utils.itemutils.setName
 import com.github.recraftedcivilizations.darkcitizens.BukkitWrapper
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
@@ -12,6 +13,7 @@ import org.bukkit.Material
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
+import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
@@ -52,6 +54,32 @@ class ShowJobs(val jobManager: JobManager, val dPlayerManager: DPlayerManager, b
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         if(sender !is Player){ sender.sendMessage("Fuck off console man!!"); return false }
+        val dPlayer = dPlayerManager.getDPlayer(sender)!!
+
+        // Mark the job the player currently has
+        // Oh god what have I done, look at this, I guess I should comment this
+        val gui = jobGUI.clone()
+        // Loop through all DisplayItems
+        for(pos in 0..gui.getSize()){
+            var item = gui.getSlot(pos)
+
+            // If the item is not null and has the same name as the job the player currently has
+            if (item != null){
+                val name = item.itemStack.getName()
+                if (name != null) {
+                    if(name == dPlayer.job){
+                        // Clone the item so only the owner can see the enchanted item stack
+                        item = item.clone()
+                        // Enchant the item
+                        item.itemStack.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1)
+                        // Set the current slot to the cloned item
+                        gui.setSlot(item, pos)
+                    }
+                }
+            }
+        }
+
+
         jobGUI.show(sender)
         return true
     }
