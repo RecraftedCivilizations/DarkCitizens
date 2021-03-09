@@ -11,6 +11,7 @@ import com.github.recraftedcivilizations.darkcitizens.listeners.DataCleaner
 import com.github.recraftedcivilizations.darkcitizens.parser.ConfigParser
 import com.github.recraftedcivilizations.darkcitizens.parser.dataparser.IParseData
 import com.github.recraftedcivilizations.darkcitizens.parser.dataparser.YMLDataSource
+import com.github.recraftedcivilizations.darkcitizens.runnables.BaseIncomeRunner
 import com.github.recraftedcivilizations.darkcitizens.tasks.TaskManager
 import net.milkbowl.vault.economy.Economy
 import org.bukkit.Bukkit
@@ -47,6 +48,7 @@ class Main : ARecraftedPlugin() {
         this.getCommand("tasks")?.setExecutor(ShowTasks(jobManager, dPlayerManager))
         server.pluginManager.registerEvents(DataCleaner(dPlayerManager, jobManager), this)
 
+        BaseIncomeRunner(jobManager, dPlayerManager, econ!!).runTaskTimer(this, configParser.baseIncomeTime.toLong() * 60L * 20L, configParser.baseIncomeTime.toLong() * 60L * 20L)
     }
 
     private fun initManagers(){
