@@ -66,7 +66,7 @@ class ConfigParser(
 
         baseIncomeTime = config.getInt(baseIncomeTimeName)
         if (baseIncomeTime <= 0){
-            bukkitWrapper.info("Could not find the baseIncomeTime it will be defaulted to 5 minutes, please define it using the $baseIncomeTimeName tag")
+            bukkitWrapper.warning("Could not find the baseIncomeTime it will be defaulted to 5 minutes, please define it using the $baseIncomeTimeName tag")
             baseIncomeTime = 5
         }
 
