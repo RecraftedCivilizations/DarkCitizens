@@ -7,6 +7,7 @@ import com.github.recraftedcivilizations.darkcitizens.commands.ShowTasks
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
 import com.github.recraftedcivilizations.darkcitizens.groups.GroupManager
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
+import com.github.recraftedcivilizations.darkcitizens.listeners.DataCleaner
 import com.github.recraftedcivilizations.darkcitizens.parser.ConfigParser
 import com.github.recraftedcivilizations.darkcitizens.parser.dataparser.IParseData
 import com.github.recraftedcivilizations.darkcitizens.parser.dataparser.YMLDataSource
@@ -44,6 +45,7 @@ class Main : ARecraftedPlugin() {
         Bukkit.getServer().pluginManager.registerEvents(GUIListener(), this)
         this.getCommand("jobs")?.setExecutor(ShowJobs(jobManager, dPlayerManager))
         this.getCommand("tasks")?.setExecutor(ShowTasks(jobManager, dPlayerManager))
+        server.pluginManager.registerEvents(DataCleaner(dPlayerManager, jobManager), this)
 
     }
 
