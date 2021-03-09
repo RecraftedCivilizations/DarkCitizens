@@ -86,6 +86,7 @@ internal class ConfigParserTest {
         val jobName1 = randomString()
         val groupName1 = randomString()
         val taskName1 = randomString()
+        val baseIncomeDelay = Random.nextInt(100)
 
         // Create the Jobs section
         val jobsSection = fileConfig.createSection(ConfigParser.jobSectionName)
@@ -103,6 +104,8 @@ internal class ConfigParserTest {
         // Create new Groups
         val groupArgs = createRandomGroup()
         var groupSection = groupsSection.createSection(groupName1, groupArgs)
+
+        fileConfig.set(ConfigParser.baseIncomeTimeName, baseIncomeDelay)
 
         // Start the testing
         val configParser = ConfigParser(fileConfig, dataDir, taskManager, jobManager, groupManager, bukkitWrapper)
@@ -124,6 +127,8 @@ internal class ConfigParserTest {
         // Check that the task is parsed right
         val task = taskManager.getTask(taskName1)
         assertTask(task, taskArgs)
+
+        assertEquals(baseIncomeDelay, configParser.baseIncomeTime)
     }
 
     @Test
