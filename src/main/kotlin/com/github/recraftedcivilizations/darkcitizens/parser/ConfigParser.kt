@@ -27,6 +27,7 @@ class ConfigParser(
     val taskNames = emptySet<String>().toMutableSet()
     val jobNames = emptySet<String>().toMutableSet()
     val groupNames = emptySet<String>().toMutableSet()
+    var baseIncomeTime: Int = 0
 
 
     /**
@@ -62,6 +63,12 @@ class ConfigParser(
         // Parse the job section
         val jobSection = config.getConfigurationSection(jobSectionName)!!
         parseJobs(jobSection)
+
+        baseIncomeTime = config.getInt(baseIncomeTimeName)
+        if (baseIncomeTime <= 0){
+            bukkitWrapper.info("Could not find the baseIncomeTime it will be defaulted to 5 minutes, please define it using the $baseIncomeTimeName tag")
+            baseIncomeTime = 5
+        }
 
         if(verify()){
             bukkitWrapper.info("Your config is valid, good job, now get a cookie and some hot choc and enjoy your server.")
@@ -274,5 +281,6 @@ class ConfigParser(
         const val groupLvlThresholdsName = "lvlThresholds"
         const val groupFriendlyFireName = "friendlyFire"
         const val groupCanBeCriminalName = "canBeCriminal"
+        const val baseIncomeTimeName = "baseIncomeTime"
     }
 }
