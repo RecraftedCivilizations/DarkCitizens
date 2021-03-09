@@ -60,7 +60,7 @@ class ShowJobs(val jobManager: JobManager, val dPlayerManager: DPlayerManager, b
         // Oh god what have I done, look at this, I guess I should comment this
         val gui = jobGUI.clone()
         // Loop through all DisplayItems
-        for(pos in 0..gui.getSize()){
+        for(pos in 0 until gui.getSize()){
             var item = gui.getSlot(pos)
 
             // If the item is not null and has the same name as the job the player currently has
