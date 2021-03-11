@@ -71,7 +71,7 @@ class ShowJobs(val jobManager: JobManager, val dPlayerManager: DPlayerManager, b
                         // Clone the item so only the owner can see the enchanted item stack
                         item = item.clone()
                         // Enchant the item
-                        item.itemStack.addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1)
+                        item.itemStack.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1)
                         // Set the current slot to the cloned item
                         gui.setSlot(item, pos)
                     }
