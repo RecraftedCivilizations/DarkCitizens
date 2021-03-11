@@ -80,7 +80,7 @@ class ShowJobs(val jobManager: JobManager, val dPlayerManager: DPlayerManager, b
         }
 
 
-        jobGUI.show(sender)
+        gui.show(sender)
         return true
     }
 }
