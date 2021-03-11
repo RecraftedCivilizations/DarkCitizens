@@ -27,6 +27,8 @@ class Main : ARecraftedPlugin() {
 
     override fun onEnable(){
 
+        saveDefaultConfig()
+
         // Get the econ
         if (Bukkit.getPluginManager().isPluginEnabled("Vault")){
             val rsp : RegisteredServiceProvider<Economy>? =  server.servicesManager.getRegistration(Economy::class.java)
