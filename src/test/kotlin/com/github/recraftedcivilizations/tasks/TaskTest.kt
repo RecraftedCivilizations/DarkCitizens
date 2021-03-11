@@ -12,6 +12,7 @@ import com.github.recraftedcivilizations.darkcitizens.tasks.actions.IAction
 import com.github.recraftedcivilizations.jobs.randomString
 import com.nhaarman.mockitokotlin2.*
 import net.milkbowl.vault.economy.Economy
+import org.bukkit.Material
 import org.bukkit.boss.BarColor
 import org.bukkit.boss.BarStyle
 import org.bukkit.entity.Player
@@ -72,6 +73,7 @@ internal class TaskTest {
 
     private val jobManager = JobManager(dPlayerManager)
     private val taskManager = TaskManager(economy, dPlayerManager)
+    private val icon = mock<Material>{}
 
     @BeforeAll
     fun init(){
@@ -79,7 +81,7 @@ internal class TaskTest {
         jobManager.setTaskManager(taskManager)
         taskManager.setJobManager(jobManager)
 
-        jobManager.createJob(jobMock, "Bar", 10, emptySet(), emptySet(), 10, 10,10, false, false)
+        jobManager.createJob(jobMock, "Bar", 10, emptySet(), emptySet(), 10, 10,10, false, false, icon)
 
         doNothing().whenever(bukkitWrapper).warning(any())
         doNothing().whenever(bukkitWrapper).notify(any(), any(), any(), any(), any())

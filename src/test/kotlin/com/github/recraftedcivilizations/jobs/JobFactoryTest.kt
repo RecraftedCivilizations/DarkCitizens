@@ -6,6 +6,7 @@ import com.github.recraftedcivilizations.darkcitizens.jobs.Job
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobFactory
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
 import com.nhaarman.mockitokotlin2.mock
+import org.bukkit.Material
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
@@ -28,8 +29,9 @@ internal class JobFactoryTest {
 
     @Test
     fun createJob() {
-        val job = Job(randomString(), randomString(), Random.nextInt(), emptySet(), emptySet(), Random.nextInt(), Random.nextInt(), Random.nextInt(), Random.nextBoolean(), Random.nextBoolean(), dPlayerManager, jobManager)
-        val thatJob = JobFactory.createJob(job.name, job.group, job.playerLimit, job.tasks, job.canDemote, job.baseIncome, job.baseXPGain, job.minLvl, job.electionRequired, job.permissionRequired, dPlayerManager, jobManager)
+        val icon = mock<Material>{}
+        val job = Job(randomString(), randomString(), Random.nextInt(), emptySet(), emptySet(), Random.nextInt(), Random.nextInt(), Random.nextInt(), Random.nextBoolean(), Random.nextBoolean(), icon, dPlayerManager, jobManager)
+        val thatJob = JobFactory.createJob(job.name, job.group, job.playerLimit, job.tasks, job.canDemote, job.baseIncome, job.baseXPGain, job.minLvl, job.electionRequired, job.permissionRequired, job.icon, dPlayerManager, jobManager)
         assertEquals(job.name, thatJob.name)
         assertEquals(job.group, thatJob.group)
         assertEquals(job.playerLimit, thatJob.playerLimit)
@@ -39,5 +41,6 @@ internal class JobFactoryTest {
         assertEquals(job.minLvl, thatJob.minLvl)
         assertEquals(job.electionRequired, thatJob.electionRequired)
         assertEquals(job.permissionRequired, thatJob.permissionRequired)
+        assertEquals(job.icon, thatJob.icon)
     }
 }

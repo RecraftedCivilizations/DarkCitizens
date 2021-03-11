@@ -12,6 +12,7 @@ import com.github.recraftedcivilizations.darkcitizens.tasks.TaskManager
 import com.github.recraftedcivilizations.jobs.randomString
 import com.nhaarman.mockitokotlin2.*
 import net.milkbowl.vault.economy.Economy
+import org.bukkit.Material
 import org.bukkit.configuration.file.YamlConfiguration
 import org.junit.Assert.assertEquals
 import org.junit.jupiter.api.AfterEach
@@ -94,7 +95,8 @@ internal class ConfigParserTest {
         val groupsSection = fileConfig.createSection(ConfigParser.groupSectionName)
 
         // Create new jobs
-        val jobArgs = createRandomJob(setOf(taskName1), groupName1)
+        val jobArgs = createRandomJob(setOf(taskName1), groupName1).toMutableMap()
+        jobArgs[ConfigParser.jobIconName] = "PLAYER_HEAD"
         var jobSection = jobsSection.createSection(jobName1, jobArgs)
 
         // Create new Tasks
@@ -185,6 +187,7 @@ internal class ConfigParserTest {
         verify(bukkitWrapper, times(1)).warning("The job $jobName has $group defined as its group, but the group could not be found, please define the group!")
         verify(bukkitWrapper, times(1)).info("Your config is invalid at some point, it may work anyway, but do you really want to live with the knowledge that something may go wrong at any point?")
         verify(bukkitWrapper).warning("Could not find the baseIncomeTime it will be defaulted to 5 minutes, please define it using the ${ConfigParser.baseIncomeTimeName} tag")
+        verify(bukkitWrapper).warning("The job $jobName has no icon defined, I'll default it to a player head, but you should define it using the ${ConfigParser.jobIconName} tag!")
         verifyNoMoreInteractions(bukkitWrapper)
 
         val job = jobManager.getJob(jobName)
@@ -258,7 +261,8 @@ internal class ConfigParserTest {
             jobArgs[ConfigParser.jobTasksName ]as Set<String>, jobArgs[ConfigParser.jobCanDemoteName] as Set<String>,
             jobArgs[ConfigParser.jobBaseIncomeName] as Int, jobArgs[ConfigParser.jobBaseXpName] as Int,
             jobArgs[ConfigParser.jobMinLvlName] as Int, jobArgs[ConfigParser.jobElectionRequiredName] as Boolean,
-            jobArgs[ConfigParser.jobPermissionRequiredName] as Boolean
+            jobArgs[ConfigParser.jobPermissionRequiredName] as Boolean,
+            jobArgs[ConfigParser.jobIconName] as Material
             )
 
         val res = configParser.callPrivateFunc("verify") as Boolean
@@ -308,7 +312,8 @@ internal class ConfigParserTest {
             Pair(ConfigParser.jobElectionRequiredName, Random.nextBoolean()),
             Pair(ConfigParser.jobPermissionRequiredName, Random.nextBoolean()),
             Pair(ConfigParser.jobBaseIncomeName, Random.nextInt()),
-            Pair(ConfigParser.jobBaseXpName, Random.nextInt())
+            Pair(ConfigParser.jobBaseXpName, Random.nextInt()),
+            Pair(ConfigParser.jobIconName, mock<Material>{})
         )
     }
 
