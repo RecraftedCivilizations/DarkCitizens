@@ -1,0 +1,113 @@
+# General Config
+baseIncomeTime: 5
+
+# Jobs
+Jobs:
+  Miner:
+    group: Civilian
+    playerLimit: 5
+    tasks: [Mine Stone]
+    baseIncome: 10
+    baseXp: 5
+    minLvl: 0
+    electionRequired: false
+    permissionRequired: false
+    icon: IRON_PICKAXE
+
+  Police Man:
+    group: Government
+    playerLimit: 5
+    tasks: [Capture Criminal]
+    baseIncome: 15
+    baseXp: 10
+    minLvl: 0
+    electionRequired: false
+    permissionRequired: false
+    icon: STONE_SWORD
+
+  Police Officer:
+    group: Government
+    playerLimit: 2
+    tasks: [Capture Criminal]
+    baseIncome: 20
+    baseXp: 15
+    minLvl: 5
+    electionRequired: false
+    permissionRequired: false
+    icon: IRON_SWORD
+
+  Police Major:
+    group: Government
+    playerLimit: 1
+    tasks: [Capture Criminal]
+    baseIncome: 25
+    baseXp: 20
+    minLvl: 10
+    electionRequired: false
+    permissionRequired: false
+    icon: DIAMOND_SWORD
+
+  Drug Dealer:
+    group: Criminal
+    playerLimit: 5
+    tasks: [Brew Drugs]
+    baseIncome: 5
+    baseXp: 5
+    minLvl: 0
+    electionRequired: false
+    permissionRequired: false
+    icon: POTION
+
+  Bank Robber:
+    group: Criminal
+    playerLimit: 5
+    tasks: [Rob the Bank]
+    baseIncome: 5
+    baseXp: 10
+    minLvl: 5
+    electionRequired: false
+    permissionRequired: false
+    icon: TNT
+
+# Groups
+Groups:
+  Civilian:
+    maxLvl: 10
+    friendlyFire: true
+    canBeCriminal: true
+
+  Government:
+    maxLvl: 10
+    friendlyFire: false
+    canBeCriminal: false
+
+  Criminal:
+    maxLvl: 10
+    friendlyFire: true
+    canBeCriminal: true
+
+# Tasks
+Tasks:
+  Mine Stone:
+    income: 10
+    xp: 10
+    actions: [DEBUG]
+    description: "Mine 15 stone"
+
+  Capture Criminal:
+    income: 10
+    xp: 10
+    actions: [ DEBUG ]
+    description: "Capture Criminals"
+
+  Brew Drugs:
+    income: 10
+    xp: 10
+    actions: [ DEBUG ]
+    description: "Brew some drugs"
+
+  Rob the Bank:
+    income: 10
+    xp: 10
+    actions: [ DEBUG ]
+    description: "Rob the local bank"
