@@ -3,6 +3,7 @@ package com.github.recraftedcivilizations.darkcitizens.jobs
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
 import com.github.recraftedcivilizations.darkcitizens.tasks.ITask
 import com.github.recraftedcivilizations.darkcitizens.tasks.TaskManager
+import org.bukkit.Material
 
 /**
  * @author DarkVanityOfLight
@@ -55,6 +56,7 @@ class JobManager(private val dPlayerManager: DPlayerManager) {
         minLvl: Int,
         electionRequired: Boolean,
         permissionRequired: Boolean,
+        icon: Material
         ){
         val iTasks = emptySet<ITask>().toMutableSet()
 
@@ -76,6 +78,7 @@ class JobManager(private val dPlayerManager: DPlayerManager) {
                 minLvl,
                 electionRequired,
                 permissionRequired,
+                icon,
                 dPlayerManager,
                 this
             )

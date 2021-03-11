@@ -4,6 +4,7 @@ import com.github.darkvanityoflight.recraftedcore.configparser.ARecraftedConfigP
 import com.github.recraftedcivilizations.darkcitizens.groups.GroupManager
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
 import com.github.recraftedcivilizations.darkcitizens.tasks.TaskManager
+import org.bukkit.Material
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.configuration.file.FileConfiguration
 import java.io.File
@@ -183,8 +184,18 @@ class ConfigParser(
         val electionRequired = configurationSection.getBoolean(jobElectionRequiredName, false)
         val permissionRequired = configurationSection.getBoolean(jobPermissionRequiredName, false)
 
+        val iconName = configurationSection.getString(jobIconName)
+        if (iconName == null){
+            bukkitWrapper.warning("The job $jobName has no icon defined, I'll default it to a player head, but you should define it using the $jobIconName tag!")
+        }else{
+            if (Material.getMaterial(iconName) == null){
+                bukkitWrapper.warning("The icon for the job $jobName does not exist!")
+            }
+        }
+        val icon = iconName?.let { Material.getMaterial(it) } ?: Material.PLAYER_HEAD
+
         jobNames.add(jobName)
-        jobManager.createJob(jobName, group, playerLimit, tasks.toSet(), canDemote.toSet(), baseIncome, baseXp, minLvl, electionRequired, permissionRequired)
+        jobManager.createJob(jobName, group, playerLimit, tasks.toSet(), canDemote.toSet(), baseIncome, baseXp, minLvl, electionRequired, permissionRequired, icon)
     }
 
     /**
@@ -277,6 +288,7 @@ class ConfigParser(
         const val jobMinLvlName = "minLvl"
         const val jobElectionRequiredName = "electionRequired"
         const val jobPermissionRequiredName = "permissionRequired"
+        const val jobIconName = "icon"
         const val groupMaxLvlName = "maxLvl"
         const val groupLvlThresholdsName = "lvlThresholds"
         const val groupFriendlyFireName = "friendlyFire"

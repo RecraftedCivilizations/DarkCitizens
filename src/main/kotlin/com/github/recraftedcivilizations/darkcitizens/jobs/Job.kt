@@ -5,6 +5,7 @@ import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayer
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
 import com.github.recraftedcivilizations.darkcitizens.tasks.ITask
 import org.bukkit.ChatColor
+import org.bukkit.Material
 import org.bukkit.entity.Player
 import java.util.*
 
@@ -34,6 +35,7 @@ class Job(
     override val minLvl: Int,
     override val electionRequired: Boolean,
     override val permissionRequired: Boolean,
+    override val icon: Material,
     private val dPlayerManager: DPlayerManager,
     private val jobManager: JobManager,
     private var bukkitWrapper: com.github.recraftedcivilizations.darkcitizens.BukkitWrapper = com.github.recraftedcivilizations.darkcitizens.BukkitWrapper()

@@ -3,6 +3,7 @@ package com.github.recraftedcivilizations.darkcitizens.jobs
 import com.github.recraftedcivilizations.darkcitizens.BukkitWrapper
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayer
 import com.github.recraftedcivilizations.darkcitizens.tasks.ITask
+import org.bukkit.Material
 import org.bukkit.entity.Player
 import java.util.*
 
@@ -29,6 +30,7 @@ interface IJob {
     val minLvl: Int
     val electionRequired: Boolean
     val permissionRequired: Boolean
+    val icon: Material
 
     fun setBukkitWrapper(bukkitWrapper: BukkitWrapper)
 
