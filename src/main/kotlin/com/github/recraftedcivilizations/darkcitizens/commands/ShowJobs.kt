@@ -36,7 +36,7 @@ class ShowJobs(val jobManager: JobManager, val dPlayerManager: DPlayerManager, b
 
         // Add all jobs to the gui
         for (job in jobs){
-            val jobItemStack = ItemStack(Material.PLAYER_HEAD, 1)
+            val jobItemStack = ItemStack(job.icon, 1)
             jobItemStack.setName(job.name)
             jobItemStack.addLore("Group: ${job.group}")
             jobItemStack.addLore("Base Income: ${job.baseIncome}")
