@@ -1,6 +1,8 @@
 package com.github.recraftedcivilizations.darkcitizens.dPlayer
 
 import com.github.recraftedcivilizations.darkcitizens.BukkitWrapper
+import com.github.recraftedcivilizations.darkcitizens.groups.Group
+import com.github.recraftedcivilizations.darkcitizens.groups.GroupManager
 import com.github.recraftedcivilizations.darkcitizens.jobs.IJob
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
 import org.bukkit.entity.Player
@@ -144,9 +146,20 @@ class DPlayer {
      * @param group The group to add the XP to
      * @param amount The amount of XP to add
      */
-    fun addXP(group: String, amount: Int){
-        groupXps.inc(group, amount)
-        //TODO Check if lvl increases
+    fun addXP(group: Group, amount: Int){
+        groupXps.inc(group.name, amount)
+
+        var maxLvl = 0
+        val currentXp = groupXps[group.name]!!
+
+        for (lvlThreshold in group.lvlThreshold){
+            if (currentXp >= lvlThreshold){
+                maxLvl ++
+                break
+            }
+        }
+
+        groupLvls[group.name] = maxLvl
     }
 
 }
