@@ -50,14 +50,14 @@ class Main : ARecraftedPlugin() {
         this.getCommand("tasks")?.setExecutor(ShowTasks(jobManager, dPlayerManager))
         server.pluginManager.registerEvents(DataCleaner(dPlayerManager, jobManager), this)
 
-        BaseIncomeRunner(jobManager, dPlayerManager, econ!!).runTaskTimer(this, configParser.baseIncomeTime.toLong() * 60L * 20L, configParser.baseIncomeTime.toLong() * 60L * 20L)
+        BaseIncomeRunner(jobManager, dPlayerManager, econ!!, groupManager).runTaskTimer(this, configParser.baseIncomeTime.toLong() * 60L * 20L, configParser.baseIncomeTime.toLong() * 60L * 20L)
     }
 
     private fun initManagers(){
-        dPlayerManager = DPlayerManager(dataParser)
-        taskManager = TaskManager(com.github.recraftedcivilizations.darkcitizens.Main.Companion.econ!!, dPlayerManager)
-        jobManager = JobManager(dPlayerManager)
         groupManager = GroupManager()
+        dPlayerManager = DPlayerManager(dataParser)
+        taskManager = TaskManager(econ!!, dPlayerManager, groupManager)
+        jobManager = JobManager(dPlayerManager)
 
         taskManager.setJobManager(jobManager)
         jobManager.setTaskManager(taskManager)

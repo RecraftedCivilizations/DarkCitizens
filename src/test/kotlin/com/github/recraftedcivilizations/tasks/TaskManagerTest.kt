@@ -1,6 +1,7 @@
 package com.github.recraftedcivilizations.tasks
 
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
+import com.github.recraftedcivilizations.darkcitizens.groups.GroupManager
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
 import com.github.recraftedcivilizations.darkcitizens.parser.dataparser.IParseData
 import com.github.recraftedcivilizations.darkcitizens.tasks.ITask
@@ -23,6 +24,7 @@ internal class TaskManagerTest {
     val dPlayerManager = DPlayerManager(dataParser)
     val action = mock<IAction>{}
     val jobManager = JobManager(dPlayerManager)
+    val groupManager = GroupManager()
 
     val taskField = TaskManager::class.java.getDeclaredField("tasks")
 
@@ -32,13 +34,13 @@ internal class TaskManagerTest {
 
     @Test
     fun shouldConstruct(){
-        val taskManager = TaskManager(econ, dPlayerManager)
+        val taskManager = TaskManager(econ, dPlayerManager, groupManager)
     }
 
     @Test
     fun createTask() {
-        val taskManager = TaskManager(econ, dPlayerManager)
-        val task1 = Task(randomString(), Random.nextInt(), Random.nextInt(), listOf(Actions.DEBUG), randomString(), dPlayerManager, econ, jobManager)
+        val taskManager = TaskManager(econ, dPlayerManager, groupManager)
+        val task1 = Task(randomString(), Random.nextInt(), Random.nextInt(), listOf(Actions.DEBUG), randomString(), dPlayerManager, econ, jobManager, groupManager)
 
         taskManager.setJobManager(jobManager)
         jobManager.setTaskManager(taskManager)
@@ -61,12 +63,12 @@ internal class TaskManagerTest {
 
     @Test
     fun getTask() {
-        val taskManager = TaskManager(econ, dPlayerManager)
+        val taskManager = TaskManager(econ, dPlayerManager, groupManager)
 
         taskManager.setJobManager(jobManager)
         jobManager.setTaskManager(taskManager)
 
-        val task1 = Task(randomString(), Random.nextInt(), Random.nextInt(), listOf(Actions.DEBUG), randomString(), dPlayerManager, econ, jobManager)
+        val task1 = Task(randomString(), Random.nextInt(), Random.nextInt(), listOf(Actions.DEBUG), randomString(), dPlayerManager, econ, jobManager, groupManager)
         taskManager.createTask(task1.name, task1.income, task1.xp, listOf("DEBUG"), task1.description)
         val task2 = taskManager.getTask(task1.name)
 

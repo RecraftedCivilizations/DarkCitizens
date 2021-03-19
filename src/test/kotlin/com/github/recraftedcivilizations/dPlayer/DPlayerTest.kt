@@ -5,6 +5,7 @@ import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayer
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerData1
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerData2
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
+import com.github.recraftedcivilizations.darkcitizens.groups.Group
 import com.github.recraftedcivilizations.darkcitizens.jobs.Job
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
 import com.github.recraftedcivilizations.darkcitizens.parser.dataparser.IParseData
@@ -97,9 +98,17 @@ internal class DPlayerTest {
         )
         val dPlayer = DPlayer(dPlayerData)
 
-        dPlayer.addXP("Foo", 10)
+        val group1 = Group("Foo", 10, listOf(100), false, false)
+
+        dPlayer.addXP(group1, 10)
 
         assertEquals(13, dPlayer.groupXps["Foo"])
+
+        val group2 = Group("Bar", 10, listOf(100), false, false)
+        dPlayer.addXP(group2, 101)
+
+        assertEquals(1, dPlayer.groupLvls["Bar"])
+
     }
 
     @Test
@@ -113,9 +122,11 @@ internal class DPlayerTest {
             mapOf(Pair("Foo", 3), Pair("", 10)),
             mapOf(Pair("Foo", 3), Pair("", 10))
         )
+
+        val group = Group("FooBar", 5, emptyList(), false, false)
         val dPlayer = DPlayer(dPlayerData)
 
-        dPlayer.addXP("FooBar", 10)
+        dPlayer.addXP(group, 10)
 
         assertEquals(10, dPlayer.groupXps["FooBar"])
     }

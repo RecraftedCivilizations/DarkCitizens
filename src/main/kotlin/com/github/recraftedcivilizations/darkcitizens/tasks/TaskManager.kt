@@ -1,6 +1,7 @@
 package com.github.recraftedcivilizations.darkcitizens.tasks
 
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
+import com.github.recraftedcivilizations.darkcitizens.groups.GroupManager
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
 import com.github.recraftedcivilizations.darkcitizens.tasks.actions.Actions
 import com.github.recraftedcivilizations.darkcitizens.tasks.actions.IAction
@@ -14,7 +15,7 @@ import net.milkbowl.vault.economy.Economy
  * Contains all tasks and create new tasks from here using [createTask]
  * @constructor Construct a new [TaskManager] using an economy and a [DPlayerManager]
  */
-class TaskManager(private val econ: Economy, private val dPlayerManager: DPlayerManager) {
+class TaskManager(private val econ: Economy, private val dPlayerManager: DPlayerManager, private val groupManager: GroupManager) {
     val tasks: MutableSet<ITask> = emptySet<ITask>().toMutableSet()
     private lateinit var jobManager: JobManager
 
@@ -43,7 +44,7 @@ class TaskManager(private val econ: Economy, private val dPlayerManager: DPlayer
 
         }
         val task =
-            TaskFactory.createTask(name, income, xp, parsedActions, description, dPlayerManager, econ, jobManager)
+            TaskFactory.createTask(name, income, xp, parsedActions, description, dPlayerManager, econ, jobManager, groupManager)
         tasks.add(task)
     }
 

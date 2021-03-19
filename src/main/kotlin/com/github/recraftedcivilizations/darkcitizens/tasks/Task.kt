@@ -3,6 +3,7 @@ package com.github.recraftedcivilizations.darkcitizens.tasks
 import com.github.recraftedcivilizations.darkcitizens.BukkitWrapper
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayer
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
+import com.github.recraftedcivilizations.darkcitizens.groups.GroupManager
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
 import com.github.recraftedcivilizations.darkcitizens.tasks.actions.IAction
 import net.milkbowl.vault.economy.Economy
@@ -30,7 +31,8 @@ class Task(
     private val dPlayerManager: DPlayerManager,
     private val econ: Economy,
     private val jobManager: JobManager,
-    private val bukkitWrapper: BukkitWrapper = BukkitWrapper()
+    private val groupManager: GroupManager,
+    private val bukkitWrapper: BukkitWrapper = BukkitWrapper(),
 ) : ITask {
 
     /**
@@ -82,7 +84,8 @@ class Task(
      */
     override fun pay(player: DPlayer) {
         econ.depositPlayer(bukkitWrapper.getPlayer(player.uuid), income.toDouble())
-        val group = jobManager.getJob(player.job!!)?.group
+        // Yeahh... get the group obj
+        val group = jobManager.getJob(player.job!!)?.group?.let { groupManager.getGroup(it) }
         player.addXP(group!!, xp)
     }
 

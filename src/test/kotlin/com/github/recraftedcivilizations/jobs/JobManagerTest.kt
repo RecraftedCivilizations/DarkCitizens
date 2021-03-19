@@ -2,6 +2,7 @@ package com.github.recraftedcivilizations.jobs
 
 
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
+import com.github.recraftedcivilizations.darkcitizens.groups.GroupManager
 import com.github.recraftedcivilizations.darkcitizens.jobs.IJob
 import com.github.recraftedcivilizations.darkcitizens.jobs.Job
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
@@ -29,7 +30,8 @@ internal class JobManagerTest {
     val econ = mock<Economy>{}
 
     val dPlayerManager = DPlayerManager(dataParser)
-    val taskManager = TaskManager(econ, dPlayerManager)
+    val groupManager = GroupManager()
+    val taskManager = TaskManager(econ, dPlayerManager, groupManager)
 
     @BeforeAll
     fun init() {

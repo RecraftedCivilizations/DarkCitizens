@@ -2,6 +2,7 @@ package com.github.recraftedcivilizations.tasks
 
 import com.github.recraftedcivilizations.darkcitizens.BukkitWrapper
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
+import com.github.recraftedcivilizations.darkcitizens.groups.GroupManager
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
 import com.github.recraftedcivilizations.darkcitizens.parser.dataparser.IParseData
 import com.github.recraftedcivilizations.darkcitizens.tasks.Task
@@ -26,7 +27,8 @@ internal class TaskFactoryTest {
     val bukkitWrapper = mock<BukkitWrapper> {  }
     val dataParser = mock<IParseData>{  }
     val dPlayerManager = DPlayerManager(dataParser)
-    val taskManager = TaskManager(economy, dPlayerManager)
+    val groupManager = GroupManager()
+    val taskManager = TaskManager(economy, dPlayerManager, groupManager)
     val jobManager = JobManager(dPlayerManager)
 
     @BeforeAll
@@ -37,8 +39,8 @@ internal class TaskFactoryTest {
 
     @Test
     fun createTask() {
-        val task = Task(randomString(), Random.nextInt(), Random.nextInt(), listOf(action), randomString(), dPlayerManager, economy, jobManager, bukkitWrapper)
-        val task2 = TaskFactory.createTask(task.name, task.income, task.xp, listOf(action), task.description, dPlayerManager, economy, jobManager)
+        val task = Task(randomString(), Random.nextInt(), Random.nextInt(), listOf(action), randomString(), dPlayerManager, economy, jobManager, groupManager, bukkitWrapper)
+        val task2 = TaskFactory.createTask(task.name, task.income, task.xp, listOf(action), task.description, dPlayerManager, economy, jobManager, groupManager)
         assertEquals(task.name, task2.name)
         assertEquals(task.income, task2.income)
         assertEquals(task.xp, task2.xp)

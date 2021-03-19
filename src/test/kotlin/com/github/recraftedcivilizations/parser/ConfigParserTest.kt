@@ -39,8 +39,8 @@ internal class ConfigParserTest {
     val economy = mock<Economy>{}
     val dPlayerManager = DPlayerManager(dataParser)
     val jobManager = JobManager(dPlayerManager)
-    val taskManager = TaskManager(economy, dPlayerManager)
     val groupManager = GroupManager()
+    val taskManager = TaskManager(economy, dPlayerManager, groupManager)
     val bukkitWrapper = mock<com.github.recraftedcivilizations.darkcitizens.BukkitWrapper>{}
     lateinit var fileConfig: YamlConfiguration
 
