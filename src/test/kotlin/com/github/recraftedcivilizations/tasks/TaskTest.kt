@@ -2,106 +2,78 @@ package com.github.recraftedcivilizations.tasks
 
 import com.github.recraftedcivilizations.darkcitizens.BukkitWrapper
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayer
-import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerFactory
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
+import com.github.recraftedcivilizations.darkcitizens.groups.Group
 import com.github.recraftedcivilizations.darkcitizens.groups.GroupManager
+import com.github.recraftedcivilizations.darkcitizens.jobs.IJob
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
 import com.github.recraftedcivilizations.darkcitizens.parser.dataparser.IParseData
+import com.github.recraftedcivilizations.darkcitizens.tasks.ITask
 import com.github.recraftedcivilizations.darkcitizens.tasks.Task
-import com.github.recraftedcivilizations.darkcitizens.tasks.TaskManager
 import com.github.recraftedcivilizations.darkcitizens.tasks.actions.IAction
 import com.github.recraftedcivilizations.jobs.randomString
 import com.nhaarman.mockitokotlin2.*
 import net.milkbowl.vault.economy.Economy
-import org.bukkit.Material
 import org.bukkit.boss.BarColor
 import org.bukkit.boss.BarStyle
 import org.bukkit.entity.Player
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.Test
-
 import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.BeforeAll
-import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import java.util.*
 import kotlin.random.Random
+import kotlin.random.nextInt
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class TaskTest {
 
-    val economy = mock<Economy>{}
-    val action1 = mock<IAction>{}
-    val action2 = mock<IAction>{}
+    private var economy = mock<Economy>{}
+    private var action1 = mock<IAction>{}
+    private var action2 = mock<IAction>{}
 
-    // UUID's
     private val uuid1 = UUID.randomUUID()
     private val uuid2 = UUID.randomUUID()
     private val uuid3 = UUID.randomUUID()
 
-    // PLayer Mocks
-    val playerMock1 =
+    private val playerMock1 =
         mock<Player> {
             on { uniqueId } doReturn uuid1
             on { hasPermission("drp.job.join.Foo") } doReturn true
         }
-    val playerMock2 =
+    private val playerMock2 =
         mock<Player> {
             on { uniqueId } doReturn uuid2;
             on { hasPermission("drp.job.join.Foo") } doReturn false
         }
 
-    val playerMock3 =
+    private val playerMock3 =
         mock<Player> {
             on { uniqueId } doReturn uuid3
             on { hasPermission("drp.job.join.Foo") } doReturn true
         }
 
-    val jobMock = "Foo"
+    private val jobName = randomString()
+    private val groupName = randomString()
 
-    // DPlayers
-    private val dPlayerMock1 =
-        DPlayerFactory.createDPlayer(uuid1, jobMock, false, false, mapOf(Pair("Bar", 10)), emptyMap())
-    private val dPlayerMock2 = DPlayerFactory.createDPlayer(uuid2, jobMock, false, false, emptyMap(), emptyMap())
-    private val dPlayerMock3 =
-        DPlayerFactory.createDPlayer(uuid3, jobMock, false, false, mapOf(Pair("Bar", 10)), emptyMap())
+    private val jobMock = mock<IJob>{
+        on { group } doReturn groupName
+    }
 
-    // Infrastructure mocks
-    private val dataParserMock = mock<IParseData> { }
+    private val groupMock = mock<Group>{}
 
-    private val dPlayerManager = DPlayerManager(dataParserMock)
+    private val dPlayerMock1 = mock<DPlayer>{
+        on { job } doReturn jobName
+        on { uuid } doReturn uuid1
+    }
+    private val dPlayerMock2 = mock<DPlayer>()
+    private val dPlayerMock3 = mock<DPlayer>()
 
-    private val bukkitWrapper = mock<BukkitWrapper> {}
+    private var dataParser = mock<IParseData>{}
+    private var dPlayerManager = DPlayerManager(dataParser)
+    private var jobManager: JobManager = mock{}
+    private var groupManager: GroupManager = mock<GroupManager>{}
+    private var bukkitWrapper = mock<BukkitWrapper>()
 
-    private val groupManager = GroupManager()
-    private val jobManager = JobManager(dPlayerManager)
-    private val taskManager = TaskManager(economy, dPlayerManager, groupManager)
-    private val icon = mock<Material>{}
-
-    @BeforeAll
-    fun init(){
-
-        jobManager.setTaskManager(taskManager)
-        taskManager.setJobManager(jobManager)
-
-        jobManager.createJob(jobMock, "Bar", 10, emptySet(), emptySet(), 10, 10,10, false, false, icon)
-
-        doNothing().whenever(bukkitWrapper).warning(any())
-        doNothing().whenever(bukkitWrapper).notify(any(), any(), any(), any(), any())
-
-        whenever(action1.isCompletedForPlayer(any<Player>())).doAnswer {
-            val pl = it.getArgument<Player>(0)
-
-            return@doAnswer if (pl == playerMock1|| pl == playerMock2) {
-                true
-            } else return@doAnswer false
-        }
-
-        whenever(action2.isCompletedForPlayer(any<Player>())).doAnswer {
-            val pl = it.getArgument<Player>(0)
-
-            return@doAnswer pl == playerMock1
-        }
-
+    init {
         whenever(action1.isCompletedForPlayer(any<DPlayer>())).doAnswer {
             val pl = it.getArgument<DPlayer>(0)
 
@@ -116,25 +88,44 @@ internal class TaskTest {
             return@doAnswer pl == dPlayerMock1
         }
 
-        // Get DPlayers by their uuid
-        whenever(dataParserMock.getDPlayer(any())).doAnswer {
+    }
+
+
+    fun randomTaskArgs(): Map<String, Any> {
+        return mapOf(
+            Pair("name", randomString()),
+            Pair("income", Random.nextInt(0..100)),
+            Pair("xp", Random.nextInt(0..100)),
+            Pair("description", randomString()),
+        )
+    }
+
+    fun assertTask(task: ITask, taskArgs: Map<String, Any>){
+        assertEquals(taskArgs["name"], task.name)
+        assertEquals(taskArgs["income"], task.income)
+        assertEquals(taskArgs["xp"], task.xp)
+        assertEquals(taskArgs["description"], task.description)
+    }
+
+    private fun mockFunc(){
+        whenever(dataParser.getDPlayer(any())).doAnswer {
             when (it.getArgument<UUID>(0)) {
-                uuid1 -> {
-                    return@doAnswer dPlayerMock1
-                }
-                uuid2 -> {
-                    return@doAnswer dPlayerMock2
-                }
-                uuid3 -> {
-                    return@doAnswer dPlayerMock3
-                }
-                else -> {
-                    return@doAnswer null
-                }
+                uuid1 -> dPlayerMock1
+                uuid2 -> dPlayerMock2
+                uuid3 -> dPlayerMock3
+                else -> null
             }
         }
 
-        // Get player mocks by UUID/DPlayer obj
+        whenever(bukkitWrapper.getPlayer(any<UUID>())).doAnswer {
+            when (it.getArgument<UUID>(0)) {
+                uuid1 -> playerMock1
+                uuid2 -> playerMock2
+                uuid3 -> playerMock3
+                else -> null
+            }
+        }
+
         whenever(bukkitWrapper.getPlayer(any<DPlayer>())).doAnswer {
             val arg = it.getArgument<DPlayer>(0)
             when (arg.uuid) {
@@ -147,109 +138,73 @@ internal class TaskTest {
             }
         }
 
-        whenever(bukkitWrapper.getPlayer(any<UUID>())).doAnswer {
-            when (it.getArgument<UUID>(0)) {
-                uuid1 -> playerMock1
-                uuid2 -> playerMock2
-                uuid3 -> playerMock3
-                else -> null
-            }
-        }
+        whenever(jobManager.getJob(any())) doReturn jobMock
+        whenever(groupManager.getGroup(groupName)) doReturn groupMock
     }
 
-    @AfterEach
-    fun cleanup(){
-        for(group in dPlayerMock1.groupXps.keys){
-            dPlayerMock1.groupXps[group] = 0
-        }
+    @BeforeEach
+    fun refreshMocks(){
+        dataParser = mock {}
+        dPlayerManager = DPlayerManager(dataParser)
+        jobManager = mock{}
+        groupManager = mock{}
+        bukkitWrapper = mock{}
+
+
+        mockFunc()
+
     }
 
     @Test
     fun shouldConstruct(){
-        val bukkitWrapperField = Task::class.java.getDeclaredField("bukkitWrapper")
-        bukkitWrapperField.isAccessible = true
-
-        var task = Task(randomString(), Random.nextInt(), Random.nextInt(), emptyList(), randomString(), dPlayerManager, economy, jobManager, groupManager, bukkitWrapper)
-        // Dummy tests
-        assertEquals(task.name, task.name)
-        assertEquals(task.income, task.income)
-        assertEquals(task.xp, task.xp)
-        assertEquals(0, task.actions.size)
-        assertEquals(task.description, task.description)
-        assertEquals(bukkitWrapper, bukkitWrapperField.get(task))
-
-        task = Task(randomString(), Random.nextInt(), Random.nextInt(), listOf(action1, action2), randomString(), dPlayerManager, economy, jobManager, groupManager)
-        assertEquals(listOf(action1, action2), task.actions)
-        assertEquals(bukkitWrapperField.get(task), bukkitWrapperField.get(task))
-
+        val taskArgs = randomTaskArgs()
+        val task = Task(taskArgs["name"] as String, taskArgs["income"] as Int, taskArgs["xp"] as Int, emptyList(), taskArgs["description"] as String, dPlayerManager, economy, jobManager, groupManager)
+        assertTask(task, taskArgs)
     }
 
     @Test
-    fun isCompletedForPlayer() {
-        val task = Task(randomString(), Random.nextInt(), Random.nextInt(), listOf<IAction>(action1, action2), randomString(), dPlayerManager, economy, jobManager, groupManager, bukkitWrapper)
-
-        assertEquals(true, task.isCompletedForPlayer(dPlayerMock1))
-        assertEquals(false, task.isCompletedForPlayer(dPlayerMock2))
-        assertEquals(false, task.isCompletedForPlayer(dPlayerMock3))
-
-    }
-
-    @Test
-    fun testIsCompletedForPlayer() {
-        val task = Task(randomString(), Random.nextInt(), Random.nextInt(), listOf<IAction>(action1, action2), randomString(), dPlayerManager, economy, jobManager, groupManager, bukkitWrapper)
+    fun isCompletedForPlayer(){
+        val taskArgs = randomTaskArgs()
+        val task = Task(taskArgs["name"] as String, taskArgs["income"] as Int, taskArgs["xp"] as Int, listOf(action1, action2), taskArgs["description"] as String, dPlayerManager, economy, jobManager, groupManager)
 
         assertEquals(true, task.isCompletedForPlayer(playerMock1))
         assertEquals(false, task.isCompletedForPlayer(playerMock2))
-        assertEquals(false, task.isCompletedForPlayer(playerMock2))
+        assertEquals(false, task.isCompletedForPlayer(playerMock3))
     }
 
     @Test
-    fun testIsCompletedForPlayerWithEmptyActions(){
-        val task = Task(randomString(), Random.nextInt(), Random.nextInt(), emptyList(), randomString(), dPlayerManager, economy, jobManager, groupManager, bukkitWrapper)
+    fun isCompleteWithEmptyActions(){
+        val taskArgs = randomTaskArgs()
+        val task = Task(taskArgs["name"] as String, taskArgs["income"] as Int, taskArgs["xp"] as Int, emptyList(), taskArgs["description"] as String, dPlayerManager, economy, jobManager, groupManager)
+
         assertEquals(false, task.isCompletedForPlayer(playerMock1))
     }
 
     @Test
-    fun isCompletedForPlayerWithEmptyActions(){
-        val task = Task(randomString(), Random.nextInt(), Random.nextInt(), emptyList(), randomString(), dPlayerManager, economy, jobManager, groupManager, bukkitWrapper)
-        assertEquals(false, task.isCompletedForPlayer(dPlayerMock1))
-    }
+    fun pay(){
 
-    @Test
-    fun completeForPlayer() {
-        val playerSet = setOf<Player>(playerMock1)
-        val task = Task(randomString(), Random.nextInt(), Random.nextInt(), listOf<IAction>(action1, action2), randomString(), dPlayerManager, economy, jobManager, groupManager, bukkitWrapper)
-        task.completeForPlayer(dPlayerMock1)
-        verify(bukkitWrapper).notify("You completed the task ${task.name}", BarColor.GREEN, BarStyle.SOLID, 5, playerSet)
-        verify(economy).depositPlayer(playerMock1, task.income.toDouble())
-        assertEquals(task.xp, dPlayerMock1.groupXps[jobManager.getJob(jobMock)?.group])
-    }
+        val taskArgs = randomTaskArgs()
+        val task = Task(taskArgs["name"] as String, taskArgs["income"] as Int, taskArgs["xp"] as Int, emptyList(), taskArgs["description"] as String, dPlayerManager, economy, jobManager, groupManager, bukkitWrapper)
 
-    @Test
-    fun testCompleteForPlayer() {
-        val playerSet = setOf<Player>(playerMock1)
-        val task = Task(randomString(), Random.nextInt(), Random.nextInt(), listOf<IAction>(action1, action2), randomString(), dPlayerManager, economy, jobManager, groupManager, bukkitWrapper)
-        task.completeForPlayer(playerMock1)
-        verify(bukkitWrapper).notify("You completed the task ${task.name}", BarColor.GREEN, BarStyle.SOLID, 5, playerSet)
-        verify(economy).depositPlayer(playerMock1, task.income.toDouble())
-        assertEquals(task.xp, dPlayerMock1.groupXps[jobManager.getJob(jobMock)?.group])
-    }
-
-    @Test
-    fun pay() {
-        jobManager.getJob(jobMock)?.join(dPlayerMock1)
-        val task = Task(randomString(), Random.nextInt(), Random.nextInt(), listOf<IAction>(action1, action2), randomString(), dPlayerManager, economy, jobManager, groupManager, bukkitWrapper)
-        task.pay(dPlayerMock1)
-        verify(economy).depositPlayer(playerMock1, task.income.toDouble())
-        assertEquals(task.xp, dPlayerMock1.groupXps[jobManager.getJob(jobMock)?.group])
-        jobManager.getJob(jobMock)?.leave(dPlayerMock1)
-    }
-
-    @Test
-    fun testPay() {
-        val task = Task(randomString(), Random.nextInt(), Random.nextInt(), listOf<IAction>(action1, action2), randomString(), dPlayerManager, economy, jobManager, groupManager, bukkitWrapper)
         task.pay(playerMock1)
-        verify(economy).depositPlayer(playerMock1, task.income.toDouble())
-        assertEquals(task.xp, dPlayerMock1.groupXps[jobManager.getJob(jobMock)?.group])
+
+        verify(dPlayerMock1).addXP(groupMock, taskArgs["xp"] as Int)
+        verify(economy).depositPlayer(playerMock1, (taskArgs["income"] as Int).toDouble())
     }
+
+    @Test
+    fun completeForPlayer(){
+
+        val taskArgs = randomTaskArgs()
+        val task = Task(taskArgs["name"] as String, taskArgs["income"] as Int, taskArgs["xp"] as Int, emptyList(), taskArgs["description"] as String, dPlayerManager, economy, jobManager, groupManager, bukkitWrapper)
+
+        task.completeForPlayer(dPlayerMock1)
+
+        verify(bukkitWrapper).notify("You completed the task ${taskArgs["name"] as String}", BarColor.GREEN, BarStyle.SOLID, 5, setOf(playerMock1))
+        verify(dPlayerMock1).addXP(groupMock, taskArgs["xp"] as Int)
+        verify(economy).depositPlayer(playerMock1, (taskArgs["income"] as Int).toDouble())
+
+    }
+
+
 }
