@@ -34,7 +34,7 @@ class TaskItem(override val itemStack: ItemStack, val task: ITask) : Clickable(i
             val actionItemStack = ItemStack(Material.STONE)
             actionItemStack.setName(action.name)
             actionItemStack.setLore(action.description)
-            val item = ActionItem(itemStack)
+            val item = ActionItem(actionItemStack)
             actionGUI.addItem(item)
         }
 
