@@ -7,6 +7,7 @@ import com.github.recraftedcivilizations.darkcitizens.groups.GroupManager
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
 import com.github.recraftedcivilizations.darkcitizens.tasks.actions.IAction
 import net.milkbowl.vault.economy.Economy
+import org.bukkit.Material
 import org.bukkit.boss.BarColor
 import org.bukkit.boss.BarStyle
 import org.bukkit.entity.Player
@@ -28,6 +29,7 @@ class Task(
     override val xp: Int,
     override val actions: List<IAction>,
     override val description: String,
+    override val icon: Material,
     private val dPlayerManager: DPlayerManager,
     private val econ: Economy,
     private val jobManager: JobManager,

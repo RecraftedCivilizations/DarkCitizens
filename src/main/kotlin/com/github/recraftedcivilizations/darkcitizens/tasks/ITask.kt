@@ -3,6 +3,7 @@ package com.github.recraftedcivilizations.darkcitizens.tasks
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayer
 import com.github.recraftedcivilizations.darkcitizens.groups.GroupManager
 import com.github.recraftedcivilizations.darkcitizens.tasks.actions.IAction
+import org.bukkit.Material
 import org.bukkit.entity.Player
 
 /**
@@ -20,6 +21,7 @@ interface ITask {
     val xp: Int
     val actions: List<IAction>
     val description: String
+    val icon: Material
 
     /**
      * Complete the task for a player and pay him out

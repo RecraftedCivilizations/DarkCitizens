@@ -6,6 +6,7 @@ import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
 import com.github.recraftedcivilizations.darkcitizens.tasks.actions.Actions
 import com.github.recraftedcivilizations.darkcitizens.tasks.actions.IAction
 import net.milkbowl.vault.economy.Economy
+import org.bukkit.Material
 
 /**
  * @author DarkVanityOfLight
@@ -31,7 +32,7 @@ class TaskManager(private val econ: Economy, private val dPlayerManager: DPlayer
      * @param actions A list of actions this task consist of
      * @param description A description of this task
      */
-    fun createTask(name: String, income: Int, xp: Int, actions: List<String>, description: String) {
+    fun createTask(name: String, income: Int, xp: Int, actions: List<String>, description: String, icon: Material) {
         val parsedActions = emptyList<IAction>().toMutableList()
 
         for (action in actions) {
@@ -44,7 +45,7 @@ class TaskManager(private val econ: Economy, private val dPlayerManager: DPlayer
 
         }
         val task =
-            TaskFactory.createTask(name, income, xp, parsedActions, description, dPlayerManager, econ, jobManager, groupManager)
+            TaskFactory.createTask(name, income, xp, parsedActions, description, icon, dPlayerManager, econ, jobManager, groupManager)
         tasks.add(task)
     }
 

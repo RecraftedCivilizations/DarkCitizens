@@ -140,8 +140,19 @@ class ConfigParser(
             description = ""
         }
 
+        val iconName = configurationSection.getString(jobIconName)
+        if (iconName == null){
+            bukkitWrapper.warning("The job $taskName has no icon defined, I'll default it to a player head, but you should define it using the $taskIconName tag!")
+        }else{
+            if (Material.getMaterial(iconName) == null){
+                bukkitWrapper.warning("The icon for the job $taskName does not exist!")
+            }
+        }
+        val icon = iconName?.let { Material.getMaterial(it) } ?: Material.PLAYER_HEAD
+
+
         taskNames.add(taskName)
-        taskManager.createTask(taskName, income, xp, actions, description)
+        taskManager.createTask(taskName, income, xp, actions, description, icon)
     }
 
     /**
@@ -294,5 +305,6 @@ class ConfigParser(
         const val groupFriendlyFireName = "friendlyFire"
         const val groupCanBeCriminalName = "canBeCriminal"
         const val baseIncomeTimeName = "baseIncomeTime"
+        const val taskIconName = "icon"
     }
 }
