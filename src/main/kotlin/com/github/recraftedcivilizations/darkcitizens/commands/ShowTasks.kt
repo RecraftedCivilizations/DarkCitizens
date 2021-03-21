@@ -24,7 +24,7 @@ class ShowTasks(val jobManager: JobManager, val dPlayerManager: DPlayerManager):
         for (job in jobManager.getJobs()){
             val tasks = emptyList<DisplayItem>().toMutableList()
             for(task in job.tasks){
-                val taskItemStack = ItemStack(Material.DIAMOND_PICKAXE)
+                val taskItemStack = ItemStack(task.icon)
                 taskItemStack.setName(task.name)
                 taskItemStack.addLore(task.description)
                 taskItemStack.addLore("Income: ${task.income}")
