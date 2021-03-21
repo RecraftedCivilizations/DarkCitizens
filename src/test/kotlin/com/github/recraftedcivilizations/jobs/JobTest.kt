@@ -5,10 +5,12 @@ import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayer
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerFactory
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
 import com.github.recraftedcivilizations.darkcitizens.jobs.Job
+import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
 import com.github.recraftedcivilizations.darkcitizens.parser.dataparser.IParseData
 import com.github.recraftedcivilizations.darkcitizens.tasks.ITask
 import com.nhaarman.mockitokotlin2.*
 import org.bukkit.ChatColor
+import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -17,6 +19,8 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.TestInstance.Lifecycle
 import java.util.*
+import kotlin.random.Random
+import kotlin.random.nextInt
 
 @TestInstance(Lifecycle.PER_CLASS)
 internal class JobTest {
@@ -57,9 +61,11 @@ internal class JobTest {
 
     private val bukkitWrapper = mock<BukkitWrapper> { }
 
+    val jobManager = mock<JobManager>{}
     // Job Mocks
+    private val icon = mock<Material>{}
     private val job =
-        Job("Foo", "Bar", 5, emptySet<ITask>(), emptySet(), 10, 10, 10, false, false, dPlayerManager, bukkitWrapper)
+        Job("Foo", "Bar", 5, emptySet<ITask>(), emptySet(), 10, 10, 10, false, false, icon, dPlayerManager, jobManager, bukkitWrapper)
 
     @BeforeAll
     fun init() {
@@ -113,12 +119,13 @@ internal class JobTest {
 
     @Test
     fun canJoin() {
+        val icon = mock<Material>{}
         // Group lvls
         assertEquals(false, job.canJoin(dPlayerMock2))
         verify(playerMock2).sendMessage("${ChatColor.RED}You don't have the required level to join this job!")
 
         // Permissions
-        var job = Job("Foo", "Bar", 5, emptySet<ITask>(), emptySet(), 10, 10, 10, false, true, dPlayerManager, bukkitWrapper)
+        var job = Job("Foo", "Bar", 5, emptySet<ITask>(), emptySet(), 10, 10, 10, false, true, icon, dPlayerManager, jobManager, bukkitWrapper)
         dPlayerMock2.groupLvls[job.group] = job.minLvl
 
         assertEquals(false, job.canJoin(dPlayerMock2))
@@ -127,13 +134,13 @@ internal class JobTest {
         dPlayerMock2.groupLvls[job.group] = 0
 
         // Player limit
-        job = Job("Foo", "Bar", 1, emptySet<ITask>(), emptySet(), 10, 10, 10, false, false, dPlayerManager, bukkitWrapper)
+        job = Job("Foo", "Bar", 1, emptySet<ITask>(), emptySet(), 10, 10, 10, false, false, icon, dPlayerManager, jobManager, bukkitWrapper)
         job.addPlayer(dPlayerMock1)
         job.canJoin(dPlayerMock3)
         verify(playerMock3).sendMessage("${ChatColor.RED}There are too many players in this job")
 
         // Already in the job
-        job = Job("Foo", "Bar", 2, emptySet<ITask>(), emptySet(), 10, 10, 10, false, false, dPlayerManager, bukkitWrapper)
+        job = Job("Foo", "Bar", 2, emptySet<ITask>(), emptySet(), 10, 10, 10, false, false, icon, dPlayerManager, jobManager, bukkitWrapper)
         job.addPlayer(dPlayerMock1)
         assertEquals(false, job.canJoin(dPlayerMock1))
         verify(playerMock1).sendMessage("${ChatColor.RED}You are already in this job")
@@ -185,7 +192,7 @@ internal class JobTest {
     @Test
     fun shouldConstruct(){
         val job =
-            Job("Foo", "Bar", 5, emptySet<ITask>(), emptySet(), 10, 10, 10, false, false, dPlayerManager)
+            Job("Foo", "Bar", 5, emptySet<ITask>(), emptySet(), 10, 10, 10, false, false, icon, dPlayerManager, jobManager)
 
         assertEquals("Foo", job.name)
         assertEquals("Bar", job.group)
@@ -201,5 +208,58 @@ internal class JobTest {
         val dPlayerField = Job::class.java.getDeclaredField("dPlayerManager")
         dPlayerField.isAccessible = true
         assertEquals(dPlayerManager, dPlayerField.get(job))
+    }
+
+    @Test
+    fun join(){
+        val icon = mock<Material>{}
+        val jobManager = JobManager(dPlayerManager)
+        val job1 = Job(randomString(), randomString(), Random.nextInt(1..10), emptySet(), emptySet(), Random.nextInt(), Random.nextInt(), 0, false, false, icon, dPlayerManager, jobManager)
+        val job2 = Job(randomString(), randomString(), Random.nextInt(1..10), emptySet(), emptySet(), Random.nextInt(), Random.nextInt(), 0, false, true, icon, dPlayerManager, jobManager, bukkitWrapper)
+        jobManager.createJob(job1.name, job1.group, job1.playerLimit, emptySet(), job1.canDemote, job1.baseIncome, job1.baseXPGain, job1.minLvl, job1.electionRequired, job1.permissionRequired, job1.icon)
+        jobManager.createJob(job2.name, job2.group, job2.playerLimit, emptySet(), job2.canDemote, job2.baseIncome, job2.baseXPGain, job2.minLvl, job2.electionRequired, job2.permissionRequired, job2.icon)
+
+        var toJoin = jobManager.getJob(job1.name)!!
+        toJoin.setBukkitWrapper(bukkitWrapper)
+
+        toJoin.join(playerMock1)
+        verify(playerMock1).sendMessage("${ChatColor.GREEN}You successfully joined the job ${job1.name}")
+        verify(dataParserMock).setDPlayer(dPlayerMock1)
+        assertEquals(dPlayerMock1.job, job1.name)
+
+        toJoin.removePlayer(dPlayerMock1)
+        dPlayerMock1.job = null
+
+        dPlayerMock2.job = null
+        toJoin = jobManager.getJob(job2.name)!!
+        toJoin.setBukkitWrapper(bukkitWrapper)
+        toJoin.join(playerMock2)
+        verify(playerMock2).sendMessage("${ChatColor.RED}You don't have the required permissions to join this job!")
+        assertEquals(null, dPlayerMock2.job)
+
+        dPlayerMock3.job = job2.name
+        job2.addPlayer(dPlayerMock3)
+
+        toJoin = jobManager.getJob(job1.name)!!
+        toJoin.setBukkitWrapper(bukkitWrapper)
+
+        toJoin.join(playerMock3)
+        assertEquals(job1.name, dPlayerMock3.job)
+
+    }
+
+    @Test
+    fun leave(){
+        val jobManager = JobManager(dPlayerManager)
+        val job1 = Job(randomString(), randomString(), Random.nextInt(1..10), emptySet(), emptySet(), Random.nextInt(), Random.nextInt(), 0, false, false, icon, dPlayerManager, jobManager)
+        val job2 = Job(randomString(), randomString(), Random.nextInt(1..10), emptySet(), emptySet(), Random.nextInt(), Random.nextInt(), 0, false, true, icon, dPlayerManager, jobManager, bukkitWrapper)
+        jobManager.createJob(job1.name, job1.group, job1.playerLimit, emptySet(), job1.canDemote, job1.baseIncome, job1.baseXPGain, job1.minLvl, job1.electionRequired, job1.permissionRequired, icon)
+        jobManager.createJob(job2.name, job2.group, job2.playerLimit, emptySet(), job2.canDemote, job2.baseIncome, job2.baseXPGain, job2.minLvl, job2.electionRequired, job2.permissionRequired, icon)
+
+        val toLeave = jobManager.getJob(job1.name)!!
+        toLeave.setBukkitWrapper(bukkitWrapper)
+        toLeave.join(dPlayerMock1)
+        toLeave.leave(playerMock1)
+        assertEquals(null, dPlayerMock1.job)
     }
 }

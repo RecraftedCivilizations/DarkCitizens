@@ -1,6 +1,10 @@
 package com.github.recraftedcivilizations.darkcitizens.dPlayer
 
+import com.github.recraftedcivilizations.darkcitizens.BukkitWrapper
+import com.github.recraftedcivilizations.darkcitizens.groups.Group
+import com.github.recraftedcivilizations.darkcitizens.groups.GroupManager
 import com.github.recraftedcivilizations.darkcitizens.jobs.IJob
+import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
 import org.bukkit.entity.Player
 import java.util.*
 
@@ -52,6 +56,8 @@ class DPlayer {
     var isCriminal: Boolean = false
     val groupLvls: MutableMap<String, Int> = emptyMap<String, Int>().toMutableMap()
     val groupXps: MutableMap<String, Int> = emptyMap<String, Int>().toMutableMap()
+    private var bukkitWrapper = BukkitWrapper()
+    private lateinit var jobManager: JobManager
 
     /**
      * Constructs an empty new DPlayer this should only be used
@@ -103,6 +109,15 @@ class DPlayer {
 
     }
 
+    @Deprecated("The job manager is no longer required due to the deprecation of joinJob")
+    fun setJobManager(jobManager: JobManager){
+        this.jobManager = jobManager
+    }
+
+    fun setBukkitWrapper(bukkitWrapper: BukkitWrapper){
+        this.bukkitWrapper = bukkitWrapper
+    }
+
     /**
      * Serialize this DPlayer to a [DPlayerData1]
      */
@@ -111,11 +126,19 @@ class DPlayer {
     }
 
     /**
-     * Join a new Job
+     * Join a new job, before calling this method make sure you called [setJobManager]
      * @param job The Job to join
      */
+    @Deprecated("Do not use this method to join a job. Use the join method in the job itself instead")
     fun joinJob(job: IJob){
-        TODO("Not yet implemented")
+
+        val canJoin = job.canJoin(this)
+        if (canJoin){
+            if(this.job != null) jobManager.getJob(this.job!!)?.removePlayer(this)
+            job.addPlayer(this)
+            this.job = job.name
+            bukkitWrapper.getPlayer(uuid)?.sendMessage("You successfully joined the job ${job.name}")
+        }
     }
 
     /**
@@ -123,9 +146,20 @@ class DPlayer {
      * @param group The group to add the XP to
      * @param amount The amount of XP to add
      */
-    fun addXP(group: String, amount: Int){
-        groupXps.inc(group, amount)
-        //TODO Check if lvl increases
+    fun addXP(group: Group, amount: Int){
+        groupXps.inc(group.name, amount)
+
+        var maxLvl = 0
+        val currentXp = groupXps[group.name]!!
+
+        for (lvlThreshold in group.lvlThreshold){
+            if (currentXp >= lvlThreshold){
+                maxLvl ++
+                break
+            }
+        }
+
+        groupLvls[group.name] = maxLvl
     }
 
 }

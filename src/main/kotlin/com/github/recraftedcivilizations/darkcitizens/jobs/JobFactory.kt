@@ -2,6 +2,7 @@ package com.github.recraftedcivilizations.darkcitizens.jobs
 
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
 import com.github.recraftedcivilizations.darkcitizens.tasks.ITask
+import org.bukkit.Material
 
 /**
  * @author DarkVanityOfLight
@@ -38,7 +39,9 @@ object JobFactory {
         minLvl: Int,
         electionRequired: Boolean,
         permissionRequired: Boolean,
+        icon: Material,
         dPlayerManager: DPlayerManager,
+        jobManager: JobManager
     ): IJob {
         return Job(
             name,
@@ -51,7 +54,9 @@ object JobFactory {
             minLvl,
             electionRequired,
             permissionRequired,
-            dPlayerManager
+            icon,
+            dPlayerManager,
+            jobManager
         )
     }
 }

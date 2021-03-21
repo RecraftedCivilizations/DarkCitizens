@@ -3,12 +3,15 @@ package com.github.recraftedcivilizations.darkcitizens
 import com.github.darkvanityoflight.recraftedcore.ARecraftedPlugin
 import com.github.darkvanityoflight.recraftedcore.gui.GUIListener
 import com.github.recraftedcivilizations.darkcitizens.commands.ShowJobs
+import com.github.recraftedcivilizations.darkcitizens.commands.ShowTasks
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
 import com.github.recraftedcivilizations.darkcitizens.groups.GroupManager
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
+import com.github.recraftedcivilizations.darkcitizens.listeners.DataCleaner
 import com.github.recraftedcivilizations.darkcitizens.parser.ConfigParser
 import com.github.recraftedcivilizations.darkcitizens.parser.dataparser.IParseData
 import com.github.recraftedcivilizations.darkcitizens.parser.dataparser.YMLDataSource
+import com.github.recraftedcivilizations.darkcitizens.runnables.BaseIncomeRunner
 import com.github.recraftedcivilizations.darkcitizens.tasks.TaskManager
 import net.milkbowl.vault.economy.Economy
 import org.bukkit.Bukkit
@@ -22,7 +25,9 @@ class Main : ARecraftedPlugin() {
     lateinit var groupManager: GroupManager
     lateinit var dPlayerManager: DPlayerManager
 
-    override fun onLoad(){
+    override fun onEnable(){
+
+        saveDefaultConfig()
 
         // Get the econ
         if (Bukkit.getPluginManager().isPluginEnabled("Vault")){
@@ -42,12 +47,16 @@ class Main : ARecraftedPlugin() {
 
         Bukkit.getServer().pluginManager.registerEvents(GUIListener(), this)
         this.getCommand("jobs")?.setExecutor(ShowJobs(jobManager, dPlayerManager))
+        this.getCommand("tasks")?.setExecutor(ShowTasks(jobManager, dPlayerManager))
+        server.pluginManager.registerEvents(DataCleaner(dPlayerManager, jobManager), this)
 
+        BaseIncomeRunner(jobManager, dPlayerManager, econ!!, groupManager).runTaskTimer(this, configParser.baseIncomeTime.toLong() * 60L * 20L, configParser.baseIncomeTime.toLong() * 60L * 20L)
     }
 
     private fun initManagers(){
+        groupManager = GroupManager()
         dPlayerManager = DPlayerManager(dataParser)
-        taskManager = TaskManager(com.github.recraftedcivilizations.darkcitizens.Main.Companion.econ!!, dPlayerManager)
+        taskManager = TaskManager(econ!!, dPlayerManager, groupManager)
         jobManager = JobManager(dPlayerManager)
 
         taskManager.setJobManager(jobManager)

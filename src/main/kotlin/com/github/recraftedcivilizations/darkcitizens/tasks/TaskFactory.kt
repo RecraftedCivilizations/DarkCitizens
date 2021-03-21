@@ -1,9 +1,11 @@
 package com.github.recraftedcivilizations.darkcitizens.tasks
 
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
+import com.github.recraftedcivilizations.darkcitizens.groups.GroupManager
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
 import com.github.recraftedcivilizations.darkcitizens.tasks.actions.IAction
 import net.milkbowl.vault.economy.Economy
+import org.bukkit.Material
 
 /**
  * @author DarkVanityOfLight
@@ -23,8 +25,8 @@ object TaskFactory {
      * @param dPlayerManager The DPlayer manager
      * @param econ The economy to pay too
      */
-    fun createTask(name: String, income: Int, xp: Int, actions: List<IAction>, description: String, dPlayerManager: DPlayerManager, econ: Economy, jobManager: JobManager): ITask {
-        return Task(name, income, xp, actions, description, dPlayerManager, econ, jobManager)
+    fun createTask(name: String, income: Int, xp: Int, actions: List<IAction>, description: String, icon: Material, dPlayerManager: DPlayerManager, econ: Economy, jobManager: JobManager, groupManager: GroupManager): ITask {
+        return Task(name, income, xp, actions, description, icon, dPlayerManager, econ, jobManager, groupManager)
     }
 
 }

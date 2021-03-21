@@ -1,6 +1,7 @@
 package com.github.recraftedcivilizations.tasks
 
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
+import com.github.recraftedcivilizations.darkcitizens.groups.GroupManager
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
 import com.github.recraftedcivilizations.darkcitizens.parser.dataparser.IParseData
 import com.github.recraftedcivilizations.darkcitizens.tasks.ITask
@@ -11,6 +12,7 @@ import com.github.recraftedcivilizations.darkcitizens.tasks.actions.IAction
 import com.github.recraftedcivilizations.jobs.randomString
 import com.nhaarman.mockitokotlin2.mock
 import net.milkbowl.vault.economy.Economy
+import org.bukkit.Material
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
@@ -23,6 +25,8 @@ internal class TaskManagerTest {
     val dPlayerManager = DPlayerManager(dataParser)
     val action = mock<IAction>{}
     val jobManager = JobManager(dPlayerManager)
+    val groupManager = GroupManager()
+    val icon = Material.PLAYER_HEAD
 
     val taskField = TaskManager::class.java.getDeclaredField("tasks")
 
@@ -32,18 +36,18 @@ internal class TaskManagerTest {
 
     @Test
     fun shouldConstruct(){
-        val taskManager = TaskManager(econ, dPlayerManager)
+        val taskManager = TaskManager(econ, dPlayerManager, groupManager)
     }
 
     @Test
     fun createTask() {
-        val taskManager = TaskManager(econ, dPlayerManager)
-        val task1 = Task(randomString(), Random.nextInt(), Random.nextInt(), listOf(Actions.DEBUG), randomString(), dPlayerManager, econ, jobManager)
+        val taskManager = TaskManager(econ, dPlayerManager, groupManager)
+        val task1 = Task(randomString(), Random.nextInt(), Random.nextInt(), listOf(Actions.DEBUG), randomString(), icon, dPlayerManager, econ, jobManager, groupManager)
 
         taskManager.setJobManager(jobManager)
         jobManager.setTaskManager(taskManager)
 
-        taskManager.createTask(task1.name, task1.income, task1.xp, listOf("DEBUG", "FOO"), task1.description)
+        taskManager.createTask(task1.name, task1.income, task1.xp, listOf("DEBUG", "FOO"), task1.description, icon)
 
         val tasks = taskField.get(taskManager) as Set<*>
 
@@ -56,18 +60,19 @@ internal class TaskManagerTest {
         assertEquals(task1.actions[0], task2.actions[0])
         assertEquals(task1.actions.size, task2.actions.size)
         assertEquals(task1.description, task2.description)
+        assertEquals(task1.icon, task2.icon)
 
     }
 
     @Test
     fun getTask() {
-        val taskManager = TaskManager(econ, dPlayerManager)
+        val taskManager = TaskManager(econ, dPlayerManager, groupManager)
 
         taskManager.setJobManager(jobManager)
         jobManager.setTaskManager(taskManager)
 
-        val task1 = Task(randomString(), Random.nextInt(), Random.nextInt(), listOf(Actions.DEBUG), randomString(), dPlayerManager, econ, jobManager)
-        taskManager.createTask(task1.name, task1.income, task1.xp, listOf("DEBUG"), task1.description)
+        val task1 = Task(randomString(), Random.nextInt(), Random.nextInt(), listOf(Actions.DEBUG), randomString(), icon, dPlayerManager, econ, jobManager, groupManager)
+        taskManager.createTask(task1.name, task1.income, task1.xp, listOf("DEBUG"), task1.description, icon)
         val task2 = taskManager.getTask(task1.name)
 
 
@@ -77,6 +82,7 @@ internal class TaskManagerTest {
         assertEquals(task1.actions[0], task2?.actions?.get(0))
         assertEquals(task1.actions.size, task2?.actions?.size)
         assertEquals(task1.description, task2?.description)
+        assertEquals(task1.icon, task2?.icon)
 
         assertEquals(null, taskManager.getTask("FOOBAR"))
     }

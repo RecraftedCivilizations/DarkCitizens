@@ -1,9 +1,11 @@
 package com.github.recraftedcivilizations.darkcitizens.jobs
 
+import com.github.recraftedcivilizations.darkcitizens.BukkitWrapper
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayer
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
 import com.github.recraftedcivilizations.darkcitizens.tasks.ITask
 import org.bukkit.ChatColor
+import org.bukkit.Material
 import org.bukkit.entity.Player
 import java.util.*
 
@@ -33,11 +35,16 @@ class Job(
     override val minLvl: Int,
     override val electionRequired: Boolean,
     override val permissionRequired: Boolean,
+    override val icon: Material,
     private val dPlayerManager: DPlayerManager,
-    private val bukkitWrapper: com.github.recraftedcivilizations.darkcitizens.BukkitWrapper = com.github.recraftedcivilizations.darkcitizens.BukkitWrapper()
+    private val jobManager: JobManager,
+    private var bukkitWrapper: com.github.recraftedcivilizations.darkcitizens.BukkitWrapper = com.github.recraftedcivilizations.darkcitizens.BukkitWrapper()
 ) : IJob {
     override val currentMembers: MutableSet<DPlayer> = emptySet<DPlayer>().toMutableSet()
 
+    override fun setBukkitWrapper(bukkitWrapper: BukkitWrapper){
+        this.bukkitWrapper = bukkitWrapper
+    }
     override fun removePlayer(player: DPlayer) {
         for (member in currentMembers){
             if (member.uuid == player.uuid){
@@ -113,5 +120,32 @@ class Job(
 
     override fun isMember(player: Player): Boolean {
         return isMember(player.uniqueId)
+    }
+
+    override fun join(dPlayer: DPlayer) {
+        if(this.canJoin(dPlayer)){
+            // Leave the old job, ugly ik
+            dPlayer.job?.let { jobManager.getJob(it) }?.leave(dPlayer)
+            this.addPlayer(dPlayer)
+            dPlayer.job = name
+            bukkitWrapper.getPlayer(dPlayer)?.sendMessage("${ChatColor.GREEN}You successfully joined the job $name")
+            dPlayerManager.setDPlayer(dPlayer)
+
+        }
+    }
+
+    override fun join(player: Player) {
+        dPlayerManager.getDPlayer(player.uniqueId)?.let { join(it) }
+    }
+
+    override fun leave(dPlayer: DPlayer) {
+        if(isMember(dPlayer.uuid)){
+            removePlayer(dPlayer)
+            dPlayer.job = null
+            dPlayerManager.setDPlayer(dPlayer)
+        }
+    }
+    override fun leave(player: Player) {
+        dPlayerManager.getDPlayer(player.uniqueId)?.let { leave(it) }
     }
 }

@@ -121,14 +121,18 @@ class YMLDataSource(var filePath: String, private val bukkitWrapper: com.github.
         val wanted = configurationSection.getBoolean(wantedName)
         val isCriminal = configurationSection.getBoolean(criminalName)
 
-        if ( configurationSection.getConfigurationSection(groupLvlName) == null || configurationSection.getConfigurationSection(
-                groupXpName
-            ) == null){
-            return null
+        val groupLvls: Map<String, Int> = if ( configurationSection.getConfigurationSection(groupLvlName) != null){
+            configSectionToMap<String, Int>(configurationSection.getConfigurationSection(groupLvlName)!!)
+        }else{
+            emptyMap<String, Int>()
         }
 
-        val groupLvls = configSectionToMap<String, Int>(configurationSection.getConfigurationSection(groupLvlName)!!)
-        val groupXps = configSectionToMap<String, Int>(configurationSection.getConfigurationSection(groupXpName)!!)
+        val groupXps: Map<String, Int> = if (configurationSection.getConfigurationSection(groupXpName) != null){
+            configSectionToMap<String, Int>(configurationSection.getConfigurationSection(groupXpName)!!)
+        }else{
+            emptyMap<String, Int>()
+        }
+
 
         return DPlayerFactory.createDPlayer(playerUUID, job, wanted, isCriminal, groupLvls, groupXps)
     }
