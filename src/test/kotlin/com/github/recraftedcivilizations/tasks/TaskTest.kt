@@ -14,6 +14,7 @@ import com.github.recraftedcivilizations.darkcitizens.tasks.actions.IAction
 import com.github.recraftedcivilizations.jobs.randomString
 import com.nhaarman.mockitokotlin2.*
 import net.milkbowl.vault.economy.Economy
+import org.bukkit.Material
 import org.bukkit.boss.BarColor
 import org.bukkit.boss.BarStyle
 import org.bukkit.entity.Player
@@ -33,6 +34,8 @@ internal class TaskTest {
     private val uuid1 = UUID.randomUUID()
     private val uuid2 = UUID.randomUUID()
     private val uuid3 = UUID.randomUUID()
+
+    private val icon = Material.PLAYER_HEAD
 
     private val playerMock1 =
         mock<Player> {
@@ -158,14 +161,14 @@ internal class TaskTest {
     @Test
     fun shouldConstruct(){
         val taskArgs = randomTaskArgs()
-        val task = Task(taskArgs["name"] as String, taskArgs["income"] as Int, taskArgs["xp"] as Int, emptyList(), taskArgs["description"] as String, dPlayerManager, economy, jobManager, groupManager)
+        val task = Task(taskArgs["name"] as String, taskArgs["income"] as Int, taskArgs["xp"] as Int, emptyList(), taskArgs["description"] as String, icon, dPlayerManager, economy, jobManager, groupManager)
         assertTask(task, taskArgs)
     }
 
     @Test
     fun isCompletedForPlayer(){
         val taskArgs = randomTaskArgs()
-        val task = Task(taskArgs["name"] as String, taskArgs["income"] as Int, taskArgs["xp"] as Int, listOf(action1, action2), taskArgs["description"] as String, dPlayerManager, economy, jobManager, groupManager)
+        val task = Task(taskArgs["name"] as String, taskArgs["income"] as Int, taskArgs["xp"] as Int, listOf(action1, action2), taskArgs["description"] as String, icon, dPlayerManager, economy, jobManager, groupManager)
 
         assertEquals(true, task.isCompletedForPlayer(playerMock1))
         assertEquals(false, task.isCompletedForPlayer(playerMock2))
@@ -175,7 +178,7 @@ internal class TaskTest {
     @Test
     fun isCompleteWithEmptyActions(){
         val taskArgs = randomTaskArgs()
-        val task = Task(taskArgs["name"] as String, taskArgs["income"] as Int, taskArgs["xp"] as Int, emptyList(), taskArgs["description"] as String, dPlayerManager, economy, jobManager, groupManager)
+        val task = Task(taskArgs["name"] as String, taskArgs["income"] as Int, taskArgs["xp"] as Int, emptyList(), taskArgs["description"] as String, icon, dPlayerManager, economy, jobManager, groupManager)
 
         assertEquals(false, task.isCompletedForPlayer(playerMock1))
     }
@@ -184,7 +187,7 @@ internal class TaskTest {
     fun pay(){
 
         val taskArgs = randomTaskArgs()
-        val task = Task(taskArgs["name"] as String, taskArgs["income"] as Int, taskArgs["xp"] as Int, emptyList(), taskArgs["description"] as String, dPlayerManager, economy, jobManager, groupManager, bukkitWrapper)
+        val task = Task(taskArgs["name"] as String, taskArgs["income"] as Int, taskArgs["xp"] as Int, emptyList(), taskArgs["description"] as String, icon, dPlayerManager, economy, jobManager, groupManager, bukkitWrapper)
 
         task.pay(playerMock1)
 
@@ -196,7 +199,7 @@ internal class TaskTest {
     fun completeForPlayer(){
 
         val taskArgs = randomTaskArgs()
-        val task = Task(taskArgs["name"] as String, taskArgs["income"] as Int, taskArgs["xp"] as Int, emptyList(), taskArgs["description"] as String, dPlayerManager, economy, jobManager, groupManager, bukkitWrapper)
+        val task = Task(taskArgs["name"] as String, taskArgs["income"] as Int, taskArgs["xp"] as Int, emptyList(), taskArgs["description"] as String, icon, dPlayerManager, economy, jobManager, groupManager, bukkitWrapper)
 
         task.completeForPlayer(dPlayerMock1)
 

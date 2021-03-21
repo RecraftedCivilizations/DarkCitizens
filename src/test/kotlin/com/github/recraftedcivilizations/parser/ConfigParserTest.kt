@@ -43,6 +43,7 @@ internal class ConfigParserTest {
     val taskManager = TaskManager(economy, dPlayerManager, groupManager)
     val bukkitWrapper = mock<com.github.recraftedcivilizations.darkcitizens.BukkitWrapper>{}
     lateinit var fileConfig: YamlConfiguration
+    val icon = Material.PLAYER_HEAD
 
     private val jobsField = JobManager::class.java.getDeclaredField("jobs")
     private val groupsField = GroupManager::class.java.getDeclaredField("groups")
@@ -322,7 +323,8 @@ internal class ConfigParserTest {
             Pair(ConfigParser.taskIncomeName, Random.nextInt()),
             Pair(ConfigParser.taskXpName, Random.nextInt()),
             Pair(ConfigParser.taskActionName, if(valid){ listOf("DEBUG") }else{ listOf(randomString())}),
-            Pair(ConfigParser.taskDescriptionName, randomString())
+            Pair(ConfigParser.taskDescriptionName, randomString()),
+            Pair(ConfigParser.taskIconName, icon.name)
         )
     }
 
