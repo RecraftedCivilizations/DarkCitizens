@@ -30,11 +30,17 @@ interface IElect{
     fun evaluateVotes(): DPlayer
 
     /**
-     * Vote for a certain candidate, this should check if the player is eligible to vote
-     * and remove fees for the vote
+     * Add a vote for a candidate
      * @param uuid The UUID of the player to vote for
      */
-    fun vote(uuid: UUID)
+    fun addVote(uuid: UUID)
+
+    /**
+     * Try voting for a player, remove fees and check if you are eligible to vote here
+     * @param uuid The player to vote for
+     * @param dPlayer The player who votes
+     */
+    fun vote(uuid: UUID, dPlayer: DPlayer)
 
     /**
      * Check if a player is eligible to vote
