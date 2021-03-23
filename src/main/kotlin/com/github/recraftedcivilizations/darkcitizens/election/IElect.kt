@@ -14,9 +14,9 @@ import kotlin.collections.HashMap
  */
 interface IElect{
     val electTime: Int
-    val candidates: Set<DPlayer>
-    val votes: HashMap<UUID, Int>
-    val hasVoted: Set<UUID>
+    val candidates: MutableSet<DPlayer>
+    val votes: MutableMap<UUID, Int>
+    val hasVoted: MutableSet<UUID>
     val job: IJob
     val voteFee: Int
     val candidateFee: Int
