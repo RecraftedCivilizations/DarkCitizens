@@ -25,8 +25,8 @@ abstract class GenericElection(
     override val job: IJob,
     override val voteFee: Int,
     override val candidateFee: Int,
-    private val dPlayerManager: DPlayerManager,
-    private val economy: Economy,
+    val dPlayerManager: DPlayerManager,
+    val economy: Economy,
     private val bukkitWrapper: BukkitWrapper
 
 ) : IElect, BukkitRunnable() {
