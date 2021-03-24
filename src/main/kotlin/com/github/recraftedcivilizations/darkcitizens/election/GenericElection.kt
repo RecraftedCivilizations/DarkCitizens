@@ -54,16 +54,16 @@ abstract class GenericElection(
     }
 
     override fun canVote(dPlayer: DPlayer): Boolean {
-        val player = bukkitWrapper.getPlayer(dPlayer.uuid)
+        val player = bukkitWrapper.getPlayer(dPlayer.uuid)!!
         return if( economy.has(player, voteFee.toDouble())){
             if (!hasVoted.contains(dPlayer.uuid)){
                 true
             }else{
-                player?.sendMessage("${ChatColor.RED}You already voted!!")
+                player.sendMessage("${ChatColor.RED}You already voted!!")
                 false
             }
         }else{
-            player?.sendMessage("${ChatColor.RED}You don't have enough money to pay the fee of $voteFee!!")
+            player.sendMessage("${ChatColor.RED}You don't have enough money to pay the fee of $voteFee!!")
             false
         }
     }
