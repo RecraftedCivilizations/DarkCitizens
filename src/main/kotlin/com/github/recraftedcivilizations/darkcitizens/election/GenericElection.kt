@@ -35,9 +35,10 @@ abstract class GenericElection(
 ) : IElect, BukkitRunnable(), Listener {
 
     override fun evaluateVotes(): DPlayer {
-        val sorted = votes.toList().sortedBy { (_, value) -> value }.toMap()
+        val sorted = votes.toList().sortedByDescending { (_, value) -> value }.toMap()
         val winnerUUID = sorted.entries.first().key
 
+        // TODO("Decide what to do if they have the same number of votes")
         return dPlayerManager.getDPlayer(winnerUUID)!!
     }
 
