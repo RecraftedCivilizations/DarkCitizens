@@ -105,7 +105,7 @@ abstract class GenericElection(
     }
 
     @EventHandler
-    fun onLeave(e: PlayerQuitEvent){
+    open fun onLeave(e: PlayerQuitEvent){
         val dPlayer = dPlayerManager.getDPlayer(e.player)
         candidates.remove(dPlayer)
 
