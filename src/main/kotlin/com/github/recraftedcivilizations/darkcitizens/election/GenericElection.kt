@@ -46,7 +46,7 @@ abstract class GenericElection(
     }
 
     override fun vote(uuid: UUID, dPlayer: DPlayer) {
-        val player = bukkitWrapper.getPlayer(uuid)!!
+        val player = bukkitWrapper.getPlayer(dPlayer.uuid)!!
 
         var isInCandidates: Boolean = false
         for(candidate in candidates){
