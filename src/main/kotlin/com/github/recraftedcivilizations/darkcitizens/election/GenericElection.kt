@@ -46,10 +46,23 @@ abstract class GenericElection(
     }
 
     override fun vote(uuid: UUID, dPlayer: DPlayer) {
-        val player = bukkitWrapper.getPlayer(uuid)
-        if(canVote(dPlayer)){
-            addVote(uuid)
-            economy.withdrawPlayer(player, voteFee.toDouble())
+        val player = bukkitWrapper.getPlayer(uuid)!!
+
+        var isInCandidates: Boolean = false
+        for(candidate in candidates){
+            if (uuid == candidate.uuid){
+                isInCandidates = true
+                break
+            }
+        }
+
+        if (isInCandidates){
+            if(canVote(dPlayer)){
+                addVote(uuid)
+                economy.withdrawPlayer(player, voteFee.toDouble())
+            }
+        }else{
+            player.sendMessage("${ChatColor.RED}The candidate you want to vote for does not exist!!")
         }
     }
 
