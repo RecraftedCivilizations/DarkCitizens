@@ -8,6 +8,9 @@ import net.milkbowl.vault.economy.Economy
 import org.bukkit.ChatColor
 import org.bukkit.boss.BarColor
 import org.bukkit.boss.BarStyle
+import org.bukkit.event.EventHandler
+import org.bukkit.event.Listener
+import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.scheduler.BukkitRunnable
 import java.util.*
 
@@ -29,7 +32,7 @@ abstract class GenericElection(
     val economy: Economy,
     private val bukkitWrapper: BukkitWrapper
 
-) : IElect, BukkitRunnable() {
+) : IElect, BukkitRunnable(), Listener {
 
     override fun evaluateVotes(): DPlayer {
         val sorted = votes.toList().sortedBy { (_, value) -> value }.toMap()
@@ -98,6 +101,13 @@ abstract class GenericElection(
         winnerPlayer?.sendMessage("Congratulations you won the election")
         job.join(winner)
         bukkitWrapper.notify("${winnerPlayer!!.name} won the election and is now a ${job.name}", BarColor.YELLOW, BarStyle.SEGMENTED_10, 5, bukkitWrapper.getOnlinePlayers())
+
+    }
+
+    @EventHandler
+    fun onLeave(e: PlayerQuitEvent){
+        val dPlayer = dPlayerManager.getDPlayer(e.player)
+        candidates.remove(dPlayer)
 
     }
 }
