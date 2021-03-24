@@ -19,15 +19,15 @@ import java.util.*
 
 class GUIElection(
     electTime: Int,
-    candidates: MutableSet<DPlayer> = emptySet<DPlayer>().toMutableSet(),
-    votes: MutableMap<UUID, Int>,
-    hasVoted: MutableSet<UUID>,
     job: IJob,
     voteFee: Int,
     candidateFee: Int,
     dPlayerManager: DPlayerManager,
     economy: Economy,
-    val bukkitWrapper: BukkitWrapper
+    val bukkitWrapper: BukkitWrapper,
+    candidates: MutableSet<DPlayer> = emptySet<DPlayer>().toMutableSet(),
+    votes: MutableMap<UUID, Int> = emptyMap<UUID, Int>().toMutableMap(),
+    hasVoted: MutableSet<UUID> = emptySet<UUID>().toMutableSet(),
 ) : GenericElection(electTime, candidates, votes, hasVoted, job, voteFee, candidateFee, dPlayerManager, economy, bukkitWrapper) {
     var invGUI = InventoryGUI(9,"Election for ${job.name}")
 
