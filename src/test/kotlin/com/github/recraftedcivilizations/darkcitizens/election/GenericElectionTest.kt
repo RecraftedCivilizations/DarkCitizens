@@ -281,6 +281,7 @@ internal class GenericElectionTest {
         verify(playerMock3).sendMessage("Congratulations you won the election")
         verify(jobMock).join(dPlayerMock3)
         verify(bukkitWrapper).notify("${playerMock3.name} won the election and is now a ${jobMock.name}", BarColor.YELLOW, BarStyle.SEGMENTED_10, 5, playerSet)
+        verify(electionManager).electionEnded(election)
 
     }
 }
