@@ -24,7 +24,7 @@ class GUIElection(
     candidateFee: Int,
     dPlayerManager: DPlayerManager,
     economy: Economy,
-    val bukkitWrapper: BukkitWrapper,
+    val bukkitWrapper: BukkitWrapper = BukkitWrapper(),
     candidates: MutableSet<DPlayer> = emptySet<DPlayer>().toMutableSet(),
     votes: MutableMap<UUID, Int> = emptyMap<UUID, Int>().toMutableMap(),
     hasVoted: MutableSet<UUID> = emptySet<UUID>().toMutableSet(),

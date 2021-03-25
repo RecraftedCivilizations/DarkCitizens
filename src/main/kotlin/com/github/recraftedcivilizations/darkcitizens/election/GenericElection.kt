@@ -30,7 +30,7 @@ abstract class GenericElection(
     override val candidateFee: Int,
     val dPlayerManager: DPlayerManager,
     val economy: Economy,
-    private val bukkitWrapper: BukkitWrapper
+    private val bukkitWrapper: BukkitWrapper = BukkitWrapper()
 
 ) : IElect, BukkitRunnable(), Listener {
 
