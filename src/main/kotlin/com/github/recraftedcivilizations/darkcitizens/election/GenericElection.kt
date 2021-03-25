@@ -29,6 +29,7 @@ abstract class GenericElection(
     override val candidateFee: Int,
     val dPlayerManager: DPlayerManager,
     val economy: Economy,
+    private val electionManager: ElectionManager,
     private val bukkitWrapper: BukkitWrapper = BukkitWrapper()
 
 ) : IElect, BukkitRunnable(), Listener {
@@ -115,7 +116,7 @@ abstract class GenericElection(
         winnerPlayer?.sendMessage("Congratulations you won the election")
         job.join(winner)
         bukkitWrapper.notify("${winnerPlayer!!.name} won the election and is now a ${job.name}", BarColor.YELLOW, BarStyle.SEGMENTED_10, 5, bukkitWrapper.getOnlinePlayers())
-
+        electionManager.electionEnded(this)
     }
 
     @EventHandler

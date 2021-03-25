@@ -7,11 +7,11 @@ import net.milkbowl.vault.economy.Economy
 
 object ElectionFactory {
 
-    fun createElection(job: IJob, voteFee: Int, candidateFee: Int, dPlayerManager: DPlayerManager, economy: Economy, bukkitWrapper: BukkitWrapper? = null): IElect{
+    fun createElection(job: IJob, voteFee: Int, candidateFee: Int, dPlayerManager: DPlayerManager, economy: Economy, electionManager: ElectionManager, bukkitWrapper: BukkitWrapper? = null): IElect{
         return if (bukkitWrapper != null){
-            GUIElection(job, voteFee, candidateFee, dPlayerManager, economy, bukkitWrapper)
+            GUIElection(job, voteFee, candidateFee, dPlayerManager, economy, electionManager, bukkitWrapper)
         }else{
-            GUIElection(job, voteFee, candidateFee, dPlayerManager, economy)
+            GUIElection(job, voteFee, candidateFee, dPlayerManager, economy, electionManager)
         }
     }
 }

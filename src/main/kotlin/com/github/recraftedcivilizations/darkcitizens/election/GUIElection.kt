@@ -23,11 +23,12 @@ class GUIElection(
     candidateFee: Int,
     dPlayerManager: DPlayerManager,
     economy: Economy,
+    electionManager: ElectionManager,
     val bukkitWrapper: BukkitWrapper = BukkitWrapper(),
     candidates: MutableSet<DPlayer> = emptySet<DPlayer>().toMutableSet(),
     votes: MutableMap<UUID, Int> = emptyMap<UUID, Int>().toMutableMap(),
     hasVoted: MutableSet<UUID> = emptySet<UUID>().toMutableSet(),
-) : GenericElection(candidates, votes, hasVoted, job, voteFee, candidateFee, dPlayerManager, economy, bukkitWrapper) {
+) : GenericElection(candidates, votes, hasVoted, job, voteFee, candidateFee, dPlayerManager, economy, electionManager, bukkitWrapper) {
     var invGUI = InventoryGUI(9,"Election for ${job.name}")
 
     override fun addCandidate(dPlayer: DPlayer) {
