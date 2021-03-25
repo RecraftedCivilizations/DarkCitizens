@@ -87,10 +87,11 @@ abstract class GenericElection(
     }
 
     override fun runFor(dPlayer: DPlayer) {
-        val player = bukkitWrapper.getPlayer(dPlayer.uuid)
+        val player = bukkitWrapper.getPlayer(dPlayer.uuid)!!
         if(canCandidate(dPlayer)){
             addCandidate(dPlayer)
             economy.withdrawPlayer(player, candidateFee.toDouble())
+            player.sendMessage("${ChatColor.GREEN}You are now a candidate for the job ${job.name}")
         }
     }
 
