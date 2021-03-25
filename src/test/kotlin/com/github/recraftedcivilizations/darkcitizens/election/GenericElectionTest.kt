@@ -20,17 +20,17 @@ import java.util.*
 import kotlin.random.Random
 
 private class ElectionStub(
-    electTime: Int,
     job: IJob,
     voteFee: Int,
     candidateFee: Int,
     dPlayerManager: DPlayerManager,
     economy: Economy,
+    electionManager: ElectionManager,
     bukkitWrapper: BukkitWrapper,
     candidates: MutableSet<DPlayer> = emptySet<DPlayer>().toMutableSet(),
     votes: MutableMap<UUID, Int> = emptyMap<UUID, Int>().toMutableMap(),
     hasVoted: MutableSet<UUID> = emptySet<UUID>().toMutableSet(),
-) : GenericElection(electTime, candidates, votes, hasVoted, job, voteFee, candidateFee, dPlayerManager, economy, electionManager, bukkitWrapper){}
+) : GenericElection(candidates, votes, hasVoted, job, voteFee, candidateFee, dPlayerManager, economy, electionManager, bukkitWrapper){}
 
 internal class GenericElectionTest {
     private var dataParser = mock<IParseData>{}
@@ -118,7 +118,7 @@ internal class GenericElectionTest {
     }
 
     private fun createElection(args: Map<Any, Any>): ElectionStub{
-        return ElectionStub(args["electTime"] as Int, jobMock, args["voteFee"] as Int, args["candidateFee"] as Int, dPlayerManager, economy, bukkitWrapper)
+        return ElectionStub(jobMock, args["voteFee"] as Int, args["candidateFee"] as Int, dPlayerManager, economy, electionManager, bukkitWrapper)
     }
 
     @BeforeEach
