@@ -9,6 +9,8 @@ import com.github.recraftedcivilizations.jobs.randomString
 import com.nhaarman.mockitokotlin2.*
 import net.milkbowl.vault.economy.Economy
 import org.bukkit.ChatColor
+import org.bukkit.boss.BarColor
+import org.bukkit.boss.BarStyle
 import org.bukkit.entity.Player
 import org.junit.jupiter.api.Test
 
@@ -256,5 +258,23 @@ internal class GenericElectionTest {
 
     @Test
     fun run() {
+        val playerSet = emptySet<Player>()
+        val name = randomString()
+        whenever(playerMock1.name) doReturn name
+        whenever(bukkitWrapper.getOnlinePlayers()) doReturn playerSet
+
+        val args = randomElectionArgs()
+        val election = ElectionStub(args["electTime"] as Int, jobMock, args["voteFee"] as Int, args["candidateFee"] as Int, dPlayerManager, economy, bukkitWrapper)
+
+        election.votes[dPlayerMock1.uuid] = 2
+        election.votes[dPlayerMock2.uuid] = 1
+        election.votes[dPlayerMock3.uuid] = 10
+
+        election.run()
+
+        verify(playerMock3).sendMessage("Congratulations you won the election")
+        verify(jobMock).join(dPlayerMock3)
+        verify(bukkitWrapper).notify("${playerMock3.name} won the election and is now a ${jobMock.name}", BarColor.YELLOW, BarStyle.SEGMENTED_10, 5, playerSet)
+
     }
 }
