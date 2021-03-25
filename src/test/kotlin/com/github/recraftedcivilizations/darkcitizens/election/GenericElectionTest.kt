@@ -5,6 +5,7 @@ import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayer
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
 import com.github.recraftedcivilizations.darkcitizens.jobs.IJob
 import com.github.recraftedcivilizations.darkcitizens.parser.dataparser.IParseData
+import com.github.recraftedcivilizations.jobs.randomString
 import com.nhaarman.mockitokotlin2.*
 import net.milkbowl.vault.economy.Economy
 import org.bukkit.ChatColor
@@ -33,6 +34,8 @@ internal class GenericElectionTest {
     private var dataParser = mock<IParseData>{}
     private var dPlayerManager = DPlayerManager(dataParser)
     private var bukkitWrapper = mock<BukkitWrapper>()
+
+    private var jobName = ""
 
     private var jobMock = mock<IJob>{}
     private var economy = mock<Economy>{}
@@ -99,6 +102,8 @@ internal class GenericElectionTest {
                 }
             }
         }
+
+        whenever(jobMock.name) doReturn jobName
     }
 
     fun randomElectionArgs(): Map<Any, Any>{
@@ -116,6 +121,7 @@ internal class GenericElectionTest {
         bukkitWrapper = mock{}
         jobMock = mock{}
         economy = mock{}
+        jobName = randomString()
 
 
         mockFunc()
@@ -194,14 +200,58 @@ internal class GenericElectionTest {
 
     @Test
     fun addCandidate() {
-    }
+        val args = randomElectionArgs()
+        val election = ElectionStub(args["electTime"] as Int, jobMock, args["voteFee"] as Int, args["candidateFee"] as Int, dPlayerManager, economy, bukkitWrapper)
 
-    @Test
-    fun runFor() {
+        election.addCandidate(dPlayerMock1)
+        assertEquals(1, election.candidates.size)
+        assertEquals(dPlayerMock1, election.candidates.first())
     }
 
     @Test
     fun canCandidate() {
+        val args = randomElectionArgs()
+
+        whenever(jobMock.canJoin(dPlayerMock1)) doReturn true
+        whenever(economy.has(playerMock1, (args["candidateFee"] as Int).toDouble())) doReturn true
+
+        whenever(jobMock.canJoin(dPlayerMock2)) doReturn false
+
+        whenever(jobMock.canJoin(dPlayerMock3)) doReturn true
+        whenever(economy.has(playerMock3, (args["candidateFee"] as Int).toDouble())) doReturn false
+
+        val election = ElectionStub(args["electTime"] as Int, jobMock, args["voteFee"] as Int, args["candidateFee"] as Int, dPlayerManager, economy, bukkitWrapper)
+
+
+        assertEquals(true, election.canCandidate(dPlayerMock1))
+        assertEquals(false, election.canCandidate(dPlayerMock2))
+        assertEquals(false, election.canCandidate(dPlayerMock3))
+        verify(playerMock3, times(1)).sendMessage("${ChatColor.RED}You don't have enough money to run for this job")
+
+    }
+
+    @Test
+    fun runFor() {
+        val args = randomElectionArgs()
+
+        whenever(jobMock.canJoin(dPlayerMock1)) doReturn true
+        whenever(economy.has(playerMock1, (args["candidateFee"] as Int).toDouble())) doReturn true
+
+        whenever(jobMock.canJoin(dPlayerMock2)) doReturn false
+
+        val election = ElectionStub(args["electTime"] as Int, jobMock, args["voteFee"] as Int, args["candidateFee"] as Int, dPlayerManager, economy, bukkitWrapper)
+
+        election.runFor(dPlayerMock1)
+
+        assertEquals(1, election.candidates.size)
+        assertEquals(dPlayerMock1, election.candidates.first())
+        verify(economy).withdrawPlayer(playerMock1, ((args["candidateFee"] as Int).toDouble()))
+        verify(playerMock1).sendMessage("${ChatColor.GREEN}You are now a candidate for the job ${jobMock.name}")
+
+        election.runFor(dPlayerMock2)
+        assertEquals(1, election.candidates.size)
+        verifyNoMoreInteractions(playerMock2)
+
     }
 
     @Test
