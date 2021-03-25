@@ -5,6 +5,7 @@ import com.github.darkvanityoflight.recraftedcore.gui.GUIListener
 import com.github.recraftedcivilizations.darkcitizens.commands.ShowJobs
 import com.github.recraftedcivilizations.darkcitizens.commands.ShowTasks
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
+import com.github.recraftedcivilizations.darkcitizens.election.ElectionManager
 import com.github.recraftedcivilizations.darkcitizens.groups.GroupManager
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
 import com.github.recraftedcivilizations.darkcitizens.listeners.DataCleaner
@@ -24,6 +25,7 @@ class Main : ARecraftedPlugin() {
     lateinit var jobManager: JobManager
     lateinit var groupManager: GroupManager
     lateinit var dPlayerManager: DPlayerManager
+    lateinit var electionManager: ElectionManager
 
     override fun onEnable(){
 
@@ -58,6 +60,7 @@ class Main : ARecraftedPlugin() {
         dPlayerManager = DPlayerManager(dataParser)
         taskManager = TaskManager(econ!!, dPlayerManager, groupManager)
         jobManager = JobManager(dPlayerManager)
+        electionManager = ElectionManager(dPlayerManager, econ!!, this)
 
         taskManager.setJobManager(jobManager)
         jobManager.setTaskManager(taskManager)
