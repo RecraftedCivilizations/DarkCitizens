@@ -13,7 +13,6 @@ import kotlin.collections.HashMap
  * Represents an election that is held
  */
 interface IElect{
-    val electTime: Int
     val candidates: MutableSet<DPlayer>
     val votes: MutableMap<UUID, Int>
     val hasVoted: MutableSet<UUID>

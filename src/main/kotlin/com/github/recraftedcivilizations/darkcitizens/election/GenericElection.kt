@@ -21,7 +21,6 @@ import java.util.*
 fun <T> MutableMap<T, Int>.inc(key: T, more: Int = 1) = merge(key, more, Int::plus)
 
 abstract class GenericElection(
-    override val electTime: Int,
     override val candidates: MutableSet<DPlayer>,
     override val votes: MutableMap<UUID, Int>,
     override val hasVoted: MutableSet<UUID>,

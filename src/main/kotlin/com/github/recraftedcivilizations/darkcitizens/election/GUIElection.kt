@@ -18,7 +18,6 @@ import org.bukkit.inventory.meta.SkullMeta
 import java.util.*
 
 class GUIElection(
-    electTime: Int,
     job: IJob,
     voteFee: Int,
     candidateFee: Int,
@@ -28,7 +27,7 @@ class GUIElection(
     candidates: MutableSet<DPlayer> = emptySet<DPlayer>().toMutableSet(),
     votes: MutableMap<UUID, Int> = emptyMap<UUID, Int>().toMutableMap(),
     hasVoted: MutableSet<UUID> = emptySet<UUID>().toMutableSet(),
-) : GenericElection(electTime, candidates, votes, hasVoted, job, voteFee, candidateFee, dPlayerManager, economy, bukkitWrapper) {
+) : GenericElection(candidates, votes, hasVoted, job, voteFee, candidateFee, dPlayerManager, economy, bukkitWrapper) {
     var invGUI = InventoryGUI(9,"Election for ${job.name}")
 
     override fun addCandidate(dPlayer: DPlayer) {
