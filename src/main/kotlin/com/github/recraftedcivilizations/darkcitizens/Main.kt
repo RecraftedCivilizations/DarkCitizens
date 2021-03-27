@@ -2,6 +2,7 @@ package com.github.recraftedcivilizations.darkcitizens
 
 import com.github.darkvanityoflight.recraftedcore.ARecraftedPlugin
 import com.github.darkvanityoflight.recraftedcore.gui.GUIListener
+import com.github.recraftedcivilizations.darkcitizens.commands.ShowElections
 import com.github.recraftedcivilizations.darkcitizens.commands.ShowJobs
 import com.github.recraftedcivilizations.darkcitizens.commands.ShowTasks
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
@@ -50,6 +51,7 @@ class Main : ARecraftedPlugin() {
         Bukkit.getServer().pluginManager.registerEvents(GUIListener(), this)
         this.getCommand("jobs")?.setExecutor(ShowJobs(jobManager, dPlayerManager))
         this.getCommand("tasks")?.setExecutor(ShowTasks(jobManager, dPlayerManager))
+        this.getCommand("elections")?.setExecutor(ShowElections(electionManager))
         server.pluginManager.registerEvents(DataCleaner(dPlayerManager, jobManager), this)
 
         BaseIncomeRunner(jobManager, dPlayerManager, econ!!, groupManager).runTaskTimer(this, configParser.baseIncomeTime.toLong() * 60L * 20L, configParser.baseIncomeTime.toLong() * 60L * 20L)

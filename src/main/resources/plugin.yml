@@ -11,6 +11,11 @@ commands:
     usage: /tasks
     permission: drp.tasks
     permission-message: You don't have the basic permissions for tasks
+  elections:
+    description: Show all elections that are currently going on
+    usage: /elections
+    permission: drp.vote
+    permission-message: You don't have the permission to vote
 
 permissions:
   drp.*:
@@ -31,3 +36,7 @@ permissions:
   drp.job.*:
     description: Join all jobs, where a permission is required
     default: false
+
+  drp.vote:
+    description: Show all elections and vote for a candidate
+    default: true
