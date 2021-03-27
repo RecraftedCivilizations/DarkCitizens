@@ -37,89 +37,19 @@ class Job(
     override val icon: Material,
     private val dPlayerManager: DPlayerManager,
     private val jobManager: JobManager,
-    private var bukkitWrapper: com.github.recraftedcivilizations.darkcitizens.BukkitWrapper = com.github.recraftedcivilizations.darkcitizens.BukkitWrapper()
-) : IJob {
-    override val currentMembers: MutableSet<DPlayer> = emptySet<DPlayer>().toMutableSet()
-
-    override fun setBukkitWrapper(bukkitWrapper: BukkitWrapper){
-        this.bukkitWrapper = bukkitWrapper
-    }
-    override fun removePlayer(player: DPlayer) {
-        for (member in currentMembers){
-            if (member.uuid == player.uuid){
-                currentMembers.remove(member)
-            }
-        }
-    }
-
-    override fun removePlayer(player: Player) {
-        removePlayer(dPlayerManager.getDPlayer(player)!!)
-    }
-
-    override fun addPlayer(player: DPlayer) {
-        if (canJoin(player)) {
-            currentMembers.add(player)
-        }
-    }
-
-    override fun addPlayer(player: Player) {
-        addPlayer(dPlayerManager.getDPlayer(player)!!)
-    }
-
-    override fun canJoin(player: DPlayer): Boolean {
-        return canJoin(bukkitWrapper.getPlayer(player)!!)
-    }
-
-    override fun canJoin(player: Player): Boolean {
-        val dPlayer = dPlayerManager.getDPlayer(player)
-
-        dPlayer!!
-
-        if (dPlayer.groupLvls[group] == null){
-            dPlayer.groupLvls[group] = 0
-            dPlayer.groupXps[group] = 0
-        }
-        if (dPlayer.groupLvls[group]!! >= minLvl){
-            if (!permissionRequired || permissionRequired && player.hasPermission("drp.job.join.$name"))
-            {
-                return if (currentMembers.size < playerLimit){
-                    if (!isMember(player)){
-                        true
-                    }else{
-                        player.sendMessage("${ChatColor.RED}You are already in this job")
-                        false
-                    }
-                } else{
-                    player.sendMessage("${ChatColor.RED}There are too many players in this job")
-                    false
-                }
-            }else{
-                player.sendMessage("${ChatColor.RED}You don't have the required permissions to join this job!")
-                return false
-            }
-        }else{
-            player.sendMessage("${ChatColor.RED}You don't have the required level to join this job!")
-            return false
-        }
-
-    }
-
-    override fun isMember(uuid: UUID): Boolean {
-        for (member in currentMembers){
-            if (member.uuid == uuid){
-                return true
-            }
-        }
-        return false
-    }
-
-    override fun isMember(player: DPlayer): Boolean {
-        return isMember(player.uuid)
-    }
-
-    override fun isMember(player: Player): Boolean {
-        return isMember(player.uniqueId)
-    }
+    private val bukkitWrapper: BukkitWrapper,
+) : GenericJob(name,
+    group,
+    playerLimit,
+    tasks,
+    canDemote,
+    baseIncome,
+    baseXPGain,
+    minLvl,
+    permissionRequired,
+    icon,
+    dPlayerManager,
+    jobManager,) {
 
     override fun join(dPlayer: DPlayer) {
         if(this.canJoin(dPlayer)){
@@ -131,20 +61,5 @@ class Job(
             dPlayerManager.setDPlayer(dPlayer)
 
         }
-    }
-
-    override fun join(player: Player) {
-        dPlayerManager.getDPlayer(player.uniqueId)?.let { join(it) }
-    }
-
-    override fun leave(dPlayer: DPlayer) {
-        if(isMember(dPlayer.uuid)){
-            removePlayer(dPlayer)
-            dPlayer.job = null
-            dPlayerManager.setDPlayer(dPlayer)
-        }
-    }
-    override fun leave(player: Player) {
-        dPlayerManager.getDPlayer(player.uniqueId)?.let { leave(it) }
     }
 }
