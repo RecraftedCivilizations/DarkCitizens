@@ -37,7 +37,7 @@ class Job(
     override val icon: Material,
     private val dPlayerManager: DPlayerManager,
     private val jobManager: JobManager,
-    private val bukkitWrapper: BukkitWrapper,
+    private val bukkitWrapper: BukkitWrapper = BukkitWrapper(),
 ) : GenericJob(name,
     group,
     playerLimit,
