@@ -43,6 +43,22 @@ object JobFactory {
         dPlayerManager: DPlayerManager,
         jobManager: JobManager
     ): IJob {
+
+        if (electionRequired){
+            return ElectedJob(name,
+                group,
+                playerLimit,
+                tasks,
+                canDemote,
+                baseIncome,
+                baseXPGain,
+                minLvl,
+                permissionRequired,
+                icon,
+                dPlayerManager,
+                jobManager)
+        }else{
+
         return Job(
             name,
             group,
@@ -52,11 +68,10 @@ object JobFactory {
             baseIncome,
             baseXPGain,
             minLvl,
-            electionRequired,
             permissionRequired,
             icon,
             dPlayerManager,
-            jobManager
-        )
+            jobManager)
+        }
     }
 }
