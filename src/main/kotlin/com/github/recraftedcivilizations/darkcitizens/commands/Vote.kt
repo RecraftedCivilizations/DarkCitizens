@@ -10,6 +10,7 @@ import com.github.recraftedcivilizations.darkcitizens.gui.ElectionItem
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
+import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
 class Vote(private val electionManager: ElectionManager): CommandExecutor {
@@ -45,8 +46,10 @@ class Vote(private val electionManager: ElectionManager): CommandExecutor {
         return gui
     }
 
-    override fun onCommand(p0: CommandSender, p1: Command, p2: String, p3: Array<out String>): Boolean {
-
+    override fun onCommand(sender: CommandSender, p1: Command, p2: String, p3: Array<out String>): Boolean {
+        if(sender !is Player){ sender.sendMessage("Fuck off console man!!"); return false }
+        val gui = createGui()
+        gui.show(sender)
         return true
     }
 }
