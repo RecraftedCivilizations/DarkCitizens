@@ -33,7 +33,6 @@ class Job(
     override val baseIncome: Int,
     override val baseXPGain: Int,
     override val minLvl: Int,
-    override val electionRequired: Boolean,
     override val permissionRequired: Boolean,
     override val icon: Material,
     private val dPlayerManager: DPlayerManager,
