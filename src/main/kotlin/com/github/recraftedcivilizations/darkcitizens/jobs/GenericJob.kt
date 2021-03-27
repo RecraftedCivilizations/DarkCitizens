@@ -119,18 +119,6 @@ abstract class GenericJob(
         return isMember(player.uniqueId)
     }
 
-    override fun join(dPlayer: DPlayer) {
-        if(this.canJoin(dPlayer)){
-            // Leave the old job, ugly ik
-            dPlayer.job?.let { jobManager.getJob(it) }?.leave(dPlayer)
-            this.addPlayer(dPlayer)
-            dPlayer.job = name
-            bukkitWrapper.getPlayer(dPlayer)?.sendMessage("${ChatColor.GREEN}You successfully joined the job $name")
-            dPlayerManager.setDPlayer(dPlayer)
-
-        }
-    }
-
     override fun join(player: Player) {
         dPlayerManager.getDPlayer(player.uniqueId)?.let { join(it) }
     }
