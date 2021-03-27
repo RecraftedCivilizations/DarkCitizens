@@ -13,7 +13,7 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
-class Vote(private val electionManager: ElectionManager): CommandExecutor {
+class ShowElections(private val electionManager: ElectionManager): CommandExecutor {
 
     private fun createGui(): InventoryGUI{
         val elections = electionManager.getElections()
