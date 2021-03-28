@@ -3,7 +3,9 @@ package com.github.recraftedcivilizations.parser
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
 import com.github.recraftedcivilizations.darkcitizens.groups.Group
 import com.github.recraftedcivilizations.darkcitizens.groups.GroupManager
+import com.github.recraftedcivilizations.darkcitizens.jobs.ElectedJob
 import com.github.recraftedcivilizations.darkcitizens.jobs.IJob
+import com.github.recraftedcivilizations.darkcitizens.jobs.Job
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
 import com.github.recraftedcivilizations.darkcitizens.parser.ConfigParser
 import com.github.recraftedcivilizations.darkcitizens.parser.dataparser.IParseData
@@ -292,8 +294,12 @@ internal class ConfigParserTest {
         assertEquals(jobArgs[ConfigParser.jobPlayerLimitName], job.playerLimit)
         assertEquals((jobArgs[ConfigParser.jobCanDemoteName] as Set<*>), job.canDemote)
         assertEquals(jobArgs[ConfigParser.jobMinLvlName], job.minLvl)
-        assertEquals(jobArgs[ConfigParser.jobElectionRequiredName], job.electionRequired)
         assertEquals(jobArgs[ConfigParser.jobPermissionRequiredName], job.permissionRequired)
+        if (jobArgs[ConfigParser.jobElectionRequiredName] as Boolean){
+            assertEquals(true, job is ElectedJob)
+        }else{
+            assertEquals(true, job is Job)
+        }
     }
 
     private fun assertTask(task: ITask?, taskArgs: Map<Any, Any>){

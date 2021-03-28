@@ -77,7 +77,7 @@ internal class DPlayerTest {
 
         // Job stuff
         val jobManager = JobManager(dPlayerManager)
-        val job = Job(randomString(), randomString(), Random.nextInt(10), emptySet(), emptySet(), Random.nextInt(), Random.nextInt(), 0, false, false, icon, dPlayerManager, jobManager, bukkitWrapper)
+        val job = Job(randomString(), randomString(), Random.nextInt(10), emptySet(), emptySet(), Random.nextInt(), Random.nextInt(), 0, false, icon, dPlayerManager, jobManager, bukkitWrapper)
 
         dPlayer.setJobManager(jobManager)
         dPlayer.setBukkitWrapper(bukkitWrapper)
