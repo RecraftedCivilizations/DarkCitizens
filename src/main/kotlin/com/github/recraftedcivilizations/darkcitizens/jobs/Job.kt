@@ -49,7 +49,9 @@ class Job(
     permissionRequired,
     icon,
     dPlayerManager,
-    jobManager,) {
+    jobManager,
+    bukkitWrapper
+    ) {
 
     override fun join(dPlayer: DPlayer) {
         if(this.canJoin(dPlayer)){
