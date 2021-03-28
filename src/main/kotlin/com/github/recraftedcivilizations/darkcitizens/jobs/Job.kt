@@ -55,7 +55,7 @@ class Job(
 
     override fun setBukkitWrapper(bukkitWrapper: BukkitWrapper) {
         super.setBukkitWrapper(bukkitWrapper)
-        this.bukkitWrapper = BukkitWrapper()
+        this.bukkitWrapper = bukkitWrapper
     }
 
     override fun join(dPlayer: DPlayer) {
