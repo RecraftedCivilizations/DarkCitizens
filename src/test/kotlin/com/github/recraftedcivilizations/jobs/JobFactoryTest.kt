@@ -48,7 +48,7 @@ internal class JobFactoryTest {
     @Test
     fun createElectedJob() {
         val icon = mock<Material>{}
-        val job = ElectedJob(randomString(), randomString(), Random.nextInt(), emptySet(), emptySet(), Random.nextInt(), Random.nextInt(), Random.nextInt(), Random.nextBoolean(), icon, dPlayerManager, jobManager)
+        val job = ElectedJob(randomString(), randomString(), Random.nextInt(), emptySet(), emptySet(), Random.nextInt(), Random.nextInt(), Random.nextInt(), Random.nextBoolean(), icon, Random.nextInt(), Random.nextInt(), Random.nextInt(), Random.nextInt(), dPlayerManager, jobManager)
         val thatJob = JobFactory.createJob(job.name, job.group, job.playerLimit, job.tasks, job.canDemote, job.baseIncome, job.baseXPGain, job.minLvl, true, job.permissionRequired, job.icon, dPlayerManager, jobManager)
         assertEquals(job.name, thatJob.name)
         assertEquals(job.group, thatJob.group)
