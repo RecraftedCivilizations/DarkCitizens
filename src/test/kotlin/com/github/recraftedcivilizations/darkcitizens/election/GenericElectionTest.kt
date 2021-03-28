@@ -188,6 +188,8 @@ internal class GenericElectionTest {
 
         val election = createElection(args)
 
+        election.state = ElectionStates.VOTE
+
         election.vote(ranUUID, dPlayerMock1)
         verify(playerMock1).sendMessage("${ChatColor.RED}The candidate you want to vote for does not exist!!")
 
@@ -285,6 +287,7 @@ internal class GenericElectionTest {
         election.votes[dPlayerMock2.uuid] = 1
         election.votes[dPlayerMock3.uuid] = 10
 
+        election.state = ElectionStates.VOTE
         election.run()
 
         verify(playerMock3).sendMessage("Congratulations you won the election")
