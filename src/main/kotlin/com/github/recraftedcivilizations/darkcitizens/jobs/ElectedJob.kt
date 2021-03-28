@@ -18,6 +18,10 @@ class ElectedJob(
     minLvl: Int,
     permissionRequired: Boolean,
     icon: Material,
+    val candidateTime: Int,
+    val voteTime: Int,
+    val voteFee: Int,
+    val candidateFee: Int,
     dPlayerManager: DPlayerManager,
     jobManager: JobManager,
     private val bukkitWrapper: BukkitWrapper = BukkitWrapper()

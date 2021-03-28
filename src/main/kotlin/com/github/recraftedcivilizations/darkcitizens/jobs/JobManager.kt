@@ -56,7 +56,11 @@ class JobManager(private val dPlayerManager: DPlayerManager) {
         minLvl: Int,
         electionRequired: Boolean,
         permissionRequired: Boolean,
-        icon: Material
+        icon: Material,
+        candidateTime: Int? = null,
+        voteTime: Int? = null,
+        voteFee: Int? = null,
+        candidateFee: Int? = null,
         ){
         val iTasks = emptySet<ITask>().toMutableSet()
 
@@ -80,7 +84,11 @@ class JobManager(private val dPlayerManager: DPlayerManager) {
                 permissionRequired,
                 icon,
                 dPlayerManager,
-                this
+                this,
+                candidateTime,
+                voteTime,
+                voteFee,
+                candidateFee,
             )
         )
 

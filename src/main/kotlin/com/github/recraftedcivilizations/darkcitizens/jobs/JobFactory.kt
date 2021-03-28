@@ -41,7 +41,11 @@ object JobFactory {
         permissionRequired: Boolean,
         icon: Material,
         dPlayerManager: DPlayerManager,
-        jobManager: JobManager
+        jobManager: JobManager,
+        candidateTime: Int? = null,
+        voteTime: Int? = null,
+        voteFee: Int? = null,
+        candidateFee: Int? = null,
     ): IJob {
 
         if (electionRequired){
@@ -55,6 +59,10 @@ object JobFactory {
                 minLvl,
                 permissionRequired,
                 icon,
+                candidateTime!!,
+                voteTime!!,
+                voteFee!!,
+                candidateFee!!,
                 dPlayerManager,
                 jobManager)
         }else{
