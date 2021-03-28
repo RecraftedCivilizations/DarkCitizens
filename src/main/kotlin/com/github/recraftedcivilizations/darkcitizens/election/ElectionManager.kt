@@ -16,12 +16,10 @@ class ElectionManager(private val dPlayerManager: DPlayerManager, private val ec
      * @param voteFee The fee that has to be payed to vote
      * @param candidateFee The fee that has to be payed to candidate
      */
-    fun createElection(electTime: Int, job: IJob, voteFee: Int, candidateFee: Int){
-        val election = ElectionFactory.createElection(job, voteFee, candidateFee, dPlayerManager, economy, this)
+    fun createElection(electTime: Int, job: IJob, voteFee: Int, candidateFee: Int, candidateTime: Int, voteTime: Int){
+        val election = ElectionFactory.createElection(job, voteFee, candidateFee, candidateTime, voteTime, plugin, dPlayerManager, economy, this)
         elections.add(election)
-        if (election is GenericElection){
-            election.runTaskLaterAsynchronously(plugin, electTime * 20L * 60)
-        }
+        election.start()
     }
 
     /**
