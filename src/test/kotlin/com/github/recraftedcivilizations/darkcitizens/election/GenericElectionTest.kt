@@ -1,5 +1,6 @@
 package com.github.recraftedcivilizations.darkcitizens.election
 
+import com.github.darkvanityoflight.recraftedcore.ARecraftedPlugin
 import com.github.recraftedcivilizations.darkcitizens.BukkitWrapper
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayer
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
@@ -23,14 +24,17 @@ private class ElectionStub(
     job: IJob,
     voteFee: Int,
     candidateFee: Int,
+    candidateTime: Int,
+    voteTime: Int,
     dPlayerManager: DPlayerManager,
     economy: Economy,
     electionManager: ElectionManager,
+    plugin: ARecraftedPlugin,
     bukkitWrapper: BukkitWrapper,
     candidates: MutableSet<DPlayer> = emptySet<DPlayer>().toMutableSet(),
     votes: MutableMap<UUID, Int> = emptyMap<UUID, Int>().toMutableMap(),
     hasVoted: MutableSet<UUID> = emptySet<UUID>().toMutableSet(),
-) : GenericElection(candidates, votes, hasVoted, job, voteFee, candidateFee, dPlayerManager, economy, electionManager, bukkitWrapper){}
+) : GenericElection(candidates, votes, hasVoted, job, voteFee, candidateFee, candidateTime, voteTime, dPlayerManager, economy, electionManager, plugin, bukkitWrapper){}
 
 internal class GenericElectionTest {
     private var dataParser = mock<IParseData>{}
@@ -74,6 +78,8 @@ internal class GenericElectionTest {
         on { uuid } doReturn uuid3
     }
 
+    private var plugin = mock<ARecraftedPlugin>{}
+
     private fun mockFunc(){
 
         whenever(dataParser.getDPlayer(any())).doAnswer {
@@ -114,11 +120,13 @@ internal class GenericElectionTest {
             Pair("electTime", Random.nextInt(100)),
             Pair("voteFee", Random.nextInt(100)),
             Pair("candidateFee", Random.nextInt(100)),
+            Pair("candidateTime", Random.nextInt(100)),
+            Pair("voteTime", Random.nextInt(100)),
         )
     }
 
     private fun createElection(args: Map<Any, Any>): ElectionStub{
-        return ElectionStub(jobMock, args["voteFee"] as Int, args["candidateFee"] as Int, dPlayerManager, economy, electionManager, bukkitWrapper)
+        return ElectionStub(jobMock, args["voteFee"] as Int, args["candidateFee"] as Int, args["candidateTime"] as Int, args["voteTime"] as Int, dPlayerManager, economy, electionManager, plugin, bukkitWrapper)
     }
 
     @BeforeEach
@@ -130,6 +138,7 @@ internal class GenericElectionTest {
         economy = mock{}
         electionManager = mock<ElectionManager>()
         jobName = randomString()
+        plugin = mock{}
 
 
         mockFunc()
