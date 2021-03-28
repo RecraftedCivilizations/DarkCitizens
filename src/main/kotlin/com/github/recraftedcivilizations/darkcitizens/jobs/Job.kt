@@ -37,7 +37,7 @@ class Job(
     override val icon: Material,
     private val dPlayerManager: DPlayerManager,
     private val jobManager: JobManager,
-    private val bukkitWrapper: BukkitWrapper = BukkitWrapper(),
+    private var bukkitWrapper: BukkitWrapper = BukkitWrapper(),
 ) : GenericJob(name,
     group,
     playerLimit,
@@ -52,6 +52,11 @@ class Job(
     jobManager,
     bukkitWrapper
     ) {
+
+    override fun setBukkitWrapper(bukkitWrapper: BukkitWrapper) {
+        super.setBukkitWrapper(bukkitWrapper)
+        this.bukkitWrapper = BukkitWrapper()
+    }
 
     override fun join(dPlayer: DPlayer) {
         if(this.canJoin(dPlayer)){
