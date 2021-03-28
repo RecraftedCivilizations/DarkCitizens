@@ -1,5 +1,6 @@
 package com.github.recraftedcivilizations.darkcitizens.election
 
+import com.github.darkvanityoflight.recraftedcore.ARecraftedPlugin
 import com.github.recraftedcivilizations.darkcitizens.BukkitWrapper
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayer
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
@@ -27,12 +28,17 @@ abstract class GenericElection(
     override val job: IJob,
     override val voteFee: Int,
     override val candidateFee: Int,
+    private val candidateTime: Int,
+    private val voteTime: Int,
     val dPlayerManager: DPlayerManager,
     val economy: Economy,
     private val electionManager: ElectionManager,
+    private val plugin: ARecraftedPlugin,
     private val bukkitWrapper: BukkitWrapper = BukkitWrapper()
 
 ) : IElect, BukkitRunnable(), Listener {
+    override var state: ElectionStates = ElectionStates.CANDIDATE
+    private val runTime = 0
 
     override fun evaluateVotes(): DPlayer {
         val sorted = votes.toList().sortedByDescending { (_, value) -> value }.toMap()
@@ -49,21 +55,26 @@ abstract class GenericElection(
     override fun vote(uuid: UUID, dPlayer: DPlayer) {
         val player = bukkitWrapper.getPlayer(dPlayer.uuid)!!
 
-        var isInCandidates: Boolean = false
-        for(candidate in candidates){
-            if (uuid == candidate.uuid){
-                isInCandidates = true
-                break
-            }
-        }
+        if (state == ElectionStates.VOTE){
 
-        if (isInCandidates){
-            if(canVote(dPlayer)){
-                addVote(uuid)
-                economy.withdrawPlayer(player, voteFee.toDouble())
+            var isInCandidates: Boolean = false
+            for(candidate in candidates){
+                if (uuid == candidate.uuid){
+                    isInCandidates = true
+                    break
+                }
+            }
+
+            if (isInCandidates){
+                if(canVote(dPlayer)){
+                    addVote(uuid)
+                    economy.withdrawPlayer(player, voteFee.toDouble())
+                }
+            }else{
+                player.sendMessage("${ChatColor.RED}The candidate you want to vote for does not exist!!")
             }
         }else{
-            player.sendMessage("${ChatColor.RED}The candidate you want to vote for does not exist!!")
+            player.sendMessage("${ChatColor.RED} The vote phase hasn't started yet!!")
         }
     }
 
@@ -111,12 +122,23 @@ abstract class GenericElection(
     }
 
     override fun run() {
-        val winner = evaluateVotes()
-        val winnerPlayer = bukkitWrapper.getPlayer(winner.uuid)
-        winnerPlayer?.sendMessage("Congratulations you won the election")
-        job.join(winner)
-        bukkitWrapper.notify("${winnerPlayer!!.name} won the election and is now a ${job.name}", BarColor.YELLOW, BarStyle.SEGMENTED_10, 5, bukkitWrapper.getOnlinePlayers())
-        electionManager.electionEnded(this)
+        // Only evaluate after the Vote phase
+        if (state == ElectionStates.VOTE){
+            // Get the winner and put him into his job
+            val winner = evaluateVotes()
+            val winnerPlayer = bukkitWrapper.getPlayer(winner.uuid)
+            winnerPlayer?.sendMessage("Congratulations you won the election")
+            job.join(winner)
+            bukkitWrapper.notify("${winnerPlayer!!.name} won the election and is now a ${job.name}", BarColor.YELLOW, BarStyle.SEGMENTED_10, 5, bukkitWrapper.getOnlinePlayers())
+            electionManager.electionEnded(this)
+        }
+    }
+
+    override fun start() {
+        this.runTaskLaterAsynchronously(plugin, candidateTime * 20L * 60)
+        this.state = ElectionStates.VOTE
+        this.runTaskLaterAsynchronously(plugin, voteTime * 20L * 60)
+        this.state = ElectionStates.ENDED
     }
 
     @EventHandler

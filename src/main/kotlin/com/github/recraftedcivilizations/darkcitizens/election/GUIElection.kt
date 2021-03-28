@@ -1,5 +1,6 @@
 package com.github.recraftedcivilizations.darkcitizens.election
 
+import com.github.darkvanityoflight.recraftedcore.ARecraftedPlugin
 import com.github.darkvanityoflight.recraftedcore.gui.InventoryGUI
 import com.github.darkvanityoflight.recraftedcore.gui.elements.CloseButtonFactory
 import com.github.darkvanityoflight.recraftedcore.utils.itemutils.setName
@@ -21,14 +22,17 @@ class GUIElection(
     job: IJob,
     voteFee: Int,
     candidateFee: Int,
+    candidateTime: Int,
+    voteTime: Int,
     dPlayerManager: DPlayerManager,
     economy: Economy,
     electionManager: ElectionManager,
+    plugin: ARecraftedPlugin,
     val bukkitWrapper: BukkitWrapper = BukkitWrapper(),
     candidates: MutableSet<DPlayer> = emptySet<DPlayer>().toMutableSet(),
     votes: MutableMap<UUID, Int> = emptyMap<UUID, Int>().toMutableMap(),
     hasVoted: MutableSet<UUID> = emptySet<UUID>().toMutableSet(),
-) : GenericElection(candidates, votes, hasVoted, job, voteFee, candidateFee, dPlayerManager, economy, electionManager, bukkitWrapper) {
+) : GenericElection(candidates, votes, hasVoted, job, voteFee, candidateFee, candidateTime, voteTime, dPlayerManager, economy, electionManager, plugin, bukkitWrapper) {
     var invGUI = InventoryGUI(9,"Election for ${job.name}")
 
     override fun addCandidate(dPlayer: DPlayer) {

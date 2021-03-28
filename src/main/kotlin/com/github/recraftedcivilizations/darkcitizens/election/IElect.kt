@@ -3,14 +3,14 @@ package com.github.recraftedcivilizations.darkcitizens.election
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayer
 import com.github.recraftedcivilizations.darkcitizens.jobs.IJob
 import java.util.*
-import kotlin.collections.HashMap
 
 /**
  * @author DarkVanityOfLight
  */
 
 /**
- * Represents an election that is held
+ * Represents an election that is held,
+ * DO NOT RUN THE ELECTION BY YOURSELF USE THE [start] METHOD
  */
 interface IElect{
     val candidates: MutableSet<DPlayer>
@@ -19,6 +19,7 @@ interface IElect{
     val job: IJob
     val voteFee: Int
     val candidateFee: Int
+    var state: ElectionStates
 
     /**
      * Gets called when the vote ends,
@@ -67,4 +68,8 @@ interface IElect{
      */
     fun runFor(dPlayer: DPlayer)
 
+    /**
+     * Start the election, use this don't run the election manually
+     */
+    fun start()
 }
