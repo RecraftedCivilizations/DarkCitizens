@@ -7,6 +7,7 @@ import com.github.darkvanityoflight.recraftedcore.utils.itemutils.getName
 import com.github.darkvanityoflight.recraftedcore.utils.itemutils.setName
 import com.github.recraftedcivilizations.darkcitizens.BukkitWrapper
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
+import com.github.recraftedcivilizations.darkcitizens.election.ElectionManager
 import com.github.recraftedcivilizations.darkcitizens.gui.JobItem
 import com.github.recraftedcivilizations.darkcitizens.jobs.ElectedJob
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
@@ -18,7 +19,7 @@ import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
-class ShowJobs(val jobManager: JobManager, val dPlayerManager: DPlayerManager, bukkitWrapper: BukkitWrapper = BukkitWrapper()): CommandExecutor {
+class ShowJobs(val jobManager: JobManager, val dPlayerManager: DPlayerManager, val electionManager: ElectionManager): CommandExecutor {
     private val jobGUI: InventoryGUI
 
     init {
@@ -46,7 +47,7 @@ class ShowJobs(val jobManager: JobManager, val dPlayerManager: DPlayerManager, b
             if (job is ElectedJob){
                 jobItemStack.addLore("You have to be elected to join this job")
             }
-            val displayItem = JobItem(jobItemStack, job, dPlayerManager, jobManager)
+            val displayItem = JobItem(jobItemStack, job, dPlayerManager, jobManager, electionManager)
             jobGUI.addItem(displayItem)
         }
 

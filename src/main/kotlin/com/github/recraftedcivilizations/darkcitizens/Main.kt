@@ -49,7 +49,7 @@ class Main : ARecraftedPlugin() {
         configParser.read()
 
         Bukkit.getServer().pluginManager.registerEvents(GUIListener(), this)
-        this.getCommand("jobs")?.setExecutor(ShowJobs(jobManager, dPlayerManager))
+        this.getCommand("jobs")?.setExecutor(ShowJobs(jobManager, dPlayerManager, electionManager))
         this.getCommand("tasks")?.setExecutor(ShowTasks(jobManager, dPlayerManager))
         this.getCommand("elections")?.setExecutor(ShowElections(electionManager))
         server.pluginManager.registerEvents(DataCleaner(dPlayerManager, jobManager), this)
