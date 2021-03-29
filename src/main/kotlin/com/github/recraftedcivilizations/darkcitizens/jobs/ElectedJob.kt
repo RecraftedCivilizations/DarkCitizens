@@ -4,6 +4,7 @@ import com.github.recraftedcivilizations.darkcitizens.BukkitWrapper
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayer
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
 import com.github.recraftedcivilizations.darkcitizens.tasks.ITask
+import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.Material
 
@@ -22,7 +23,7 @@ class ElectedJob(
     val voteTime: Int,
     val voteFee: Int,
     val candidateFee: Int,
-    dPlayerManager: DPlayerManager,
+    val dPlayerManager: DPlayerManager,
     jobManager: JobManager,
     private val bukkitWrapper: BukkitWrapper = BukkitWrapper()
 ) : GenericJob(
@@ -44,5 +45,19 @@ class ElectedJob(
         val player = bukkitWrapper.getPlayer(dPlayer.uuid)!!
         addPlayer(dPlayer)
         player.sendMessage("${ChatColor.GREEN}You are now a $name")
+    }
+
+    override fun leave(dPlayer: DPlayer) {
+        val player = bukkitWrapper.getPlayer(dPlayer.uuid)!!
+        if(isMember(dPlayer.uuid)){
+            removePlayer(dPlayer)
+            dPlayer.job = null
+            dPlayerManager.setDPlayer(dPlayer)
+        }
+
+        val players = Bukkit.getOnlinePlayers()
+        for (i in players){
+            i.sendMessage("${ChatColor.GREEN}The player ${player.name} left his job as ${name}. You can join the elections to become $name")
+        }
     }
 }
