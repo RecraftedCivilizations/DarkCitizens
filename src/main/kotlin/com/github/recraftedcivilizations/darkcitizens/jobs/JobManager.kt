@@ -25,7 +25,7 @@ class JobManager(private val dPlayerManager: DPlayerManager) {
      * Get a job using its name
      * @param name The name of the job you want
      */
-    fun getJob(name: String): IJob?{
+    fun getJob(name: String?): IJob?{
         for (job in jobs){
             if (job.name == name){ return job }
         }
