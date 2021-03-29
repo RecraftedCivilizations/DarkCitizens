@@ -265,7 +265,8 @@ internal class ConfigParserTest {
             jobArgs[ConfigParser.jobBaseIncomeName] as Int, jobArgs[ConfigParser.jobBaseXpName] as Int,
             jobArgs[ConfigParser.jobMinLvlName] as Int, jobArgs[ConfigParser.jobElectionRequiredName] as Boolean,
             jobArgs[ConfigParser.jobPermissionRequiredName] as Boolean,
-            jobArgs[ConfigParser.jobIconName] as Material
+            jobArgs[ConfigParser.jobIconName] as Material,
+            jobArgs[ConfigParser.jobLeaveOnDeathName] as Boolean,
             )
 
         val res = configParser.callPrivateFunc("verify") as Boolean
@@ -320,7 +321,8 @@ internal class ConfigParserTest {
             Pair(ConfigParser.jobPermissionRequiredName, Random.nextBoolean()),
             Pair(ConfigParser.jobBaseIncomeName, Random.nextInt()),
             Pair(ConfigParser.jobBaseXpName, Random.nextInt()),
-            Pair(ConfigParser.jobIconName, mock<Material>{})
+            Pair(ConfigParser.jobIconName, mock<Material>{}),
+            Pair(ConfigParser.jobLeaveOnDeathName, Random.nextBoolean())
         )
     }
 
