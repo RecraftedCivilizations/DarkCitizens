@@ -30,6 +30,7 @@ interface IJob {
     val minLvl: Int
     val permissionRequired: Boolean
     val icon: Material
+    val leaveOnDeath: Boolean
 
     fun setBukkitWrapper(bukkitWrapper: BukkitWrapper)
 

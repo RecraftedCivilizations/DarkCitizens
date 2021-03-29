@@ -19,6 +19,7 @@ class ElectedJob(
     minLvl: Int,
     permissionRequired: Boolean,
     icon: Material,
+    override val leaveOnDeath: Boolean,
     val candidateTime: Int,
     val voteTime: Int,
     val voteFee: Int,
@@ -37,6 +38,7 @@ class ElectedJob(
     minLvl,
     permissionRequired,
     icon,
+    leaveOnDeath,
     dPlayerManager,
     jobManager,
     bukkitWrapper

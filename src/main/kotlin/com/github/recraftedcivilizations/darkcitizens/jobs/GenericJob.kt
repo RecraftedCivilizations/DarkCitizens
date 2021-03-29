@@ -35,6 +35,7 @@ abstract class GenericJob(
     override val minLvl: Int,
     override val permissionRequired: Boolean,
     override val icon: Material,
+    override val leaveOnDeath: Boolean,
     private val dPlayerManager: DPlayerManager,
     private val jobManager: JobManager,
     private var bukkitWrapper: BukkitWrapper = BukkitWrapper()

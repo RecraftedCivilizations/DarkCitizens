@@ -40,6 +40,7 @@ object JobFactory {
         electionRequired: Boolean,
         permissionRequired: Boolean,
         icon: Material,
+        leaveOnDeath: Boolean,
         dPlayerManager: DPlayerManager,
         jobManager: JobManager,
         candidateTime: Int? = null,
@@ -59,6 +60,7 @@ object JobFactory {
                 minLvl,
                 permissionRequired,
                 icon,
+                leaveOnDeath,
                 candidateTime!!,
                 voteTime!!,
                 voteFee!!,
@@ -78,6 +80,7 @@ object JobFactory {
             minLvl,
             permissionRequired,
             icon,
+            leaveOnDeath,
             dPlayerManager,
             jobManager)
         }
