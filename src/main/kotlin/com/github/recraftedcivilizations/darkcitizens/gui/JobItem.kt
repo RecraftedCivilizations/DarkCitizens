@@ -6,6 +6,8 @@ import com.github.darkvanityoflight.recraftedcore.gui.GUIManager
 import com.github.darkvanityoflight.recraftedcore.gui.InventoryGUI
 import com.github.darkvanityoflight.recraftedcore.utils.itemutils.setName
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
+import com.github.recraftedcivilizations.darkcitizens.election.ElectionManager
+import com.github.recraftedcivilizations.darkcitizens.jobs.ElectedJob
 import com.github.recraftedcivilizations.darkcitizens.jobs.IJob
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
 import org.bukkit.Material
@@ -35,7 +37,7 @@ private class NoItem(itemStack: ItemStack): Clickable(itemStack){
 
 }
 
-class JobItem(itemStack: ItemStack, val job: IJob, val dPlayerManager: DPlayerManager, val jobManager: JobManager) : Clickable(itemStack) {
+class JobItem(itemStack: ItemStack, val job: IJob, val dPlayerManager: DPlayerManager, val jobManager: JobManager, val electionManager: ElectionManager) : Clickable(itemStack) {
     val leaveJobGUI: InventoryGUI = InventoryGUI(9, "Do you want to leave your job?")
 
     init {
@@ -48,7 +50,7 @@ class JobItem(itemStack: ItemStack, val job: IJob, val dPlayerManager: DPlayerMa
     }
 
     override fun clone(): DisplayItem {
-        return JobItem(itemStack.clone(), job, dPlayerManager, jobManager)
+        return JobItem(itemStack.clone(), job, dPlayerManager, jobManager, electionManager)
     }
 
 
@@ -59,7 +61,20 @@ class JobItem(itemStack: ItemStack, val job: IJob, val dPlayerManager: DPlayerMa
             if (job.isMember(dPlayer)){
                 leaveJobGUI.show(player)
             }else{
-                job.join(dPlayer)
+                if(job !is ElectedJob){
+                    job.join(dPlayer)
+                }else{
+                    // Check if an election is running
+                    if (!electionManager.isRunningElection(job)){
+                        // If not create one
+                        if(job.canJoin(dPlayer)){
+                            electionManager.createElection(job)
+                        }
+                    }
+                    // Try to add the player to the election
+                    val election = electionManager.getElection(job)!!
+                    election.runFor(dPlayer)
+                }
             }
         }else{
             player.sendMessage("Yeah uhm this is kinda awkward, an unusual error occurred please try again or ask someone who has a clue")

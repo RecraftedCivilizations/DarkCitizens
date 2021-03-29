@@ -38,4 +38,22 @@ class ElectionManager(private val dPlayerManager: DPlayerManager, private val ec
     fun electionEnded(election: IElect){
         elections.remove(election)
     }
+
+    fun getElection(job: ElectedJob): IElect?{
+        for (election in elections){
+            if (election.job == job){
+                return  election
+            }
+        }
+        return null
+    }
+
+    fun isRunningElection(job: ElectedJob): Boolean{
+        for (election in elections){
+            if (election.job == job){
+                return  true
+            }
+        }
+        return false
+    }
 }
