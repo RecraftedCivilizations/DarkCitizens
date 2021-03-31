@@ -4,6 +4,7 @@ import com.github.recraftedcivilizations.darkcitizens.BukkitWrapper
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayer
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerFactory
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
+import com.github.recraftedcivilizations.darkcitizens.events.JobLeaveEvent
 import com.github.recraftedcivilizations.darkcitizens.jobs.Job
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
 import com.github.recraftedcivilizations.darkcitizens.parser.dataparser.IParseData
@@ -12,6 +13,7 @@ import com.nhaarman.mockitokotlin2.*
 import org.bukkit.ChatColor
 import org.bukkit.Material
 import org.bukkit.entity.Player
+import org.bukkit.plugin.PluginManager
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeAll
@@ -59,7 +61,11 @@ internal class JobTest {
 
     private val dPlayerManager = DPlayerManager(dataParserMock)
 
-    private val bukkitWrapper = mock<BukkitWrapper> { }
+    private val pluginManager = mock<PluginManager>{}
+
+    private val bukkitWrapper = mock<BukkitWrapper> {
+        on { getPluginManager() } doReturn pluginManager
+    }
 
     val jobManager = mock<JobManager>{}
     // Job Mocks
@@ -264,5 +270,7 @@ internal class JobTest {
         toLeave.join(dPlayerMock1)
         toLeave.leave(playerMock1)
         assertEquals(null, dPlayerMock1.job)
+
+        verify(pluginManager).callEvent(any<JobLeaveEvent>())
     }
 }
