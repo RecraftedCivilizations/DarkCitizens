@@ -1,11 +1,14 @@
 package com.github.recraftedcivilizations.darkcitizens.election
 
 import com.github.darkvanityoflight.recraftedcore.ARecraftedPlugin
+import com.github.recraftedcivilizations.darkcitizens.BukkitWrapper
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
 import com.github.recraftedcivilizations.darkcitizens.jobs.ElectedJob
 import net.milkbowl.vault.economy.Economy
+import org.bukkit.boss.BarColor
+import org.bukkit.boss.BarStyle
 
-class ElectionManager(private val dPlayerManager: DPlayerManager, private val economy: Economy, private val plugin: ARecraftedPlugin) {
+class ElectionManager(private val dPlayerManager: DPlayerManager, private val economy: Economy, private val plugin: ARecraftedPlugin, private val bukkitWrapper: BukkitWrapper = BukkitWrapper()) {
     private val elections = emptySet<IElect>().toMutableSet()
 
 
@@ -20,6 +23,7 @@ class ElectionManager(private val dPlayerManager: DPlayerManager, private val ec
         val election = ElectionFactory.createElection(job, job.voteFee, job.candidateFee, job.candidateTime, job.voteTime, plugin, dPlayerManager, economy, this)
         elections.add(election)
         election.start()
+        bukkitWrapper.notify("A new election for the job ${job.name} has started!!", BarColor.RED, BarStyle.SEGMENTED_10, 15, bukkitWrapper.getOnlinePlayers())
     }
 
     /**
