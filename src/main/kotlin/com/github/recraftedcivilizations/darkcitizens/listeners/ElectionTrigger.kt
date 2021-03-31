@@ -2,6 +2,7 @@ package com.github.recraftedcivilizations.darkcitizens.listeners
 
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
 import com.github.recraftedcivilizations.darkcitizens.election.ElectionManager
+import com.github.recraftedcivilizations.darkcitizens.events.JobLeaveEvent
 import com.github.recraftedcivilizations.darkcitizens.jobs.ElectedJob
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
 import org.bukkit.event.EventHandler
@@ -20,9 +21,13 @@ class ElectionTrigger(private val dPlayerManager: DPlayerManager, private val jo
         // Leave the job if the leave on death option is set
         if (job.leaveOnDeath){
             job.leave(dPlayer)
-            // If the job is elected trigger a new election
-            if (job is ElectedJob)  electionManager.createElection(job)
         }
 
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    fun onJobLeave(e: JobLeaveEvent){
+        // Create a new election if a player left his elected job
+        if(e.job is ElectedJob) electionManager.createElection(e.job)
     }
 }
