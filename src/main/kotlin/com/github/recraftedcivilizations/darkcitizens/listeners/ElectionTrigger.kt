@@ -8,7 +8,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.PlayerDeathEvent
 
-class DeathListener(private val dPlayerManager: DPlayerManager, private val jobManager: JobManager, private val electionManager: ElectionManager) : Listener {
+class ElectionTrigger(private val dPlayerManager: DPlayerManager, private val jobManager: JobManager, private val electionManager: ElectionManager) : Listener {
 
     @EventHandler(ignoreCancelled = true)
     fun onDeath(e: PlayerDeathEvent){
