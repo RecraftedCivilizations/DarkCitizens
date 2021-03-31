@@ -3,6 +3,7 @@ package com.github.recraftedcivilizations.darkcitizens.jobs
 import com.github.recraftedcivilizations.darkcitizens.BukkitWrapper
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayer
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
+import com.github.recraftedcivilizations.darkcitizens.events.JobLeaveEvent
 import com.github.recraftedcivilizations.darkcitizens.tasks.ITask
 import org.bukkit.ChatColor
 import org.bukkit.Material
@@ -129,6 +130,8 @@ abstract class GenericJob(
             removePlayer(dPlayer)
             dPlayer.job = null
             dPlayerManager.setDPlayer(dPlayer)
+            val leaveEvent = JobLeaveEvent(dPlayer, this)
+            bukkitWrapper.getPluginManager().callEvent(leaveEvent)
         }
     }
     override fun leave(player: Player) {

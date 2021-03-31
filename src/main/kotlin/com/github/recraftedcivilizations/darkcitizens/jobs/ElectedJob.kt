@@ -51,11 +51,7 @@ class ElectedJob(
 
     override fun leave(dPlayer: DPlayer) {
         val player = bukkitWrapper.getPlayer(dPlayer.uuid)!!
-        if(isMember(dPlayer.uuid)){
-            removePlayer(dPlayer)
-            dPlayer.job = null
-            dPlayerManager.setDPlayer(dPlayer)
-        }
+        super.leave(dPlayer)
 
         val players = Bukkit.getOnlinePlayers()
         for (i in players){
