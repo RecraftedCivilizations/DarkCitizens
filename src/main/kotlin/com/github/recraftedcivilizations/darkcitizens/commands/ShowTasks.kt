@@ -33,13 +33,15 @@ class ShowTasks(val jobManager: JobManager, val dPlayerManager: DPlayerManager):
                 tasks.add(taskItem)
             }
 
-            var invSize = jobManager.getJobs().size + 1
+            // Get the task inv
+            var invSize = tasks.size + 1
             if(invSize % 9 != 0){
                 invSize += (9 - (invSize % 9))
             }
 
             val taskGUI = InventoryGUI(invSize, "Tasks")
 
+            // Add all task items
             for (taskItem in tasks){
                 taskGUI.addItem(taskItem)
             }
