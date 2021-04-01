@@ -18,6 +18,16 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.SkullMeta
 import java.util.*
 
+/**
+ * @author DarkVanityOfLight
+ */
+
+/**
+ * An election where people can candidate/vote through a GUI
+ * for the params:
+ * @see GenericElection
+ * @see IElect
+ */
 class GUIElection(
     job: IJob,
     voteFee: Int,

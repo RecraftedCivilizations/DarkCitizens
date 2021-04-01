@@ -8,6 +8,19 @@ import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.Material
 
+/**
+ * @author DarkVanityOfLight
+ */
+
+/**
+ * Represents a job that requires an election
+ * for the params
+ * @see GenericJob
+ * @param candidateTime The time span in which it is possible to candidate
+ * @param voteTime The time span in which it is possible to vote
+ * @param candidateFee The amount of money it costs to candidate
+ * @param voteFee The amount of money it costs to vote
+ */
 class ElectedJob(
     name: String,
     group: String,
@@ -43,12 +56,20 @@ class ElectedJob(
     jobManager,
     bukkitWrapper
 ) {
+    /**
+     * TODO("Maybe rework this")
+     * Join this job, this does not check for any requirements
+     * @param dPlayer The Player to join
+     */
     override fun join(dPlayer: DPlayer) {
         val player = bukkitWrapper.getPlayer(dPlayer.uuid)!!
         addPlayer(dPlayer)
         player.sendMessage("${ChatColor.GREEN}You are now a $name")
     }
 
+    /**
+     * Leave the elected job, this will display a message to every player that a new election will take place
+     */
     override fun leave(dPlayer: DPlayer) {
         val player = bukkitWrapper.getPlayer(dPlayer.uuid)!!
         super.leave(dPlayer)

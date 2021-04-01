@@ -45,6 +45,7 @@ abstract class GenericElection(
         val winnerUUID = sorted.entries.first().key
 
         // TODO("Decide what to do if they have the same number of votes")
+        // TODO("What to do when there is no candidate at all')
         return dPlayerManager.getDPlayer(winnerUUID)!!
     }
 

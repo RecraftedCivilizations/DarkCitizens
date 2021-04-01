@@ -19,6 +19,16 @@ import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
+/**
+ * @author DarkVanityOfLight
+ */
+
+/**
+ * Show all available jobs and join/leave them
+ * @param jobManager The Job to list all jobs from
+ * @param dPlayerManager The DPlayerManager to get DPlayer data from
+ * @param electionManager The ElectionManager if the job requires to be elected
+ */
 class ShowJobs(val jobManager: JobManager, val dPlayerManager: DPlayerManager, val electionManager: ElectionManager): CommandExecutor {
     private val jobGUI: InventoryGUI
 
@@ -56,6 +66,10 @@ class ShowJobs(val jobManager: JobManager, val dPlayerManager: DPlayerManager, v
        jobGUI.setSlot(closeButton, invSize-1)
     }
 
+    /**
+     * Display the job GUI to the command sender
+     * @param sender The command sender, the GUI is shown to him
+     */
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         if(sender !is Player){ sender.sendMessage("Fuck off console man!!"); return false }
         val dPlayer = dPlayerManager.getDPlayer(sender)!!

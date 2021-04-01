@@ -20,6 +20,13 @@ import net.milkbowl.vault.economy.Economy
 import org.bukkit.Bukkit
 import org.bukkit.plugin.RegisteredServiceProvider
 
+/**
+ * @author DarkVanityOfLight
+ */
+
+/**
+ * The Main plugin
+ */
 class Main : ARecraftedPlugin() {
     lateinit var dataParser: IParseData
     lateinit var configParser: ConfigParser
@@ -59,6 +66,9 @@ class Main : ARecraftedPlugin() {
         BaseIncomeRunner(jobManager, dPlayerManager, econ!!, groupManager).runTaskTimer(this, configParser.baseIncomeTime.toLong() * 60L * 20L, configParser.baseIncomeTime.toLong() * 60L * 20L)
     }
 
+    /**
+     * Initialize all managers
+     */
     private fun initManagers(){
         groupManager = GroupManager()
         dPlayerManager = DPlayerManager(dataParser)

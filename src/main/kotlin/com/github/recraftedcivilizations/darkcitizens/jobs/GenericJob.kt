@@ -21,8 +21,8 @@ import java.util.*
  * @see IJob
  * @constructor Construct using a [name], a [group] the job belongs,
  * a [playerLimit] a [tasks] set consisting of [ITask], a [canDemote] set consisting
- * of other job names they can demote, a [baseIncome], a [baseXPGain], a [minLvl] to join the job, if
- * an election is required [electionRequired], if permissions are required to join the job([permissionRequired]) and a
+ * of other job names they can demote, a [baseIncome], a [baseXPGain], a [minLvl] to join the job,
+ * if permissions are required to join the job([permissionRequired]) and a
  * [DPlayerManager]. The [bukkitWrapper] is only for testing purposes and should not be passed
  */
 abstract class GenericJob(
@@ -43,9 +43,18 @@ abstract class GenericJob(
 ) : IJob {
     override val currentMembers: MutableSet<DPlayer> = emptySet<DPlayer>().toMutableSet()
 
+    /**
+     * Set the bukkit wrapper, debugging purposes only
+     * @param bukkitWrapper The bukkit wrapper to set
+     */
     override fun setBukkitWrapper(bukkitWrapper: BukkitWrapper){
         this.bukkitWrapper = bukkitWrapper
     }
+
+    /**
+     * Remove a dPlayer from this job
+     * @param player the [DPlayer] to remove
+     */
     override fun removePlayer(player: DPlayer) {
         for (member in currentMembers){
             if (member.uuid == player.uuid){
@@ -54,22 +63,47 @@ abstract class GenericJob(
         }
     }
 
+    /**
+     * Remove a player from this job, this will call
+     * [removePlayer] with the dPlayer as argument
+     * @param player The player to remove
+     */
     override fun removePlayer(player: Player) {
         removePlayer(dPlayerManager.getDPlayer(player)!!)
     }
 
+    /**
+     * Add a dPlayer to the job
+     * @param player The [DPlayer] to add
+     */
     override fun addPlayer(player: DPlayer) {
         currentMembers.add(player)
     }
 
+    /**
+     * Add a Player to the job, this will call
+     * [addPlayer] with DPlayer as arg
+     * @param player The player to add
+     */
     override fun addPlayer(player: Player) {
         addPlayer(dPlayerManager.getDPlayer(player)!!)
     }
 
+    /**
+     * Check if a DPlayer can join this job,
+     * this calls [canJoin] with the regular player as arg
+     * @param player The DPlayer to check
+     * @return true if the player can join false if not
+     */
     override fun canJoin(player: DPlayer): Boolean {
         return canJoin(bukkitWrapper.getPlayer(player)!!)
     }
 
+    /**
+     * Check if a player can join this job
+     * @param player The player to check
+     * @return true if the player can join false if not
+     */
     override fun canJoin(player: Player): Boolean {
         val dPlayer = dPlayerManager.getDPlayer(player)
 
@@ -104,6 +138,11 @@ abstract class GenericJob(
 
     }
 
+    /**
+     * Check if the player is already a member of this job
+     * @param uuid The uuid of the player to check for
+     * @return true if the player is a member false if not
+     */
     override fun isMember(uuid: UUID): Boolean {
         for (member in currentMembers){
             if (member.uuid == uuid){
@@ -113,18 +152,37 @@ abstract class GenericJob(
         return false
     }
 
+    /**
+     * Check if the dPlayer is already member of this job,
+     * this will call [isMember] with the players uuid
+     * @param player the DPlayer to check for
+     */
     override fun isMember(player: DPlayer): Boolean {
         return isMember(player.uuid)
     }
 
+    /**
+     * Check if the player is already member of this job,
+     * this will call [isMember] with the players uuid
+     * @param player The player to check for
+     */
     override fun isMember(player: Player): Boolean {
         return isMember(player.uniqueId)
     }
 
+    /**
+     * TODO("THIS IS NOT RIGHT FIX")
+     * Join this job, this will check for if the player can actually join the job
+     * @param player The player to join
+     */
     override fun join(player: Player) {
         dPlayerManager.getDPlayer(player.uniqueId)?.let { join(it) }
     }
 
+    /**
+     * Leave this job
+     * @param dPlayer The player to leave this job
+     */
     override fun leave(dPlayer: DPlayer) {
         if(isMember(dPlayer.uuid)){
             removePlayer(dPlayer)
@@ -134,6 +192,11 @@ abstract class GenericJob(
             bukkitWrapper.getPluginManager().callEvent(leaveEvent)
         }
     }
+
+    /**
+     * Leave this job, this will call [leave] with dPlayer as argument
+     * @param player The player to leave this job
+     */
     override fun leave(player: Player) {
         dPlayerManager.getDPlayer(player.uniqueId)?.let { leave(it) }
     }

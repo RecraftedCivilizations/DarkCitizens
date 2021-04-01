@@ -16,13 +16,25 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
+/**
+ * @author DarkVanityOfLight
+ */
+
+/**
+ * Show all tasks in a GUI
+ * @param jobManager The jobManager
+ * @param dPlayerManager The DPlayerManager to get DPlayer data from
+ */
 class ShowTasks(val jobManager: JobManager, val dPlayerManager: DPlayerManager): CommandExecutor {
     private val taskGUIS = emptyMap<String, InventoryGUI>().toMutableMap()
 
     init {
 
+        // Get all tasks for every job and create a gui with them
         for (job in jobManager.getJobs()){
+            // Store all tasks corresponding to a job here
             val tasks = emptyList<DisplayItem>().toMutableList()
+            // Get all tasks and create task items for them
             for(task in job.tasks){
                 val taskItemStack = ItemStack(task.icon)
                 taskItemStack.setName(task.name)
@@ -47,15 +59,21 @@ class ShowTasks(val jobManager: JobManager, val dPlayerManager: DPlayerManager):
             }
             taskGUI.setSlot(CloseButtonFactory.getCloseButton(), invSize-1)
 
+            // Add the GUI to the task guis
             taskGUIS[job.name] = taskGUI
 
         }
     }
 
+    /**
+     * Show the task GUI corresponding to the senders job to the sender
+     * @param sender Show the corresponding task gui to him
+     */
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         if(sender !is Player){ sender.sendMessage("Fuck off console man!!"); return false }
         val dPlayer = dPlayerManager.getDPlayer(sender)
 
+        // Check that we have a GUI for the sender
         if(dPlayer?.job != null){
             val gui = taskGUIS[dPlayer.job]
             if (gui != null) {

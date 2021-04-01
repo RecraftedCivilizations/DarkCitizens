@@ -9,8 +9,21 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.PlayerDeathEvent
 
+/**
+ * @author DarkVanityOfLight
+ */
+
+/**
+ * Trigger a new election if someone dies or leaves his job
+ * @param dPlayerManager The dPlayerManager to get data from
+ * @param jobManager The JobManager to get the jobs from
+ * @param electionManager The ElectionManager to create new elections
+ */
 class ElectionTrigger(private val dPlayerManager: DPlayerManager, private val jobManager: JobManager, private val electionManager: ElectionManager) : Listener {
 
+    /**
+     * Leave the job if someone dies and the job has leaveOnDeath
+     */
     @EventHandler(ignoreCancelled = true)
     fun onDeath(e: PlayerDeathEvent){
         val player = e.entity
@@ -25,6 +38,9 @@ class ElectionTrigger(private val dPlayerManager: DPlayerManager, private val jo
 
     }
 
+    /**
+     * Trigger a new election if someone leaves his elected job
+     */
     @EventHandler(ignoreCancelled = true)
     fun onJobLeave(e: JobLeaveEvent){
         // Create a new election if a player left his elected job

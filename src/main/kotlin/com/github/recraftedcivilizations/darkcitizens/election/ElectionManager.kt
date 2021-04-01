@@ -8,16 +8,24 @@ import net.milkbowl.vault.economy.Economy
 import org.bukkit.boss.BarColor
 import org.bukkit.boss.BarStyle
 
+/**
+ * @author DarkVanityOfLight
+ */
+
+/**
+ * Create and manage elections here
+ * @param dPlayerManager The DPlayerManager to get DPlayer data from
+ * @param economy The economy to withdraw fees from
+ * @param plugin The Main class
+ * @param bukkitWrapper An optional bukkit wrapper for debugging
+ */
 class ElectionManager(private val dPlayerManager: DPlayerManager, private val economy: Economy, private val plugin: ARecraftedPlugin, private val bukkitWrapper: BukkitWrapper = BukkitWrapper()) {
     private val elections = emptySet<IElect>().toMutableSet()
 
 
     /**
      * Create and register an election here
-     * @param electTime The time the election should run for
      * @param job The job the election is for
-     * @param voteFee The fee that has to be payed to vote
-     * @param candidateFee The fee that has to be payed to candidate
      */
     fun createElection(job: ElectedJob){
         val election = ElectionFactory.createElection(job, job.voteFee, job.candidateFee, job.candidateTime, job.voteTime, plugin, dPlayerManager, economy, this)
@@ -43,6 +51,11 @@ class ElectionManager(private val dPlayerManager: DPlayerManager, private val ec
         elections.remove(election)
     }
 
+    /**
+     * Get an existing election for the given job
+     * @param job The Job the election should be for
+     * @return The Election or null if no election is found for the job
+     */
     fun getElection(job: ElectedJob): IElect?{
         for (election in elections){
             if (election.job == job){
@@ -52,6 +65,11 @@ class ElectionManager(private val dPlayerManager: DPlayerManager, private val ec
         return null
     }
 
+    /**
+     * Check if an job has an running election
+     * @param job The job to check if an election is running
+     * @return true if there is an election for this job running false if not
+     */
     fun isRunningElection(job: ElectedJob): Boolean{
         for (election in elections){
             if (election.job == job){

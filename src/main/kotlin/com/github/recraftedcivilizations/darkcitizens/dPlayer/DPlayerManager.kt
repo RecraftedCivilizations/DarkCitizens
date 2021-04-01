@@ -29,6 +29,10 @@ class DPlayerManager(private val dataParser: IParseData) {
         return getDPlayer(player.uniqueId)
     }
 
+    /**
+     * Store a dPlayer to the data source
+     * @param dPlayer The dPlayer to store
+     */
     fun setDPlayer(dPlayer: DPlayer){
         dataParser.setDPlayer(dPlayer)
     }
