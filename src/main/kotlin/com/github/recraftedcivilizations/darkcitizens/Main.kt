@@ -11,6 +11,7 @@ import com.github.recraftedcivilizations.darkcitizens.groups.GroupManager
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
 import com.github.recraftedcivilizations.darkcitizens.listeners.DataCleaner
 import com.github.recraftedcivilizations.darkcitizens.listeners.ElectionTrigger
+import com.github.recraftedcivilizations.darkcitizens.listeners.FriendlyFire
 import com.github.recraftedcivilizations.darkcitizens.parser.ConfigParser
 import com.github.recraftedcivilizations.darkcitizens.parser.dataparser.IParseData
 import com.github.recraftedcivilizations.darkcitizens.parser.dataparser.YMLDataSource
@@ -62,6 +63,7 @@ class Main : ARecraftedPlugin() {
         this.getCommand("elections")?.setExecutor(ShowElections(electionManager))
         server.pluginManager.registerEvents(DataCleaner(dPlayerManager, jobManager), this)
         server.pluginManager.registerEvents(ElectionTrigger(dPlayerManager, jobManager, electionManager), this)
+        server.pluginManager.registerEvents(FriendlyFire(dPlayerManager, jobManager, groupManager), this)
 
         BaseIncomeRunner(jobManager, dPlayerManager, econ!!, groupManager).runTaskTimer(this, configParser.baseIncomeTime.toLong() * 60L * 20L, configParser.baseIncomeTime.toLong() * 60L * 20L)
     }
