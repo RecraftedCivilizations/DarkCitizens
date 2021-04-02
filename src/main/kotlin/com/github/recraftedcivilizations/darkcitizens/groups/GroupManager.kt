@@ -15,7 +15,7 @@ class GroupManager {
      * Get a group from its name
      * @param name The name of the group
      */
-    fun getGroup(name: String): Group? {
+    fun getGroup(name: String?): Group? {
         for(group in groups){
             if (group.name == name){
                 return group
