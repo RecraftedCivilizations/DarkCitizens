@@ -9,4 +9,5 @@ package com.github.recraftedcivilizations.darkcitizens.laws
  */
 interface ILaw {
     val description: String
+    val name: String
 }
