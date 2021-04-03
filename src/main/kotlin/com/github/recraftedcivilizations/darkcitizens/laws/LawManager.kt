@@ -4,6 +4,10 @@ class LawManager {
     private val laws: MutableSet<ILaw> = emptySet<ILaw>().toMutableSet()
     private val taxLaw: TaxLaw = LawFactory.createLaw(LawType.TAXLAW, amount = 0) as TaxLaw
 
+    init {
+        laws.add(taxLaw)
+    }
+
     /**
      * Set the amount players get taxed
      * @param amount The amount to tax them in %
