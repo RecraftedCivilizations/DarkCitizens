@@ -26,7 +26,7 @@ object LawFactory {
      * @param name Only needs to be supplied if you want a [CustomLaw]
      * @param amount The percentage of taxes that will be paid, only needs to be supplied if you want a [TaxLaw]
      */
-    fun createLaw(type: LawType, description: String? = null, name: String?, amount: Int? = null): ILaw {
+    fun createLaw(type: LawType, description: String? = null, name: String? = null, amount: Int? = null): ILaw {
         return when (type) {
             LawType.TAXLAW -> {
                 TaxLaw(amount!!)
