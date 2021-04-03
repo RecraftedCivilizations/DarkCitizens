@@ -34,9 +34,6 @@ object LawFactory {
             LawType.CUSTOMLAW -> {
                 CustomLaw(description!!, name!!)
             }
-            else -> {
-                throw IllegalArgumentException("The supplied args do not match your law type")
-            }
         }
     }
 }
