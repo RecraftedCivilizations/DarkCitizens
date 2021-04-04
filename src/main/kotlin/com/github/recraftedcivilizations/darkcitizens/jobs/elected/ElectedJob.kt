@@ -1,8 +1,10 @@
-package com.github.recraftedcivilizations.darkcitizens.jobs
+package com.github.recraftedcivilizations.darkcitizens.jobs.elected
 
 import com.github.recraftedcivilizations.darkcitizens.BukkitWrapper
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayer
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
+import com.github.recraftedcivilizations.darkcitizens.jobs.GenericJob
+import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
 import com.github.recraftedcivilizations.darkcitizens.tasks.ITask
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor

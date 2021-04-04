@@ -1,6 +1,7 @@
 package com.github.recraftedcivilizations.darkcitizens.jobs
 
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
+import com.github.recraftedcivilizations.darkcitizens.jobs.elected.ElectedJob
 import com.github.recraftedcivilizations.darkcitizens.tasks.ITask
 import org.bukkit.Material
 

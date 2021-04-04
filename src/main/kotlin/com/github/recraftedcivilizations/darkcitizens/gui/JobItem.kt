@@ -7,7 +7,7 @@ import com.github.darkvanityoflight.recraftedcore.gui.InventoryGUI
 import com.github.darkvanityoflight.recraftedcore.utils.itemutils.setName
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
 import com.github.recraftedcivilizations.darkcitizens.election.ElectionManager
-import com.github.recraftedcivilizations.darkcitizens.jobs.ElectedJob
+import com.github.recraftedcivilizations.darkcitizens.jobs.elected.ElectedJob
 import com.github.recraftedcivilizations.darkcitizens.jobs.IJob
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
 import org.bukkit.Material

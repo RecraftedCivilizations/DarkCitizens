@@ -3,7 +3,7 @@ package com.github.recraftedcivilizations.darkcitizens.election
 import com.github.darkvanityoflight.recraftedcore.ARecraftedPlugin
 import com.github.recraftedcivilizations.darkcitizens.BukkitWrapper
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
-import com.github.recraftedcivilizations.darkcitizens.jobs.ElectedJob
+import com.github.recraftedcivilizations.darkcitizens.jobs.elected.ElectedJob
 import net.milkbowl.vault.economy.Economy
 import org.bukkit.boss.BarColor
 import org.bukkit.boss.BarStyle
