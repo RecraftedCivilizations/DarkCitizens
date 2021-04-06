@@ -10,7 +10,7 @@ import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class RemoveLaw(private val lawManager: LawManager, private val dPlayerManager: DPlayerManager, private val jobManager: JobManager): CommandExecutor {
+class RemoveLaw(private val dPlayerManager: DPlayerManager, private val jobManager: JobManager): CommandExecutor {
 
     override fun onCommand(sender: CommandSender, p1: Command, p2: String, args: Array<out String>): Boolean {
         if(sender !is Player){ sender.sendMessage("Fuck off console man!!"); return false }
@@ -22,7 +22,7 @@ class RemoveLaw(private val lawManager: LawManager, private val dPlayerManager: 
 
         if (args.isEmpty()){return false}
 
-        lawManager.removeLaw(args.joinToString(" "))
+        job.removeLaw(args.joinToString(" "))
         return true
     }
 
