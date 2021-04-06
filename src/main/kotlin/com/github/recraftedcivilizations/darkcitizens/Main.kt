@@ -2,6 +2,7 @@ package com.github.recraftedcivilizations.darkcitizens
 
 import com.github.darkvanityoflight.recraftedcore.ARecraftedPlugin
 import com.github.darkvanityoflight.recraftedcore.gui.GUIListener
+import com.github.recraftedcivilizations.darkcitizens.api.PAPI.LawsPlaceholder
 import com.github.recraftedcivilizations.darkcitizens.commands.ShowElections
 import com.github.recraftedcivilizations.darkcitizens.commands.ShowJobs
 import com.github.recraftedcivilizations.darkcitizens.commands.ShowTasks
@@ -68,6 +69,8 @@ class Main : ARecraftedPlugin() {
         server.pluginManager.registerEvents(FriendlyFire(dPlayerManager, jobManager, groupManager), this)
 
         BaseIncomeRunner(jobManager, dPlayerManager, econ!!, groupManager).runTaskTimer(this, configParser.baseIncomeTime.toLong() * 60L * 20L, configParser.baseIncomeTime.toLong() * 60L * 20L)
+
+        initApi()
     }
 
     /**
@@ -83,6 +86,10 @@ class Main : ARecraftedPlugin() {
 
         taskManager.setJobManager(jobManager)
         jobManager.setTaskManager(taskManager)
+    }
+
+    private fun initApi(){
+        LawsPlaceholder(lawManager, description.authors.joinToString(", "), description.version).register()
     }
 
     companion object{
