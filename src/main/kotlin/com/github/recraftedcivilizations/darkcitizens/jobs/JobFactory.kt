@@ -1,7 +1,7 @@
 package com.github.recraftedcivilizations.darkcitizens.jobs
 
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
-import com.github.recraftedcivilizations.darkcitizens.jobs.elected.ElectedJob
+import com.github.recraftedcivilizations.darkcitizens.jobs.elected.GenericElectedJob
 import com.github.recraftedcivilizations.darkcitizens.tasks.ITask
 import org.bukkit.Material
 
@@ -51,23 +51,16 @@ object JobFactory {
     ): IJob {
 
         if (electionRequired){
-            return ElectedJob(name,
-                group,
-                playerLimit,
-                tasks,
-                canDemote,
-                baseIncome,
-                baseXPGain,
-                minLvl,
-                permissionRequired,
-                icon,
+            return GenericElectedJob(
                 leaveOnDeath,
                 candidateTime!!,
                 voteTime!!,
                 voteFee!!,
                 candidateFee!!,
                 dPlayerManager,
-                jobManager)
+                name, group, playerLimit, tasks, canDemote, baseIncome, baseXPGain, minLvl, permissionRequired, icon,
+                jobManager
+            )
         }else{
 
         return Job(

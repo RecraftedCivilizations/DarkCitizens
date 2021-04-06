@@ -3,10 +3,10 @@ package com.github.recraftedcivilizations.jobs
 
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
 import com.github.recraftedcivilizations.darkcitizens.groups.GroupManager
-import com.github.recraftedcivilizations.darkcitizens.jobs.elected.ElectedJob
 import com.github.recraftedcivilizations.darkcitizens.jobs.IJob
 import com.github.recraftedcivilizations.darkcitizens.jobs.Job
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
+import com.github.recraftedcivilizations.darkcitizens.jobs.elected.GenericElectedJob
 import com.github.recraftedcivilizations.darkcitizens.parser.dataparser.IParseData
 import com.github.recraftedcivilizations.darkcitizens.tasks.ITask
 import com.github.recraftedcivilizations.darkcitizens.tasks.TaskManager
@@ -105,7 +105,7 @@ internal class JobManagerTest {
         assertEquals(job.baseXPGain, thatJob.baseXPGain)
         assertEquals(job.minLvl, thatJob.minLvl)
         assertEquals(job.permissionRequired, thatJob.permissionRequired)
-        assertEquals(true, thatJob is ElectedJob)
+        assertEquals(true, thatJob is GenericElectedJob)
     }
 
     @Test

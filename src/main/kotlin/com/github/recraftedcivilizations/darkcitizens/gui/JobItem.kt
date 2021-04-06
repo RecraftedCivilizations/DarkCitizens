@@ -7,9 +7,9 @@ import com.github.darkvanityoflight.recraftedcore.gui.InventoryGUI
 import com.github.darkvanityoflight.recraftedcore.utils.itemutils.setName
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
 import com.github.recraftedcivilizations.darkcitizens.election.ElectionManager
-import com.github.recraftedcivilizations.darkcitizens.jobs.elected.ElectedJob
 import com.github.recraftedcivilizations.darkcitizens.jobs.IJob
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
+import com.github.recraftedcivilizations.darkcitizens.jobs.elected.GenericElectedJob
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
@@ -97,7 +97,7 @@ class JobItem(itemStack: ItemStack, val job: IJob, val dPlayerManager: DPlayerMa
             }else{
                 // If not and the job doesn't require an election
                 // Join the job the job.join method will check if the player can actually join the job
-                if(job !is ElectedJob){
+                if(job !is GenericElectedJob){
                     job.join(dPlayer)
                 }else{
                     // If the Job requires an election

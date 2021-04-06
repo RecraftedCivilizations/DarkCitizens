@@ -2,10 +2,10 @@ package com.github.recraftedcivilizations.jobs
 
 
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
-import com.github.recraftedcivilizations.darkcitizens.jobs.elected.ElectedJob
 import com.github.recraftedcivilizations.darkcitizens.jobs.Job
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobFactory
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
+import com.github.recraftedcivilizations.darkcitizens.jobs.elected.GenericElectedJob
 import com.nhaarman.mockitokotlin2.mock
 import org.bukkit.Material
 import org.junit.jupiter.api.Test
@@ -48,7 +48,7 @@ internal class JobFactoryTest {
     @Test
     fun createElectedJob() {
         val icon = mock<Material>{}
-        val job = ElectedJob(randomString(), randomString(), Random.nextInt(), emptySet(), emptySet(), Random.nextInt(), Random.nextInt(), Random.nextInt(), Random.nextBoolean(), icon, Random.nextBoolean(), Random.nextInt(), Random.nextInt(), Random.nextInt(), Random.nextInt(), dPlayerManager, jobManager)
+        val job = GenericElectedJob(Random.nextBoolean(), Random.nextInt(), Random.nextInt(), Random.nextInt(), Random.nextInt(), dPlayerManager, randomString(), randomString(), Random.nextInt(), emptySet(), emptySet(), Random.nextInt(), Random.nextInt(), Random.nextInt(), Random.nextBoolean(), icon, jobManager)
         val thatJob = JobFactory.createJob(job.name, job.group, job.playerLimit, job.tasks, job.canDemote, job.baseIncome, job.baseXPGain, job.minLvl, true, job.permissionRequired, job.icon, job.leaveOnDeath, dPlayerManager, jobManager, job.candidateTime, job.voteTime, job.candidateFee, job.voteFee)
         assertEquals(job.name, thatJob.name)
         assertEquals(job.group, thatJob.group)
@@ -59,6 +59,6 @@ internal class JobFactoryTest {
         assertEquals(job.minLvl, thatJob.minLvl)
         assertEquals(job.permissionRequired, thatJob.permissionRequired)
         assertEquals(job.icon, thatJob.icon)
-        assertEquals(true, thatJob is ElectedJob)
+        assertEquals(true, thatJob is GenericElectedJob)
     }
 }

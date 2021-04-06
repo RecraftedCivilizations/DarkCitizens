@@ -3,8 +3,8 @@ package com.github.recraftedcivilizations.darkcitizens.listeners
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
 import com.github.recraftedcivilizations.darkcitizens.election.ElectionManager
 import com.github.recraftedcivilizations.darkcitizens.events.JobLeaveEvent
-import com.github.recraftedcivilizations.darkcitizens.jobs.elected.ElectedJob
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
+import com.github.recraftedcivilizations.darkcitizens.jobs.elected.GenericElectedJob
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.PlayerDeathEvent
@@ -44,6 +44,6 @@ class ElectionTrigger(private val dPlayerManager: DPlayerManager, private val jo
     @EventHandler(ignoreCancelled = true)
     fun onJobLeave(e: JobLeaveEvent){
         // Create a new election if a player left his elected job
-        if(e.job is ElectedJob) electionManager.createElection(e.job)
+        if(e.job is GenericElectedJob) electionManager.createElection(e.job)
     }
 }

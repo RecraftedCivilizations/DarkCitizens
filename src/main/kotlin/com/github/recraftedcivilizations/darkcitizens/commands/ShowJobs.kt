@@ -8,8 +8,8 @@ import com.github.darkvanityoflight.recraftedcore.utils.itemutils.setName
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
 import com.github.recraftedcivilizations.darkcitizens.election.ElectionManager
 import com.github.recraftedcivilizations.darkcitizens.gui.JobItem
-import com.github.recraftedcivilizations.darkcitizens.jobs.elected.ElectedJob
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
+import com.github.recraftedcivilizations.darkcitizens.jobs.elected.GenericElectedJob
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
@@ -52,7 +52,7 @@ class ShowJobs(val jobManager: JobManager, val dPlayerManager: DPlayerManager, v
             jobItemStack.addLore("Base Income: ${job.baseIncome}")
             jobItemStack.addLore("Base XP: ${job.baseXPGain}")
             jobItemStack.addLore("Minimum lvl: ${job.minLvl}")
-            if (job is ElectedJob){
+            if (job is GenericElectedJob){
                 jobItemStack.addLore("You have to be elected to join this job")
             }
             val displayItem = JobItem(jobItemStack, job, dPlayerManager, jobManager, electionManager)

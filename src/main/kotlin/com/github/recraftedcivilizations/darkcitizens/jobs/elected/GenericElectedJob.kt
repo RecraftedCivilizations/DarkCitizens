@@ -10,20 +10,13 @@ import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.Material
 
-/**
- * @author DarkVanityOfLight
- */
-
-/**
- * Represents a job that requires an election
- * for the params
- * @see GenericJob
- * @param candidateTime The time span in which it is possible to candidate
- * @param voteTime The time span in which it is possible to vote
- * @param candidateFee The amount of money it costs to candidate
- * @param voteFee The amount of money it costs to vote
- */
-class ElectedJob(
+open class GenericElectedJob(
+    override val leaveOnDeath: Boolean,
+    override val candidateTime: Int,
+    override val voteTime: Int,
+    override val voteFee: Int,
+    override val candidateFee: Int,
+    override val dPlayerManager: DPlayerManager,
     name: String,
     group: String,
     playerLimit: Int,
@@ -34,15 +27,9 @@ class ElectedJob(
     minLvl: Int,
     permissionRequired: Boolean,
     icon: Material,
-    override val leaveOnDeath: Boolean,
-    val candidateTime: Int,
-    val voteTime: Int,
-    val voteFee: Int,
-    val candidateFee: Int,
-    val dPlayerManager: DPlayerManager,
     jobManager: JobManager,
-    private val bukkitWrapper: BukkitWrapper = BukkitWrapper()
-) : GenericJob(
+    val bukkitWrapper: BukkitWrapper = BukkitWrapper()
+): ElectableJob, GenericJob(
     name,
     group,
     playerLimit,

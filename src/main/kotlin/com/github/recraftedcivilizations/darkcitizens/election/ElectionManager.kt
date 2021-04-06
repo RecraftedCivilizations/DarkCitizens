@@ -3,7 +3,7 @@ package com.github.recraftedcivilizations.darkcitizens.election
 import com.github.darkvanityoflight.recraftedcore.ARecraftedPlugin
 import com.github.recraftedcivilizations.darkcitizens.BukkitWrapper
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
-import com.github.recraftedcivilizations.darkcitizens.jobs.elected.ElectedJob
+import com.github.recraftedcivilizations.darkcitizens.jobs.elected.GenericElectedJob
 import net.milkbowl.vault.economy.Economy
 import org.bukkit.boss.BarColor
 import org.bukkit.boss.BarStyle
@@ -27,7 +27,7 @@ class ElectionManager(private val dPlayerManager: DPlayerManager, private val ec
      * Create and register an election here
      * @param job The job the election is for
      */
-    fun createElection(job: ElectedJob){
+    fun createElection(job: GenericElectedJob){
         val election = ElectionFactory.createElection(job, job.voteFee, job.candidateFee, job.candidateTime, job.voteTime, plugin, dPlayerManager, economy, this)
         elections.add(election)
         election.start()
@@ -56,7 +56,7 @@ class ElectionManager(private val dPlayerManager: DPlayerManager, private val ec
      * @param job The Job the election should be for
      * @return The Election or null if no election is found for the job
      */
-    fun getElection(job: ElectedJob): IElect?{
+    fun getElection(job: GenericElectedJob): IElect?{
         for (election in elections){
             if (election.job == job){
                 return  election
@@ -70,7 +70,7 @@ class ElectionManager(private val dPlayerManager: DPlayerManager, private val ec
      * @param job The job to check if an election is running
      * @return true if there is an election for this job running false if not
      */
-    fun isRunningElection(job: ElectedJob): Boolean{
+    fun isRunningElection(job: GenericElectedJob): Boolean{
         for (election in elections){
             if (election.job == job){
                 return  true

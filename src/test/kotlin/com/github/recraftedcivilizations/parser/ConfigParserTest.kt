@@ -3,10 +3,10 @@ package com.github.recraftedcivilizations.parser
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
 import com.github.recraftedcivilizations.darkcitizens.groups.Group
 import com.github.recraftedcivilizations.darkcitizens.groups.GroupManager
-import com.github.recraftedcivilizations.darkcitizens.jobs.elected.ElectedJob
 import com.github.recraftedcivilizations.darkcitizens.jobs.IJob
 import com.github.recraftedcivilizations.darkcitizens.jobs.Job
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
+import com.github.recraftedcivilizations.darkcitizens.jobs.elected.GenericElectedJob
 import com.github.recraftedcivilizations.darkcitizens.parser.ConfigParser
 import com.github.recraftedcivilizations.darkcitizens.parser.dataparser.IParseData
 import com.github.recraftedcivilizations.darkcitizens.tasks.ITask
@@ -301,7 +301,7 @@ internal class ConfigParserTest {
         assertEquals(jobArgs[ConfigParser.jobMinLvlName], job.minLvl)
         assertEquals(jobArgs[ConfigParser.jobPermissionRequiredName], job.permissionRequired)
         if (jobArgs[ConfigParser.jobElectionRequiredName] as Boolean){
-            assertEquals(true, job is ElectedJob)
+            assertEquals(true, job is GenericElectedJob)
         }else{
             assertEquals(true, job is Job)
         }
