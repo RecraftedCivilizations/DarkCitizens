@@ -4,7 +4,7 @@ import com.github.recraftedcivilizations.darkcitizens.laws.LawManager
 import me.clip.placeholderapi.expansion.PlaceholderExpansion
 import org.bukkit.entity.Player
 
-class LawsPlaceholder(private val lawManager: LawManager, private vararg val authors: String, private val version: String) : PlaceholderExpansion() {
+class LawsPlaceholder(private val lawManager: LawManager, private val authors: String, private val version: String) : PlaceholderExpansion() {
 
 
     override fun persist(): Boolean {
@@ -16,7 +16,7 @@ class LawsPlaceholder(private val lawManager: LawManager, private vararg val aut
     }
 
     override fun getAuthor(): String {
-        return authors.joinToString(", ")
+        return authors
     }
 
     override fun getIdentifier(): String {
