@@ -7,6 +7,7 @@ import com.github.recraftedcivilizations.darkcitizens.jobs.IJob
 import com.github.recraftedcivilizations.darkcitizens.jobs.Job
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
 import com.github.recraftedcivilizations.darkcitizens.jobs.elected.GenericElectedJob
+import com.github.recraftedcivilizations.darkcitizens.laws.LawManager
 import com.github.recraftedcivilizations.darkcitizens.parser.dataparser.IParseData
 import com.github.recraftedcivilizations.darkcitizens.tasks.ITask
 import com.github.recraftedcivilizations.darkcitizens.tasks.TaskManager
@@ -33,6 +34,7 @@ internal class JobManagerTest {
     val dPlayerManager = DPlayerManager(dataParser)
     val groupManager = GroupManager()
     val taskManager = TaskManager(econ, dPlayerManager, groupManager)
+    val lawManager = mock<LawManager>{}
 
     @BeforeAll
     fun init() {
@@ -40,7 +42,7 @@ internal class JobManagerTest {
 
     @Test
     fun shouldConstruct(){
-        val jobManager = JobManager(dPlayerManager)
+        val jobManager = JobManager(dPlayerManager, lawManager)
         jobManager.setTaskManager(taskManager)
     }
 
@@ -49,7 +51,7 @@ internal class JobManagerTest {
         val tasks = setOf<String>("Foo", "Bar", "FooBar")
         val icon = mock<Material>{}
 
-        val jobManager = JobManager(dPlayerManager)
+        val jobManager = JobManager(dPlayerManager, lawManager)
         jobManager.setTaskManager(taskManager)
         val job = Job(randomString(), randomString(), Random.nextInt(), setOf(task1, task2), emptySet(), Random.nextInt(), Random.nextInt(), Random.nextInt(), Random.nextBoolean(), icon, Random.nextBoolean(), dPlayerManager, jobManager)
         jobManager.createJob(job.name, job.group, job.playerLimit, tasks, job.canDemote, job.baseIncome, job.baseXPGain, job.minLvl, false, job.permissionRequired, job.icon, job.leaveOnDeath)
@@ -81,7 +83,7 @@ internal class JobManagerTest {
         val tasks = setOf<String>("Foo", "Bar", "FooBar")
         val icon = mock<Material>{}
 
-        val jobManager = JobManager(dPlayerManager)
+        val jobManager = JobManager(dPlayerManager, lawManager)
         jobManager.setTaskManager(taskManager)
         val job = Job(randomString(), randomString(), Random.nextInt(), setOf(task1, task2), emptySet(), Random.nextInt(), Random.nextInt(), Random.nextInt(), Random.nextBoolean(), icon, Random.nextBoolean(), dPlayerManager, jobManager)
         jobManager.createJob(job.name, job.group, job.playerLimit, tasks, job.canDemote, job.baseIncome, job.baseXPGain, job.minLvl, true, job.permissionRequired, job.icon, job.leaveOnDeath, Random.nextInt(), Random.nextInt(), Random.nextInt(), Random.nextInt(),)
@@ -113,7 +115,7 @@ internal class JobManagerTest {
         val tasks = setOf<String>("Foo", "Bar", "FooBar")
         val icon = mock<Material>{}
 
-        val jobManager = JobManager(dPlayerManager)
+        val jobManager = JobManager(dPlayerManager, lawManager)
         jobManager.setTaskManager(taskManager)
         val job = Job(randomString(), randomString(), Random.nextInt(), setOf(task1, task2), emptySet(), Random.nextInt(), Random.nextInt(), Random.nextInt(), Random.nextBoolean(), icon, Random.nextBoolean(), dPlayerManager, jobManager)
 

@@ -7,6 +7,7 @@ import com.github.recraftedcivilizations.darkcitizens.jobs.IJob
 import com.github.recraftedcivilizations.darkcitizens.jobs.Job
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
 import com.github.recraftedcivilizations.darkcitizens.jobs.elected.GenericElectedJob
+import com.github.recraftedcivilizations.darkcitizens.laws.LawManager
 import com.github.recraftedcivilizations.darkcitizens.parser.ConfigParser
 import com.github.recraftedcivilizations.darkcitizens.parser.dataparser.IParseData
 import com.github.recraftedcivilizations.darkcitizens.tasks.ITask
@@ -38,9 +39,10 @@ const val dataDir = "."
 
 internal class ConfigParserTest {
     val dataParser = mock<IParseData>{}
+    val lawManager = mock<LawManager>{}
     val economy = mock<Economy>{}
     val dPlayerManager = DPlayerManager(dataParser)
-    val jobManager = JobManager(dPlayerManager)
+    val jobManager = JobManager(dPlayerManager, lawManager)
     val groupManager = GroupManager()
     val taskManager = TaskManager(economy, dPlayerManager, groupManager)
     val bukkitWrapper = mock<com.github.recraftedcivilizations.darkcitizens.BukkitWrapper>{}

@@ -7,6 +7,7 @@ import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
 import com.github.recraftedcivilizations.darkcitizens.events.JobLeaveEvent
 import com.github.recraftedcivilizations.darkcitizens.jobs.Job
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
+import com.github.recraftedcivilizations.darkcitizens.laws.LawManager
 import com.github.recraftedcivilizations.darkcitizens.parser.dataparser.IParseData
 import com.github.recraftedcivilizations.darkcitizens.tasks.ITask
 import com.nhaarman.mockitokotlin2.*
@@ -66,6 +67,8 @@ internal class JobTest {
     private val bukkitWrapper = mock<BukkitWrapper> {
         on { getPluginManager() } doReturn pluginManager
     }
+
+    private val lawManager = mock<LawManager>{}
 
     val jobManager = mock<JobManager>{}
     // Job Mocks
@@ -222,7 +225,7 @@ internal class JobTest {
     @Test
     fun join(){
         val icon = mock<Material>{}
-        val jobManager = JobManager(dPlayerManager)
+        val jobManager = JobManager(dPlayerManager, lawManager)
         val job1 = Job(randomString(), randomString(), Random.nextInt(1..10), emptySet(), emptySet(), Random.nextInt(), Random.nextInt(), 0, false, icon, Random.nextBoolean(), dPlayerManager, jobManager)
         val job2 = Job(randomString(), randomString(), Random.nextInt(1..10), emptySet(), emptySet(), Random.nextInt(), Random.nextInt(), 0, true, icon, Random.nextBoolean(), dPlayerManager, jobManager, bukkitWrapper)
         jobManager.createJob(job1.name, job1.group, job1.playerLimit, emptySet(), job1.canDemote, job1.baseIncome, job1.baseXPGain, job1.minLvl, false, job1.permissionRequired, job1.icon, job1.leaveOnDeath)
@@ -259,7 +262,7 @@ internal class JobTest {
 
     @Test
     fun leave(){
-        val jobManager = JobManager(dPlayerManager)
+        val jobManager = JobManager(dPlayerManager, lawManager)
         val job1 = Job(randomString(), randomString(), Random.nextInt(1..10), emptySet(), emptySet(), Random.nextInt(), Random.nextInt(), 0, false, icon, Random.nextBoolean(), dPlayerManager, jobManager)
         val job2 = Job(randomString(), randomString(), Random.nextInt(1..10), emptySet(), emptySet(), Random.nextInt(), Random.nextInt(), 0, false, icon, Random.nextBoolean(), dPlayerManager, jobManager, bukkitWrapper)
         jobManager.createJob(job1.name, job1.group, job1.playerLimit, emptySet(), job1.canDemote, job1.baseIncome, job1.baseXPGain, job1.minLvl, false, job1.permissionRequired, icon, job1.leaveOnDeath)

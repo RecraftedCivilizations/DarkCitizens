@@ -8,6 +8,7 @@ import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
 import com.github.recraftedcivilizations.darkcitizens.groups.Group
 import com.github.recraftedcivilizations.darkcitizens.jobs.Job
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
+import com.github.recraftedcivilizations.darkcitizens.laws.LawManager
 import com.github.recraftedcivilizations.darkcitizens.parser.dataparser.IParseData
 import com.github.recraftedcivilizations.darkcitizens.tasks.ITask
 import com.github.recraftedcivilizations.darkcitizens.tasks.Task
@@ -25,6 +26,7 @@ import java.util.*
 import kotlin.random.Random
 
 internal class DPlayerTest {
+    val lawManager = mock<LawManager>{}
 
     @Test
     fun serializeData() {
@@ -76,7 +78,7 @@ internal class DPlayerTest {
         }
 
         // Job stuff
-        val jobManager = JobManager(dPlayerManager)
+        val jobManager = JobManager(dPlayerManager, lawManager)
         val job = Job(randomString(), randomString(), Random.nextInt(10), emptySet(), emptySet(), Random.nextInt(), Random.nextInt(), 0, false, icon, Random.nextBoolean(), dPlayerManager, jobManager, bukkitWrapper)
 
         dPlayer.setJobManager(jobManager)

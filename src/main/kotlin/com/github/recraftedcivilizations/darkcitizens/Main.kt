@@ -9,6 +9,7 @@ import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
 import com.github.recraftedcivilizations.darkcitizens.election.ElectionManager
 import com.github.recraftedcivilizations.darkcitizens.groups.GroupManager
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
+import com.github.recraftedcivilizations.darkcitizens.laws.LawManager
 import com.github.recraftedcivilizations.darkcitizens.listeners.DataCleaner
 import com.github.recraftedcivilizations.darkcitizens.listeners.ElectionTrigger
 import com.github.recraftedcivilizations.darkcitizens.listeners.FriendlyFire
@@ -36,6 +37,7 @@ class Main : ARecraftedPlugin() {
     lateinit var groupManager: GroupManager
     lateinit var dPlayerManager: DPlayerManager
     lateinit var electionManager: ElectionManager
+    lateinit var lawManager: LawManager
 
     override fun onEnable(){
 
@@ -73,9 +75,10 @@ class Main : ARecraftedPlugin() {
      */
     private fun initManagers(){
         groupManager = GroupManager()
+        lawManager = LawManager()
         dPlayerManager = DPlayerManager(dataParser)
         taskManager = TaskManager(econ!!, dPlayerManager, groupManager)
-        jobManager = JobManager(dPlayerManager)
+        jobManager = JobManager(dPlayerManager, lawManager)
         electionManager = ElectionManager(dPlayerManager, econ!!, this)
 
         taskManager.setJobManager(jobManager)
