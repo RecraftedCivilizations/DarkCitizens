@@ -4,6 +4,7 @@ import com.github.recraftedcivilizations.darkcitizens.BukkitWrapper
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayer
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
+import com.github.recraftedcivilizations.darkcitizens.jobs.elected.ElectableJob
 import com.github.recraftedcivilizations.darkcitizens.laws.LawManager
 import com.github.recraftedcivilizations.darkcitizens.tasks.ITask
 import org.bukkit.Bukkit
@@ -25,7 +26,11 @@ class ElectedMajor(lawManager: LawManager,
                    leaveOnDeath: Boolean,
                    dPlayerManager: DPlayerManager,
                    jobManager: JobManager,
-                   val bukkitWrapper: BukkitWrapper = BukkitWrapper()
+                   override val candidateTime: Int,
+                   override val voteTime: Int,
+                   override val voteFee: Int,
+                   override val candidateFee: Int,
+                   val bukkitWrapper: BukkitWrapper = BukkitWrapper(),
 ) : GenericMajor(
     lawManager,
     name,
@@ -42,7 +47,7 @@ class ElectedMajor(lawManager: LawManager,
     dPlayerManager,
     jobManager,
     bukkitWrapper
-){
+), ElectableJob{
     /**
      * TODO("Maybe rework this")
      * Join this job, this does not check for any requirements
