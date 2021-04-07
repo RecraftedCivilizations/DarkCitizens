@@ -19,6 +19,7 @@ import com.github.recraftedcivilizations.darkcitizens.runnables.BaseIncomeRunner
 import com.github.recraftedcivilizations.darkcitizens.tasks.TaskManager
 import net.milkbowl.vault.economy.Economy
 import org.bukkit.Bukkit
+import org.bukkit.OfflinePlayer
 import org.bukkit.plugin.RegisteredServiceProvider
 
 /**
@@ -70,7 +71,22 @@ class Main : ARecraftedPlugin() {
         server.pluginManager.registerEvents(ElectionTrigger(dPlayerManager, jobManager, electionManager), this)
         server.pluginManager.registerEvents(FriendlyFire(dPlayerManager, jobManager, groupManager), this)
 
-        BaseIncomeRunner(jobManager, dPlayerManager, econ!!, groupManager).runTaskTimer(this, configParser.baseIncomeTime.toLong() * 60L * 20L, configParser.baseIncomeTime.toLong() * 60L * 20L)
+        BaseIncomeRunner(jobManager, dPlayerManager, econ!!, groupManager, lawManager).runTaskTimer(this, configParser.baseIncomeTime.toLong() * 60L * 20L, configParser.baseIncomeTime.toLong() * 60L * 20L)
+
+        var hasBank = false
+
+        for (bank in econ!!.banks){
+
+            if (bank == "CITYBANK"){
+                hasBank = true
+                break
+            }
+        }
+        if (!hasBank){
+            econ!!.createBank("CITYBANK", "")
+        }
+
+
 
         initApi()
     }
