@@ -16,6 +16,18 @@ commands:
     usage: /elections
     permission: drp.vote
     permission-message: You don't have the permission to vote
+  createLaw:
+    description: Create a new law
+    usage: /createLaw <law name> <Description>
+  removeLaw:
+    description: Delete an existing law
+    usage: /removeLaw <law name>
+  laws:
+    description: Show all laws
+    usage: /laws
+  setTaxes:
+    description: Set the tax amount
+    usage: /setTaxes <amount>
 
 permissions:
   drp.*:

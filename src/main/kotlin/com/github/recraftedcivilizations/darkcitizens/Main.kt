@@ -3,9 +3,7 @@ package com.github.recraftedcivilizations.darkcitizens
 import com.github.darkvanityoflight.recraftedcore.ARecraftedPlugin
 import com.github.darkvanityoflight.recraftedcore.gui.GUIListener
 import com.github.recraftedcivilizations.darkcitizens.api.PAPI.LawsPlaceholder
-import com.github.recraftedcivilizations.darkcitizens.commands.ShowElections
-import com.github.recraftedcivilizations.darkcitizens.commands.ShowJobs
-import com.github.recraftedcivilizations.darkcitizens.commands.ShowTasks
+import com.github.recraftedcivilizations.darkcitizens.commands.*
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
 import com.github.recraftedcivilizations.darkcitizens.election.ElectionManager
 import com.github.recraftedcivilizations.darkcitizens.groups.GroupManager
@@ -64,6 +62,10 @@ class Main : ARecraftedPlugin() {
         this.getCommand("jobs")?.setExecutor(ShowJobs(jobManager, dPlayerManager, electionManager))
         this.getCommand("tasks")?.setExecutor(ShowTasks(jobManager, dPlayerManager))
         this.getCommand("elections")?.setExecutor(ShowElections(electionManager))
+        this.getCommand("createLaw")?.setExecutor(CreateLaw(dPlayerManager, jobManager))
+        this.getCommand("removeLaw")?.setExecutor(RemoveLaw(dPlayerManager, jobManager))
+        this.getCommand("laws")?.setExecutor(ShowLaws(lawManager))
+        this.getCommand("setTaxes")?.setExecutor(SetTaxes(dPlayerManager, jobManager))
         server.pluginManager.registerEvents(DataCleaner(dPlayerManager, jobManager), this)
         server.pluginManager.registerEvents(ElectionTrigger(dPlayerManager, jobManager, electionManager), this)
         server.pluginManager.registerEvents(FriendlyFire(dPlayerManager, jobManager, groupManager), this)
