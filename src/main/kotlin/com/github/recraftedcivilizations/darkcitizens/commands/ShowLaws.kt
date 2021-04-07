@@ -28,7 +28,7 @@ class ShowLaws(private val lawManager: LawManager): CommandExecutor {
         lawBookMeta.pages = pages
 
         lawBook.itemMeta = lawBookMeta
-        sender.inventory.addItem(lawBook)
+        sender.openBook(lawBook)
         return true
 
     }
