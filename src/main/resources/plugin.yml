@@ -28,6 +28,10 @@ commands:
   setTaxes:
     description: Set the tax amount
     usage: /setTaxes <amount>
+    permission: drp.laws.set.taxlaw
+  demote:
+    description: Demote another player from his job
+    usage: /demote <playername>
 
 permissions:
   drp.*:
