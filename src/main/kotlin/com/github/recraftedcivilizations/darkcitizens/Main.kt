@@ -109,7 +109,12 @@ class Main : ARecraftedPlugin() {
 
     private fun initApi(){
         LawsPlaceholder(lawManager, description.authors.joinToString(", "), description.version).register()
-        M
+        Main.taskManager = taskManager
+        Main.jobManager = jobManager
+        Main.groupManager = groupManager
+        Main.dPlayerManager = dPlayerManager
+        Main.electionManager = electionManager
+        Main.lawManager = lawManager
     }
 
     companion object{
