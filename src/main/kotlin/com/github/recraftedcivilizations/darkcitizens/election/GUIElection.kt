@@ -1,0 +1,103 @@
+package com.github.recraftedcivilizations.darkcitizens.election
+
+import com.github.darkvanityoflight.recraftedcore.ARecraftedPlugin
+import com.github.darkvanityoflight.recraftedcore.gui.InventoryGUI
+import com.github.darkvanityoflight.recraftedcore.gui.elements.CloseButtonFactory
+import com.github.darkvanityoflight.recraftedcore.utils.itemutils.setName
+import com.github.recraftedcivilizations.darkcitizens.BukkitWrapper
+import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayer
+import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
+import com.github.recraftedcivilizations.darkcitizens.gui.VoteItem
+import com.github.recraftedcivilizations.darkcitizens.jobs.IJob
+import net.milkbowl.vault.economy.Economy
+import org.bukkit.Material
+import org.bukkit.entity.Player
+import org.bukkit.event.EventHandler
+import org.bukkit.event.player.PlayerQuitEvent
+import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.meta.SkullMeta
+import java.util.*
+
+/**
+ * @author DarkVanityOfLight
+ */
+
+/**
+ * An election where people can candidate/vote through a GUI
+ * for the params:
+ * @see GenericElection
+ * @see IElect
+ */
+class GUIElection(
+    job: IJob,
+    voteFee: Int,
+    candidateFee: Int,
+    candidateTime: Int,
+    voteTime: Int,
+    dPlayerManager: DPlayerManager,
+    economy: Economy,
+    electionManager: ElectionManager,
+    plugin: ARecraftedPlugin,
+    val bukkitWrapper: BukkitWrapper = BukkitWrapper(),
+    candidates: MutableSet<DPlayer> = emptySet<DPlayer>().toMutableSet(),
+    votes: MutableMap<UUID, Int> = emptyMap<UUID, Int>().toMutableMap(),
+    hasVoted: MutableSet<UUID> = emptySet<UUID>().toMutableSet(),
+) : GenericElection(candidates, votes, hasVoted, job, voteFee, candidateFee, candidateTime, voteTime, dPlayerManager, economy, electionManager, plugin, bukkitWrapper) {
+    var invGUI = InventoryGUI(9,"Election for ${job.name}")
+
+    override fun addCandidate(dPlayer: DPlayer) {
+        super.addCandidate(dPlayer)
+        updateGUI()
+    }
+
+    /**
+     * Display the vote GUI that enables player to vote
+     * @param player The player to show the gui to
+     */
+    fun display(player: Player){
+        invGUI.show(player)
+    }
+
+    @EventHandler
+    override fun onLeave(e: PlayerQuitEvent) {
+        super.onLeave(e)
+        updateGUI()
+    }
+
+    /**
+     * Update the GUI size and all candidates
+     */
+    private fun updateGUI(){
+
+        // Make sure our inv size is dividable by 9
+        // + 1 because of the close button
+        var invSize = candidates.size + 1
+        if(invSize % 9 != 0){
+            invSize += (9 - (invSize % 9))
+        }
+
+        // Create the new GUI with the updated inv size
+        invGUI = InventoryGUI(invSize, "Election for ${job.name}")
+
+        // Add all candidates to the GUI
+        for(candidate in candidates){
+            val candidatePlayer = bukkitWrapper.getPlayer(candidate)
+
+            // Set the head skin
+            val displayItemStack = ItemStack(Material.PLAYER_HEAD, 1)
+            val skullMeta = displayItemStack.itemMeta as SkullMeta
+            skullMeta.owningPlayer = candidatePlayer
+            displayItemStack.itemMeta = skullMeta
+
+            displayItemStack.setName(candidatePlayer?.name)
+
+            val displayItem = VoteItem(displayItemStack, this, candidate, dPlayerManager)
+            invGUI.addItem(displayItem)
+        }
+
+        val closeButton = CloseButtonFactory.getCloseButton()
+        invGUI.setSlot(closeButton, invSize-1)
+        invGUI.updateInventory()
+    }
+
+}

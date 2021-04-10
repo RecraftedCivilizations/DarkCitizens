@@ -5,11 +5,11 @@ import com.github.darkvanityoflight.recraftedcore.gui.elements.CloseButtonFactor
 import com.github.darkvanityoflight.recraftedcore.utils.itemutils.addLore
 import com.github.darkvanityoflight.recraftedcore.utils.itemutils.getName
 import com.github.darkvanityoflight.recraftedcore.utils.itemutils.setName
-import com.github.recraftedcivilizations.darkcitizens.BukkitWrapper
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
+import com.github.recraftedcivilizations.darkcitizens.election.ElectionManager
 import com.github.recraftedcivilizations.darkcitizens.gui.JobItem
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
-import org.bukkit.Material
+import com.github.recraftedcivilizations.darkcitizens.jobs.elected.GenericElectedJob
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
@@ -17,7 +17,17 @@ import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
-class ShowJobs(val jobManager: JobManager, val dPlayerManager: DPlayerManager, bukkitWrapper: BukkitWrapper = BukkitWrapper()): CommandExecutor {
+/**
+ * @author DarkVanityOfLight
+ */
+
+/**
+ * Show all available jobs and join/leave them
+ * @param jobManager The Job to list all jobs from
+ * @param dPlayerManager The DPlayerManager to get DPlayer data from
+ * @param electionManager The ElectionManager if the job requires to be elected
+ */
+class ShowJobs(val jobManager: JobManager, val dPlayerManager: DPlayerManager, val electionManager: ElectionManager): CommandExecutor {
     private val jobGUI: InventoryGUI
 
     init {
@@ -42,8 +52,10 @@ class ShowJobs(val jobManager: JobManager, val dPlayerManager: DPlayerManager, b
             jobItemStack.addLore("Base Income: ${job.baseIncome}")
             jobItemStack.addLore("Base XP: ${job.baseXPGain}")
             jobItemStack.addLore("Minimum lvl: ${job.minLvl}")
-            jobItemStack.addLore("Elected: ${job.electionRequired}")
-            val displayItem = JobItem(jobItemStack, job, dPlayerManager, jobManager)
+            if (job is GenericElectedJob){
+                jobItemStack.addLore("You have to be elected to join this job")
+            }
+            val displayItem = JobItem(jobItemStack, job, dPlayerManager, jobManager, electionManager)
             jobGUI.addItem(displayItem)
         }
 
@@ -52,6 +64,10 @@ class ShowJobs(val jobManager: JobManager, val dPlayerManager: DPlayerManager, b
        jobGUI.setSlot(closeButton, invSize-1)
     }
 
+    /**
+     * Display the job GUI to the command sender
+     * @param sender The command sender, the GUI is shown to him
+     */
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         if(sender !is Player){ sender.sendMessage("Fuck off console man!!"); return false }
         val dPlayer = dPlayerManager.getDPlayer(sender)!!

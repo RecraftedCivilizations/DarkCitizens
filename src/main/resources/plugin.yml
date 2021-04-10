@@ -1,4 +1,4 @@
-depend: [Vault, RecraftedCore]
+depend: [Vault, RecraftedCore, PlaceholderAPI]
 api-version: 1.16
 commands:
   jobs:
@@ -11,6 +11,23 @@ commands:
     usage: /tasks
     permission: drp.tasks
     permission-message: You don't have the basic permissions for tasks
+  elections:
+    description: Show all elections that are currently going on
+    usage: /elections
+    permission: drp.vote
+    permission-message: You don't have the permission to vote
+  createLaw:
+    description: Create a new law
+    usage: /createLaw <law name> <Description>
+  removeLaw:
+    description: Delete an existing law
+    usage: /removeLaw <law name>
+  laws:
+    description: Show all laws
+    usage: /laws
+  setTaxes:
+    description: Set the tax amount
+    usage: /setTaxes <amount>
 
 permissions:
   drp.*:
@@ -31,3 +48,7 @@ permissions:
   drp.job.*:
     description: Join all jobs, where a permission is required
     default: false
+
+  drp.vote:
+    description: Show all elections and vote for a candidate
+    default: true

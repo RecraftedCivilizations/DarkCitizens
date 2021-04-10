@@ -3,6 +3,7 @@ package com.github.recraftedcivilizations.tasks
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
 import com.github.recraftedcivilizations.darkcitizens.groups.GroupManager
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
+import com.github.recraftedcivilizations.darkcitizens.laws.LawManager
 import com.github.recraftedcivilizations.darkcitizens.parser.dataparser.IParseData
 import com.github.recraftedcivilizations.darkcitizens.tasks.ITask
 import com.github.recraftedcivilizations.darkcitizens.tasks.Task
@@ -20,11 +21,12 @@ import kotlin.random.Random
 
 internal class TaskManagerTest {
 
+    val lawManager = mock<LawManager>{}
     val econ = mock<Economy>{}
     val dataParser = mock<IParseData>{}
     val dPlayerManager = DPlayerManager(dataParser)
     val action = mock<IAction>{}
-    val jobManager = JobManager(dPlayerManager)
+    val jobManager = JobManager(dPlayerManager, lawManager)
     val groupManager = GroupManager()
     val icon = Material.PLAYER_HEAD
 

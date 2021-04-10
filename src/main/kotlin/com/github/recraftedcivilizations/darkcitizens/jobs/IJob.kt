@@ -28,9 +28,9 @@ interface IJob {
     val baseIncome: Int
     val baseXPGain: Int
     val minLvl: Int
-    val electionRequired: Boolean
     val permissionRequired: Boolean
     val icon: Material
+    val leaveOnDeath: Boolean
 
     fun setBukkitWrapper(bukkitWrapper: BukkitWrapper)
 

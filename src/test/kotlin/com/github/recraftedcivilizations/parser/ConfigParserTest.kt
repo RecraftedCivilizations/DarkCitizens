@@ -4,7 +4,10 @@ import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
 import com.github.recraftedcivilizations.darkcitizens.groups.Group
 import com.github.recraftedcivilizations.darkcitizens.groups.GroupManager
 import com.github.recraftedcivilizations.darkcitizens.jobs.IJob
+import com.github.recraftedcivilizations.darkcitizens.jobs.Job
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
+import com.github.recraftedcivilizations.darkcitizens.jobs.elected.GenericElectedJob
+import com.github.recraftedcivilizations.darkcitizens.laws.LawManager
 import com.github.recraftedcivilizations.darkcitizens.parser.ConfigParser
 import com.github.recraftedcivilizations.darkcitizens.parser.dataparser.IParseData
 import com.github.recraftedcivilizations.darkcitizens.tasks.ITask
@@ -36,9 +39,10 @@ const val dataDir = "."
 
 internal class ConfigParserTest {
     val dataParser = mock<IParseData>{}
+    val lawManager = mock<LawManager>{}
     val economy = mock<Economy>{}
     val dPlayerManager = DPlayerManager(dataParser)
-    val jobManager = JobManager(dPlayerManager)
+    val jobManager = JobManager(dPlayerManager, lawManager)
     val groupManager = GroupManager()
     val taskManager = TaskManager(economy, dPlayerManager, groupManager)
     val bukkitWrapper = mock<com.github.recraftedcivilizations.darkcitizens.BukkitWrapper>{}
@@ -263,7 +267,12 @@ internal class ConfigParserTest {
             jobArgs[ConfigParser.jobBaseIncomeName] as Int, jobArgs[ConfigParser.jobBaseXpName] as Int,
             jobArgs[ConfigParser.jobMinLvlName] as Int, jobArgs[ConfigParser.jobElectionRequiredName] as Boolean,
             jobArgs[ConfigParser.jobPermissionRequiredName] as Boolean,
-            jobArgs[ConfigParser.jobIconName] as Material
+            jobArgs[ConfigParser.jobIconName] as Material,
+            jobArgs[ConfigParser.jobLeaveOnDeathName] as Boolean,
+            jobArgs[ConfigParser.jobCandidateTimeName] as Int,
+            jobArgs[ConfigParser.jobVoteTimeName] as Int,
+            jobArgs[ConfigParser.jobCandidateFeeName] as Int,
+            jobArgs[ConfigParser.jobVoteFeeName] as Int,
             )
 
         val res = configParser.callPrivateFunc("verify") as Boolean
@@ -292,8 +301,12 @@ internal class ConfigParserTest {
         assertEquals(jobArgs[ConfigParser.jobPlayerLimitName], job.playerLimit)
         assertEquals((jobArgs[ConfigParser.jobCanDemoteName] as Set<*>), job.canDemote)
         assertEquals(jobArgs[ConfigParser.jobMinLvlName], job.minLvl)
-        assertEquals(jobArgs[ConfigParser.jobElectionRequiredName], job.electionRequired)
         assertEquals(jobArgs[ConfigParser.jobPermissionRequiredName], job.permissionRequired)
+        if (jobArgs[ConfigParser.jobElectionRequiredName] as Boolean){
+            assertEquals(true, job is GenericElectedJob)
+        }else{
+            assertEquals(true, job is Job)
+        }
     }
 
     private fun assertTask(task: ITask?, taskArgs: Map<Any, Any>){
@@ -314,7 +327,12 @@ internal class ConfigParserTest {
             Pair(ConfigParser.jobPermissionRequiredName, Random.nextBoolean()),
             Pair(ConfigParser.jobBaseIncomeName, Random.nextInt()),
             Pair(ConfigParser.jobBaseXpName, Random.nextInt()),
-            Pair(ConfigParser.jobIconName, mock<Material>{})
+            Pair(ConfigParser.jobIconName, mock<Material>{}),
+            Pair(ConfigParser.jobLeaveOnDeathName, Random.nextBoolean()),
+            Pair(ConfigParser.jobCandidateTimeName, Random.nextInt()),
+            Pair(ConfigParser.jobVoteTimeName, Random.nextInt()),
+            Pair(ConfigParser.jobCandidateFeeName, Random.nextInt()),
+            Pair(ConfigParser.jobVoteFeeName, Random.nextInt()),
         )
     }
 

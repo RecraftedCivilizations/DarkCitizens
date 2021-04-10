@@ -4,6 +4,7 @@ import com.github.recraftedcivilizations.darkcitizens.BukkitWrapper
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
 import com.github.recraftedcivilizations.darkcitizens.groups.GroupManager
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
+import com.github.recraftedcivilizations.darkcitizens.laws.LawManager
 import com.github.recraftedcivilizations.darkcitizens.parser.dataparser.IParseData
 import com.github.recraftedcivilizations.darkcitizens.tasks.Task
 import com.github.recraftedcivilizations.darkcitizens.tasks.TaskFactory
@@ -22,7 +23,7 @@ import kotlin.random.Random
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class TaskFactoryTest {
-
+    val lawManager = mock<LawManager>{}
     val action = mock<IAction>()
     val economy = mock<Economy> {  }
     val bukkitWrapper = mock<BukkitWrapper> {  }
@@ -30,7 +31,7 @@ internal class TaskFactoryTest {
     val dPlayerManager = DPlayerManager(dataParser)
     val groupManager = GroupManager()
     val taskManager = TaskManager(economy, dPlayerManager, groupManager)
-    val jobManager = JobManager(dPlayerManager)
+    val jobManager = JobManager(dPlayerManager, lawManager)
     val icon = Material.PLAYER_HEAD
 
     @BeforeAll

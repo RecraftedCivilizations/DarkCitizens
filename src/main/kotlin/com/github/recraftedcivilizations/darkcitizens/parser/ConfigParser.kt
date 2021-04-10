@@ -205,8 +205,35 @@ class ConfigParser(
         }
         val icon = iconName?.let { Material.getMaterial(it) } ?: Material.PLAYER_HEAD
 
+        var candidateTime = configurationSection.getInt(jobCandidateTimeName, -1)
+        if (candidateTime == -1 && electionRequired){
+            bukkitWrapper.warning("The job $jobName has no candidate time defined, I'll default it to 1 minute, but you should define it using the $jobCandidateTimeName")
+            candidateTime = 1
+        }
+
+        var voteTime = configurationSection.getInt(jobVoteTimeName, -1)
+        if (candidateTime == -1 && electionRequired){
+            bukkitWrapper.warning("The job $jobName has no vote time defined, I'll default it to 1 minute, but you should define it using the $jobVoteTimeName")
+            voteTime = 1
+        }
+
+        var candidateFee = configurationSection.getInt(jobCandidateFeeName, -1)
+        if (candidateTime == -1 && electionRequired){
+            bukkitWrapper.warning("The job $jobName has no candidate time defined, I'll default it to 100, but you should define it using the $jobCandidateFeeName")
+            candidateFee = 100
+        }
+
+        var voteFee = configurationSection.getInt(jobVoteFeeName, -1)
+        if (candidateTime == -1 && electionRequired){
+            bukkitWrapper.warning("The job $jobName has no candidate time defined, I'll default it to 100, but you should define it using the $jobVoteFeeName")
+            voteFee = 0
+        }
+
+        val leaveOnDeath = configurationSection.getBoolean(jobLeaveOnDeathName, false)
+        val isMajor = configurationSection.getBoolean(jobIsMajorName, false)
+
         jobNames.add(jobName)
-        jobManager.createJob(jobName, group, playerLimit, tasks.toSet(), canDemote.toSet(), baseIncome, baseXp, minLvl, electionRequired, permissionRequired, icon)
+        jobManager.createJob(jobName, group, playerLimit, tasks.toSet(), canDemote.toSet(), baseIncome, baseXp, minLvl, electionRequired, permissionRequired, icon, leaveOnDeath, candidateTime, voteTime, candidateFee, voteFee, isMajor)
     }
 
     /**
@@ -300,6 +327,12 @@ class ConfigParser(
         const val jobElectionRequiredName = "electionRequired"
         const val jobPermissionRequiredName = "permissionRequired"
         const val jobIconName = "icon"
+        const val jobCandidateTimeName = "candidateTime"
+        const val jobVoteTimeName = "voteTime"
+        const val jobCandidateFeeName = "candidateFee"
+        const val jobVoteFeeName = "voteFee"
+        const val jobLeaveOnDeathName = "leaveOnDeath"
+        const val jobIsMajorName = "isMajor"
         const val groupMaxLvlName = "maxLvl"
         const val groupLvlThresholdsName = "lvlThresholds"
         const val groupFriendlyFireName = "friendlyFire"

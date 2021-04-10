@@ -1,6 +1,7 @@
 package com.github.recraftedcivilizations.darkcitizens.jobs
 
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
+import com.github.recraftedcivilizations.darkcitizens.laws.LawManager
 import com.github.recraftedcivilizations.darkcitizens.tasks.ITask
 import com.github.recraftedcivilizations.darkcitizens.tasks.TaskManager
 import org.bukkit.Material
@@ -13,7 +14,7 @@ import org.bukkit.Material
  * Contains all jobs and create new Jobs from here using [createJob]
  * @constructor Construct using a [TaskManager] and a [DPlayerManager]
  */
-class JobManager(private val dPlayerManager: DPlayerManager) {
+class JobManager(private val dPlayerManager: DPlayerManager, private val lawManager: LawManager) {
     private val jobs: MutableSet<IJob> = emptySet<IJob>().toMutableSet()
     private lateinit var taskManager: TaskManager
 
@@ -25,7 +26,7 @@ class JobManager(private val dPlayerManager: DPlayerManager) {
      * Get a job using its name
      * @param name The name of the job you want
      */
-    fun getJob(name: String): IJob?{
+    fun getJob(name: String?): IJob?{
         for (job in jobs){
             if (job.name == name){ return job }
         }
@@ -44,6 +45,13 @@ class JobManager(private val dPlayerManager: DPlayerManager) {
      * @param minLvl The minimum level required to join this job
      * @param electionRequired If an election is required to join this job
      * @param permissionRequired If a permission is required to join this job
+     * @param icon The icon this Job gets displayed as
+     * @param leaveOnDeath  Leave this job when the player dies?
+     * @param candidateTime The time span someone can candidate in an elected job
+     * @param voteTime The time span in which can be voted in an elected job
+     * @param voteFee The amount of money that has to be paid to vote
+     * @param candidateFee The amount of money that has to be paid to candidate for a job
+     * @param isMajor If the job is a major and can set tax laws etc.
      */
     fun createJob(
         name: String,
@@ -56,7 +64,13 @@ class JobManager(private val dPlayerManager: DPlayerManager) {
         minLvl: Int,
         electionRequired: Boolean,
         permissionRequired: Boolean,
-        icon: Material
+        icon: Material,
+        leaveOnDeath: Boolean,
+        candidateTime: Int? = null,
+        voteTime: Int? = null,
+        voteFee: Int? = null,
+        candidateFee: Int? = null,
+        isMajor: Boolean = false,
         ){
         val iTasks = emptySet<ITask>().toMutableSet()
 
@@ -79,8 +93,15 @@ class JobManager(private val dPlayerManager: DPlayerManager) {
                 electionRequired,
                 permissionRequired,
                 icon,
+                leaveOnDeath,
                 dPlayerManager,
-                this
+                this,
+                candidateTime,
+                voteTime,
+                voteFee,
+                candidateFee,
+                isMajor,
+                lawManager,
             )
         )
 

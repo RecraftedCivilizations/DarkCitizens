@@ -21,7 +21,11 @@ repositories {
     spigot()
     maven { url 'https://jitpack.io' }
     jcenter()
+    maven {
+        url = 'https://repo.extendedclip.com/content/repositories/placeholderapi/'
+    }
 }
+
 // Kotlin stuff
 dependencies {
     implementation 'org.jetbrains.kotlin:kotlin-stdlib'
@@ -34,6 +38,7 @@ dependencies {
     compileOnly spigotApi()
     compileOnly 'com.github.recraftedcivilizations:RecraftedCore:3.+'
     compileOnly "com.github.MilkBowl:VaultAPI:1.7"
+    compileOnly 'me.clip:placeholderapi:+'
 }
 
 // Test stuff

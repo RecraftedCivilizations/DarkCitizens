@@ -6,6 +6,8 @@ import com.github.recraftedcivilizations.darkcitizens.groups.GroupManager
 import com.github.recraftedcivilizations.darkcitizens.jobs.IJob
 import com.github.recraftedcivilizations.darkcitizens.jobs.Job
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
+import com.github.recraftedcivilizations.darkcitizens.jobs.elected.GenericElectedJob
+import com.github.recraftedcivilizations.darkcitizens.laws.LawManager
 import com.github.recraftedcivilizations.darkcitizens.parser.dataparser.IParseData
 import com.github.recraftedcivilizations.darkcitizens.tasks.ITask
 import com.github.recraftedcivilizations.darkcitizens.tasks.TaskManager
@@ -32,6 +34,7 @@ internal class JobManagerTest {
     val dPlayerManager = DPlayerManager(dataParser)
     val groupManager = GroupManager()
     val taskManager = TaskManager(econ, dPlayerManager, groupManager)
+    val lawManager = mock<LawManager>{}
 
     @BeforeAll
     fun init() {
@@ -39,7 +42,7 @@ internal class JobManagerTest {
 
     @Test
     fun shouldConstruct(){
-        val jobManager = JobManager(dPlayerManager)
+        val jobManager = JobManager(dPlayerManager, lawManager)
         jobManager.setTaskManager(taskManager)
     }
 
@@ -48,10 +51,10 @@ internal class JobManagerTest {
         val tasks = setOf<String>("Foo", "Bar", "FooBar")
         val icon = mock<Material>{}
 
-        val jobManager = JobManager(dPlayerManager)
+        val jobManager = JobManager(dPlayerManager, lawManager)
         jobManager.setTaskManager(taskManager)
-        val job = Job(randomString(), randomString(), Random.nextInt(), setOf(task1, task2), emptySet(), Random.nextInt(), Random.nextInt(), Random.nextInt(), Random.nextBoolean(), Random.nextBoolean(), icon, dPlayerManager, jobManager)
-        jobManager.createJob(job.name, job.group, job.playerLimit, tasks, job.canDemote, job.baseIncome, job.baseXPGain, job.minLvl, job.electionRequired, job.permissionRequired, job.icon)
+        val job = Job(randomString(), randomString(), Random.nextInt(), setOf(task1, task2), emptySet(), Random.nextInt(), Random.nextInt(), Random.nextInt(), Random.nextBoolean(), icon, Random.nextBoolean(), dPlayerManager, jobManager)
+        jobManager.createJob(job.name, job.group, job.playerLimit, tasks, job.canDemote, job.baseIncome, job.baseXPGain, job.minLvl, false, job.permissionRequired, job.icon, job.leaveOnDeath)
 
         val jobsField = JobManager::class.java.getDeclaredField("jobs")
         jobsField.isAccessible = true
@@ -71,8 +74,40 @@ internal class JobManagerTest {
         assertEquals(job.baseIncome, thatJob.baseIncome)
         assertEquals(job.baseXPGain, thatJob.baseXPGain)
         assertEquals(job.minLvl, thatJob.minLvl)
-        assertEquals(job.electionRequired, thatJob.electionRequired)
         assertEquals(job.permissionRequired, thatJob.permissionRequired)
+        assertEquals(true, thatJob is Job)
+    }
+
+    @Test
+    fun createElectedJob() {
+        val tasks = setOf<String>("Foo", "Bar", "FooBar")
+        val icon = mock<Material>{}
+
+        val jobManager = JobManager(dPlayerManager, lawManager)
+        jobManager.setTaskManager(taskManager)
+        val job = Job(randomString(), randomString(), Random.nextInt(), setOf(task1, task2), emptySet(), Random.nextInt(), Random.nextInt(), Random.nextInt(), Random.nextBoolean(), icon, Random.nextBoolean(), dPlayerManager, jobManager)
+        jobManager.createJob(job.name, job.group, job.playerLimit, tasks, job.canDemote, job.baseIncome, job.baseXPGain, job.minLvl, true, job.permissionRequired, job.icon, job.leaveOnDeath, Random.nextInt(), Random.nextInt(), Random.nextInt(), Random.nextInt(),)
+
+        val jobsField = JobManager::class.java.getDeclaredField("jobs")
+        jobsField.isAccessible = true
+        val jobs = jobsField.get(jobManager) as Set<IJob>
+        var thatJob: IJob? = null
+        for (accessedJob in jobs){
+            if (accessedJob.name == job.name){
+                thatJob = accessedJob
+            }
+        }
+        thatJob!!
+
+        assertEquals(job.name, thatJob.name)
+        assertEquals(job.group, thatJob.group)
+        assertEquals(job.playerLimit, thatJob.playerLimit)
+        assertEquals(job.canDemote, thatJob.canDemote)
+        assertEquals(job.baseIncome, thatJob.baseIncome)
+        assertEquals(job.baseXPGain, thatJob.baseXPGain)
+        assertEquals(job.minLvl, thatJob.minLvl)
+        assertEquals(job.permissionRequired, thatJob.permissionRequired)
+        assertEquals(true, thatJob is GenericElectedJob)
     }
 
     @Test
@@ -80,13 +115,13 @@ internal class JobManagerTest {
         val tasks = setOf<String>("Foo", "Bar", "FooBar")
         val icon = mock<Material>{}
 
-        val jobManager = JobManager(dPlayerManager)
+        val jobManager = JobManager(dPlayerManager, lawManager)
         jobManager.setTaskManager(taskManager)
-        val job = Job(randomString(), randomString(), Random.nextInt(), setOf(task1, task2), emptySet(), Random.nextInt(), Random.nextInt(), Random.nextInt(), Random.nextBoolean(), Random.nextBoolean(), icon, dPlayerManager, jobManager)
+        val job = Job(randomString(), randomString(), Random.nextInt(), setOf(task1, task2), emptySet(), Random.nextInt(), Random.nextInt(), Random.nextInt(), Random.nextBoolean(), icon, Random.nextBoolean(), dPlayerManager, jobManager)
 
         assertEquals(null, jobManager.getJob(randomString()))
 
-        jobManager.createJob(job.name, job.group, job.playerLimit, tasks, job.canDemote, job.baseIncome, job.baseXPGain, job.minLvl, job.electionRequired, job.permissionRequired, job.icon)
+        jobManager.createJob(job.name, job.group, job.playerLimit, tasks, job.canDemote, job.baseIncome, job.baseXPGain, job.minLvl, false, job.permissionRequired, job.icon, job.leaveOnDeath)
         val thatJob = jobManager.getJob(job.name)
 
         thatJob!!
@@ -98,7 +133,6 @@ internal class JobManagerTest {
         assertEquals(job.baseIncome, thatJob.baseIncome)
         assertEquals(job.baseXPGain, thatJob.baseXPGain)
         assertEquals(job.minLvl, thatJob.minLvl)
-        assertEquals(job.electionRequired, thatJob.electionRequired)
         assertEquals(job.permissionRequired, thatJob.permissionRequired)
 
     }
