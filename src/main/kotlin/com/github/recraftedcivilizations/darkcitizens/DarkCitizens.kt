@@ -19,7 +19,6 @@ import com.github.recraftedcivilizations.darkcitizens.runnables.BaseIncomeRunner
 import com.github.recraftedcivilizations.darkcitizens.tasks.TaskManager
 import net.milkbowl.vault.economy.Economy
 import org.bukkit.Bukkit
-import org.bukkit.OfflinePlayer
 import org.bukkit.plugin.RegisteredServiceProvider
 
 /**
@@ -29,7 +28,7 @@ import org.bukkit.plugin.RegisteredServiceProvider
 /**
  * The Main plugin
  */
-class Main : ARecraftedPlugin() {
+class DarkCitizens : ARecraftedPlugin() {
     private lateinit var dataParser: IParseData
     private lateinit var configParser: ConfigParser
     private lateinit var taskManager: TaskManager
@@ -109,12 +108,12 @@ class Main : ARecraftedPlugin() {
 
     private fun initApi(){
         LawsPlaceholder(lawManager, description.authors.joinToString(", "), description.version).register()
-        Main.taskManager = taskManager
-        Main.jobManager = jobManager
-        Main.groupManager = groupManager
-        Main.dPlayerManager = dPlayerManager
-        Main.electionManager = electionManager
-        Main.lawManager = lawManager
+        DarkCitizens.taskManager = taskManager
+        DarkCitizens.jobManager = jobManager
+        DarkCitizens.groupManager = groupManager
+        DarkCitizens.dPlayerManager = dPlayerManager
+        DarkCitizens.electionManager = electionManager
+        DarkCitizens.lawManager = lawManager
     }
 
     companion object{
