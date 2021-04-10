@@ -113,5 +113,11 @@ class Main : ARecraftedPlugin() {
 
     companion object{
         var econ: Economy? = null
+        lateinit var taskManager: TaskManager
+        lateinit var jobManager: JobManager
+        lateinit var groupManager: GroupManager
+        lateinit var dPlayerManager: DPlayerManager
+        lateinit var electionManager: ElectionManager
+        lateinit var lawManager: LawManager
     }
 }
