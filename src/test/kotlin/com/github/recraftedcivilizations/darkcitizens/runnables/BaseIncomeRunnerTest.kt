@@ -7,6 +7,7 @@ import com.github.recraftedcivilizations.darkcitizens.groups.Group
 import com.github.recraftedcivilizations.darkcitizens.groups.GroupManager
 import com.github.recraftedcivilizations.darkcitizens.jobs.IJob
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
+import com.github.recraftedcivilizations.darkcitizens.laws.LawManager
 import com.github.recraftedcivilizations.darkcitizens.parser.dataparser.IParseData
 import com.github.recraftedcivilizations.darkcitizens.tasks.actions.IAction
 import com.github.recraftedcivilizations.jobs.randomString
@@ -26,6 +27,7 @@ import kotlin.random.Random
 internal class BaseIncomeRunnerTest {
 
     private var economy = mock<Economy>{}
+    private val lawManager = mock<LawManager>{}
 
     private val uuid1 = UUID.randomUUID()
 
@@ -68,7 +70,7 @@ internal class BaseIncomeRunnerTest {
 
     @Test
     fun run() {
-        val runner = BaseIncomeRunner(jobManager, dPlayerManager, economy, groupManager, bukkitWrapper)
+        val runner = BaseIncomeRunner(jobManager, dPlayerManager, economy, groupManager, lawManager, bukkitWrapper)
         runner.run()
 
         verify(dPlayerMock1).addXP(groupMock, baseXp)
