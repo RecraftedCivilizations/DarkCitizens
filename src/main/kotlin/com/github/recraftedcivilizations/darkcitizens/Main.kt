@@ -67,6 +67,7 @@ class Main : ARecraftedPlugin() {
         this.getCommand("removeLaw")?.setExecutor(RemoveLaw(dPlayerManager, jobManager))
         this.getCommand("laws")?.setExecutor(ShowLaws(lawManager))
         this.getCommand("setTaxes")?.setExecutor(SetTaxes(dPlayerManager, jobManager))
+        this.getCommand("demote")?.setExecutor(Demote(dPlayerManager, jobManager))
         server.pluginManager.registerEvents(DataCleaner(dPlayerManager, jobManager), this)
         server.pluginManager.registerEvents(ElectionTrigger(dPlayerManager, jobManager, electionManager), this)
         server.pluginManager.registerEvents(FriendlyFire(dPlayerManager, jobManager, groupManager), this)
