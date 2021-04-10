@@ -30,14 +30,14 @@ import org.bukkit.plugin.RegisteredServiceProvider
  * The Main plugin
  */
 class Main : ARecraftedPlugin() {
-    lateinit var dataParser: IParseData
-    lateinit var configParser: ConfigParser
-    lateinit var taskManager: TaskManager
-    lateinit var jobManager: JobManager
-    lateinit var groupManager: GroupManager
-    lateinit var dPlayerManager: DPlayerManager
-    lateinit var electionManager: ElectionManager
-    lateinit var lawManager: LawManager
+    private lateinit var dataParser: IParseData
+    private lateinit var configParser: ConfigParser
+    private lateinit var taskManager: TaskManager
+    private lateinit var jobManager: JobManager
+    private lateinit var groupManager: GroupManager
+    private lateinit var dPlayerManager: DPlayerManager
+    private lateinit var electionManager: ElectionManager
+    private lateinit var lawManager: LawManager
 
     override fun onEnable(){
 
@@ -109,6 +109,7 @@ class Main : ARecraftedPlugin() {
 
     private fun initApi(){
         LawsPlaceholder(lawManager, description.authors.joinToString(", "), description.version).register()
+        M
     }
 
     companion object{
