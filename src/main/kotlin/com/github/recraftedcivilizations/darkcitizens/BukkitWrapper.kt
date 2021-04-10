@@ -21,4 +21,14 @@ open class BukkitWrapper: com.github.darkvanityoflight.recraftedcore.api.BukkitW
     open fun getPlayer(player: DPlayer): Player? {
         return Bukkit.getPlayer(player.uuid)
     }
+
+    /**
+     * Get a Bukkit player from his name
+     * @param name The name of the player
+     * @return The player or null if no one is found
+     */
+    open fun getPlayer(name: String): Player?{
+
+        return Bukkit.getPlayer(name)
+    }
 }
