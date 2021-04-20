@@ -1,6 +1,7 @@
 package com.github.recraftedcivilizations.darkcitizens.dPlayer
 
 import com.github.recraftedcivilizations.darkcitizens.BukkitWrapper
+import com.github.recraftedcivilizations.darkcitizens.events.LevelUpEvent
 import com.github.recraftedcivilizations.darkcitizens.groups.Group
 import com.github.recraftedcivilizations.darkcitizens.groups.GroupManager
 import com.github.recraftedcivilizations.darkcitizens.jobs.IJob
@@ -149,6 +150,8 @@ class DPlayer {
     fun addXP(group: Group, amount: Int){
         groupXps.inc(group.name, amount)
 
+        val oldLvl = groupLvls[group.name]!!
+
         var maxLvl = 0
         val currentXp = groupXps[group.name]!!
 
@@ -160,6 +163,13 @@ class DPlayer {
         }
 
         groupLvls[group.name] = maxLvl
+
+        val newLvl = groupLvls[group.name]!!
+
+        if (newLvl > oldLvl){
+            val event = LevelUpEvent(this, group.name, newLvl)
+            bukkitWrapper.getPluginManager().callEvent(event)
+        }
     }
 
 }
