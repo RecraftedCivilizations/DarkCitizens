@@ -167,8 +167,8 @@ class DPlayer {
         val newLvl = groupLvls[group.name]!!
 
         if (newLvl > oldLvl){
-            val event = LevelUpEvent(this, group.name, newLvl)
-            bukkitWrapper.getPluginManager().callEvent(event)
+            val lvlEvent = LevelUpEvent(this, group.name, newLvl)
+            bukkitWrapper.getPluginManager().callEvent(lvlEvent)
         }
     }
 
