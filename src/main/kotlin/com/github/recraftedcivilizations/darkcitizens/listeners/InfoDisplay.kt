@@ -1,6 +1,7 @@
 package com.github.recraftedcivilizations.darkcitizens.listeners
 
 import com.github.recraftedcivilizations.darkcitizens.BukkitWrapper
+import com.github.recraftedcivilizations.darkcitizens.events.LevelUpEvent
 import com.github.recraftedcivilizations.darkcitizens.events.XpGainEvent
 import com.github.recraftedcivilizations.darkcitizens.groups.GroupManager
 import org.bukkit.boss.BarColor
@@ -32,5 +33,15 @@ class InfoDisplay(private val groupManager: GroupManager, private val bukkitWrap
 
         val xpNextLvl = group.lvlThreshold[lvl + 1]
         bukkitWrapper.notify("Xp: $totalXp/$xpNextLvl + ${e.amount}", BarColor.BLUE, BarStyle.SOLID, 5, setOf(player))
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    fun onLvlUp(e: LevelUpEvent){
+
+        val player = bukkitWrapper.getPlayer(e.dPlayer)!!
+        val group = groupManager.getGroup(e.group)
+
+        bukkitWrapper.notify("Level Up\n ${e.group} level: ${e.newLvl}", BarColor.RED, BarStyle.SOLID, 5, setOf(player))
+
     }
 }
