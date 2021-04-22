@@ -5,6 +5,7 @@ import com.github.darkvanityoflight.recraftedcore.gui.InventoryGUI
 import com.github.darkvanityoflight.recraftedcore.utils.itemutils.setName
 import com.github.recraftedcivilizations.darkcitizens.BukkitWrapper
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
+import com.github.recraftedcivilizations.darkcitizens.gui.DemoteItem
 import com.github.recraftedcivilizations.darkcitizens.gui.VoteItem
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
 import org.bukkit.ChatColor
@@ -61,8 +62,8 @@ class Demote(private val dPlayerManager: DPlayerManager, private val jobManager:
 
                         displayItemStack.setName(toDemotePlayer?.name)
 
-                        //val displayItem = DemoteItem()
-                        //invGui.addItem(displayItem)
+                        val displayItem = DemoteItem(displayItemStack, member, demoteJob)
+                        invGui.addItem(displayItem)
                     }
 
                     invGui.show(sender)
@@ -70,19 +71,6 @@ class Demote(private val dPlayerManager: DPlayerManager, private val jobManager:
                 }
             }
         }
-
-
-        /*
-        // Set the head skin
-        val displayItemStack = ItemStack(Material.PLAYER_HEAD, 1)
-        val skullMeta = displayItemStack.itemMeta as SkullMeta
-        skullMeta.owningPlayer = candidatePlayer
-        displayItemStack.itemMeta = skullMeta
-
-        displayItemStack.setName(candidatePlayer?.name)
-
-        val displayItem = VoteItem(displayItemStack, this, candidate, dPlayerManager)
-        invGUI.addItem(displayItem)*/
 
 
         // Get the target
