@@ -45,6 +45,10 @@ class GUIElection(
 ) : GenericElection(candidates, votes, hasVoted, job, voteFee, candidateFee, candidateTime, voteTime, dPlayerManager, economy, electionManager, plugin, bukkitWrapper) {
     private var invGUI = InventoryGUI(9,"Election for ${job.name}")
 
+    init {
+        updateGUI()
+    }
+
     override fun addCandidate(dPlayer: DPlayer) {
         super.addCandidate(dPlayer)
         updateGUI()
