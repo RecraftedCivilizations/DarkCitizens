@@ -43,7 +43,7 @@ class GUIElection(
     votes: MutableMap<UUID, Int> = emptyMap<UUID, Int>().toMutableMap(),
     hasVoted: MutableSet<UUID> = emptySet<UUID>().toMutableSet(),
 ) : GenericElection(candidates, votes, hasVoted, job, voteFee, candidateFee, candidateTime, voteTime, dPlayerManager, economy, electionManager, plugin, bukkitWrapper) {
-    var invGUI = InventoryGUI(9,"Election for ${job.name}")
+    private var invGUI = InventoryGUI(9,"Election for ${job.name}")
 
     override fun addCandidate(dPlayer: DPlayer) {
         super.addCandidate(dPlayer)
