@@ -159,7 +159,7 @@ class DPlayer {
 
         groupXps.inc(group.name, amount)
 
-        val oldLvl = groupLvls[group.name]!!
+        val oldLvl = groupLvls[group.name]?: 0
 
         var maxLvl = 0
         val currentXp = groupXps[group.name]!!
