@@ -12,6 +12,7 @@ import com.github.recraftedcivilizations.darkcitizens.laws.LawManager
 import com.github.recraftedcivilizations.darkcitizens.listeners.DataCleaner
 import com.github.recraftedcivilizations.darkcitizens.listeners.ElectionTrigger
 import com.github.recraftedcivilizations.darkcitizens.listeners.FriendlyFire
+import com.github.recraftedcivilizations.darkcitizens.listeners.InfoDisplay
 import com.github.recraftedcivilizations.darkcitizens.parser.ConfigParser
 import com.github.recraftedcivilizations.darkcitizens.parser.dataparser.IParseData
 import com.github.recraftedcivilizations.darkcitizens.parser.dataparser.YMLDataSource
@@ -70,6 +71,7 @@ class DarkCitizens : ARecraftedPlugin() {
         server.pluginManager.registerEvents(DataCleaner(dPlayerManager, jobManager), this)
         server.pluginManager.registerEvents(ElectionTrigger(dPlayerManager, jobManager, electionManager), this)
         server.pluginManager.registerEvents(FriendlyFire(dPlayerManager, jobManager, groupManager), this)
+        server.pluginManager.registerEvents(InfoDisplay(groupManager), this)
 
         BaseIncomeRunner(jobManager, dPlayerManager, econ!!, groupManager, lawManager).runTaskTimer(this, configParser.baseIncomeTime.toLong() * 60L * 20L, configParser.baseIncomeTime.toLong() * 60L * 20L)
 
