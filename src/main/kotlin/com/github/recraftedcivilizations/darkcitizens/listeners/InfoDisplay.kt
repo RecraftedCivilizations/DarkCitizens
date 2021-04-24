@@ -30,8 +30,11 @@ class InfoDisplay(private val groupManager: GroupManager, private val bukkitWrap
             lvl++
         }
 
+        var xpNextLvl = group.lvlThreshold[lvl+1]
+        for(lvlXp in group.lvlThreshold.subList(0, lvl)){
+            xpNextLvl -= lvlXp
+        }
 
-        val xpNextLvl = group.lvlThreshold[lvl + 1]
         bukkitWrapper.notify("Xp: $totalXp/$xpNextLvl + ${e.amount}", BarColor.BLUE, BarStyle.SOLID, 5, setOf(player))
     }
 
