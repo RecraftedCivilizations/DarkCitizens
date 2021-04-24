@@ -17,7 +17,7 @@ class InfoDisplay(private val groupManager: GroupManager, private val bukkitWrap
         val player = bukkitWrapper.getPlayer(e.player)!!
         val group = groupManager.getGroup(e.group)!!
 
-        var totalXp = e.player.groupXps[e.group]!! + e.amount
+        var totalXp = (e.player.groupXps[e.group]?:0) + e.amount
 
         var lvl = 0
         while (totalXp > group.lvlThreshold[lvl]){
