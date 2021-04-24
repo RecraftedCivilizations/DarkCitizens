@@ -23,7 +23,10 @@ class InfoDisplay(private val groupManager: GroupManager, private val bukkitWrap
         while (totalXp > group.lvlThreshold[lvl]){
             lvl++
         }
-        totalXp -= group.lvlThreshold[lvl]
+        if (lvl != 0){
+            totalXp -= group.lvlThreshold[lvl]
+        }
+
 
         var xpNextLvl = group.lvlThreshold[lvl+1]
         for(lvlXp in group.lvlThreshold.subList(0, lvl)){
