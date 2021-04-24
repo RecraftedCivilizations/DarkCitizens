@@ -17,7 +17,8 @@ class InfoDisplay(private val groupManager: GroupManager, private val bukkitWrap
         val player = bukkitWrapper.getPlayer(e.player)!!
         val group = groupManager.getGroup(e.group)!!
 
-        var totalXp = (e.player.groupXps[e.group]?:0) + e.amount
+        val xp = e.player.groupXps[e.group]?:0
+        var totalXp = xp + e.amount
 
         var lvl = 0
         while (totalXp > group.lvlThreshold[lvl]){
@@ -33,7 +34,7 @@ class InfoDisplay(private val groupManager: GroupManager, private val bukkitWrap
             xpNextLvl -= lvlXp
         }
 
-        bukkitWrapper.notify("Xp: $totalXp/$xpNextLvl + ${e.amount}", BarColor.BLUE, BarStyle.SOLID, 5, setOf(player))
+        bukkitWrapper.notify("Xp: $xp/$xpNextLvl + ${e.amount}", BarColor.BLUE, BarStyle.SOLID, 5, setOf(player))
     }
 
     @EventHandler(ignoreCancelled = true)
