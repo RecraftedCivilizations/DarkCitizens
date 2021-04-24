@@ -20,15 +20,10 @@ class InfoDisplay(private val groupManager: GroupManager, private val bukkitWrap
         var totalXp = e.player.groupXps[e.group]!! + e.amount
 
         var lvl = 0
-        for (cost in group.lvlThreshold){
-
-            if (totalXp - cost > 0){
-                totalXp -= cost
-            }else{
-                break
-            }
+        while (totalXp > group.lvlThreshold[lvl]){
             lvl++
         }
+        totalXp -= group.lvlThreshold[lvl]
 
         var xpNextLvl = group.lvlThreshold[lvl+1]
         for(lvlXp in group.lvlThreshold.subList(0, lvl)){
