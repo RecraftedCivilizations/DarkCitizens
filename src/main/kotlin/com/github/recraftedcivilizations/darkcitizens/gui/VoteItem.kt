@@ -14,7 +14,6 @@ class VoteItem(itemStack: ItemStack, private val election: IElect, private val c
     }
 
     override fun onClick(player: Player) {
-        // TODO("Candidate if the current state is CANDIDATE")
        election.vote(candidate.uuid, dPlayerManager.getDPlayer(player)!!)
     }
 }
