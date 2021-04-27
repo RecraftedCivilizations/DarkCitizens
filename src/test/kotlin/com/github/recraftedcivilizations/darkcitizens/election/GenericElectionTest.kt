@@ -210,6 +210,9 @@ internal class GenericElectionTest {
         val args = randomElectionArgs()
 
         val election = createElection(args)
+
+        election.candidates.addAll(setOf(dPlayerMock1, dPlayerMock2, dPlayerMock3))
+
         election.votes[dPlayerMock1.uuid] = 2
         election.votes[dPlayerMock2.uuid] = 1
         election.votes[dPlayerMock3.uuid] = 10
@@ -282,6 +285,8 @@ internal class GenericElectionTest {
 
         val args = randomElectionArgs()
         val election = createElection(args)
+
+        election.candidates.addAll(setOf(dPlayerMock1, dPlayerMock2, dPlayerMock3))
 
         election.votes[dPlayerMock1.uuid] = 2
         election.votes[dPlayerMock2.uuid] = 1
