@@ -18,6 +18,7 @@ import com.nhaarman.mockitokotlin2.*
 import net.milkbowl.vault.economy.Economy
 import org.bukkit.Material
 import org.bukkit.entity.Player
+import org.bukkit.plugin.PluginManager
 import org.junit.Ignore
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Disabled
@@ -89,6 +90,10 @@ internal class DPlayerTest {
 
     @Test
     fun addXP() {
+        val pluginManager = mock<PluginManager>{}
+        val bukkitWrapper = mock<BukkitWrapper>{
+            on { getPluginManager() } doReturn pluginManager
+        }
         val uuid = UUID(23423483952389, 3909432134)
         val dPlayerData = DPlayerData1(
             uuid,
@@ -99,6 +104,7 @@ internal class DPlayerTest {
             mapOf(Pair("Foo", 3), Pair("", 10))
         )
         val dPlayer = DPlayer(dPlayerData)
+        dPlayer.setBukkitWrapper(bukkitWrapper)
 
         val group1 = Group("Foo", 10, listOf(100), false, false)
 
@@ -110,11 +116,18 @@ internal class DPlayerTest {
         dPlayer.addXP(group2, 101)
 
         assertEquals(1, dPlayer.groupLvls["Bar"])
+        verify(pluginManager, times(3)).callEvent(any())
 
     }
 
     @Test
     fun addXpToNonExistingGroup() {
+
+        val pluginManager = mock<PluginManager>{}
+        val bukkitWrapper = mock<BukkitWrapper>{
+            on { getPluginManager() } doReturn pluginManager
+        }
+
         val uuid = UUID(23423483952389, 3909432134)
         val dPlayerData = DPlayerData1(
             uuid,
@@ -127,10 +140,12 @@ internal class DPlayerTest {
 
         val group = Group("FooBar", 5, emptyList(), false, false)
         val dPlayer = DPlayer(dPlayerData)
+        dPlayer.setBukkitWrapper(bukkitWrapper)
 
         dPlayer.addXP(group, 10)
 
         assertEquals(10, dPlayer.groupXps["FooBar"])
+        verify(pluginManager, times(1)).callEvent(any())
     }
 
     @Test
