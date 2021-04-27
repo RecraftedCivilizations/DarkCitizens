@@ -23,14 +23,15 @@ class FriendlyFire(private val dPlayerManager: DPlayerManager, private val jobMa
             val attackedJob = jobManager.getJob(attackedDPlayer?.job)
             val attackerJob = jobManager.getJob(attackerDPlayer?.job)
 
-            val attackedGroup = groupManager.getGroup(attackedJob?.group)!!
-            val attackerGroup = groupManager.getGroup(attackerJob?.group)!!
+            val attackedGroup = groupManager.getGroup(attackedJob?.group)
+            val attackerGroup = groupManager.getGroup(attackerJob?.group)
 
             // If they are in the same group and the group doesn't have friendly fire, cancel the damage
-            if (attackedGroup == attackerGroup && !attackedGroup.friendlyFire){
-                e.isCancelled = true
+            if (attackerGroup != null && attackedGroup != null){
+                if (attackedGroup == attackerGroup && !attackedGroup.friendlyFire){
+                    e.isCancelled = true
+                }
             }
-
         }
 
     }
