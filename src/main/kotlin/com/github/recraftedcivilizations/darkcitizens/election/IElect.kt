@@ -27,7 +27,7 @@ interface IElect{
      * was elected for
      * @return The [DPlayer] that was elected through the vote
      */
-    fun evaluateVotes(): DPlayer
+    fun evaluateVotes(): DPlayer?
 
     /**
      * Add a vote for a candidate

@@ -40,12 +40,12 @@ abstract class GenericElection(
     override var state: ElectionStates = ElectionStates.CANDIDATE
     private val runTime = 0
 
-    override fun evaluateVotes(): DPlayer {
+    override fun evaluateVotes(): DPlayer? {
+        if (candidates.isEmpty()) return null
         val sorted = votes.toList().sortedByDescending { (_, value) -> value }.toMap()
         val winnerUUID = sorted.entries.first().key
 
         // TODO("Decide what to do if they have the same number of votes")
-        // TODO("What to do when there is no candidate at all')
         return dPlayerManager.getDPlayer(winnerUUID)!!
     }
 
@@ -127,10 +127,12 @@ abstract class GenericElection(
         if (state == ElectionStates.VOTE){
             // Get the winner and put him into his job
             val winner = evaluateVotes()
-            val winnerPlayer = bukkitWrapper.getPlayer(winner.uuid)
-            winnerPlayer?.sendMessage("Congratulations you won the election")
-            job.join(winner)
-            bukkitWrapper.notify("${winnerPlayer!!.name} won the election and is now a ${job.name}", BarColor.YELLOW, BarStyle.SEGMENTED_10, 5, bukkitWrapper.getOnlinePlayers())
+            if (winner != null){
+                val winnerPlayer = bukkitWrapper.getPlayer(winner.uuid)
+                winnerPlayer?.sendMessage("Congratulations you won the election")
+                job.join(winner)
+                bukkitWrapper.notify("${winnerPlayer!!.name} won the election and is now a ${job.name}", BarColor.YELLOW, BarStyle.SEGMENTED_10, 5, bukkitWrapper.getOnlinePlayers())
+            }
             electionManager.electionEnded(this)
         }
     }
