@@ -10,6 +10,7 @@ import org.bukkit.ChatColor
 import org.bukkit.boss.BarColor
 import org.bukkit.boss.BarStyle
 import org.bukkit.event.EventHandler
+import org.bukkit.event.HandlerList.unregisterAll
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.scheduler.BukkitRunnable
@@ -148,6 +149,8 @@ abstract class GenericElection(
     open fun onLeave(e: PlayerQuitEvent){
         val dPlayer = dPlayerManager.getDPlayer(e.player)
         candidates.remove(dPlayer)
-
+        if (this.state == ElectionStates.ENDED){
+            unregisterAll(this)
+        }
     }
 }
