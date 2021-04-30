@@ -89,6 +89,7 @@ abstract class GenericElection(
                 if(canVote(dPlayer)){
                     addVote(uuid)
                     economy.withdrawPlayer(player, voteFee.toDouble())
+                    player.sendMessage("You successfully voted")
                 }
             }else{
                 player.sendMessage("${ChatColor.RED}The candidate you want to vote for does not exist!!")
