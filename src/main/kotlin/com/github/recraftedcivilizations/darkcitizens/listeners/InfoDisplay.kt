@@ -14,7 +14,7 @@ class InfoDisplay(private val groupManager: GroupManager, private val bukkitWrap
     @EventHandler(ignoreCancelled = true)
     fun onXpGain(e: XpGainEvent){
 
-        val player = bukkitWrapper.getPlayer(e.player)!!
+        val player = bukkitWrapper.getPlayer(e.player)?: return
         val group = groupManager.getGroup(e.group)!!
 
         val xp = e.player.groupXps[e.group]?:0
@@ -40,7 +40,7 @@ class InfoDisplay(private val groupManager: GroupManager, private val bukkitWrap
     @EventHandler(ignoreCancelled = true)
     fun onLvlUp(e: LevelUpEvent){
 
-        val player = bukkitWrapper.getPlayer(e.dPlayer)!!
+        val player = bukkitWrapper.getPlayer(e.dPlayer)?: return
         val group = groupManager.getGroup(e.group)
 
         bukkitWrapper.notify("Level Up\n ${e.group} level: ${e.newLvl}", BarColor.RED, BarStyle.SOLID, 5, setOf(player))
