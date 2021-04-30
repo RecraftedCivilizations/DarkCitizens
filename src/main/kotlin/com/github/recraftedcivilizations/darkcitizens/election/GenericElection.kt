@@ -128,6 +128,7 @@ abstract class GenericElection(
         if (state == ElectionStates.CANDIDATE){
             this.state = ElectionStates.VOTE
             this.runTaskLaterAsynchronously(plugin, voteTime * 20L * 60)
+            bukkitWrapper.notify("You can now vote for a candidate in the election for ${job.name}", BarColor.RED, BarStyle.SEGMENTED_20, 5, bukkitWrapper.getOnlinePlayers())
 
         } else if (state == ElectionStates.VOTE){// Only evaluate after the Vote phase
             // Get the winner and put him into his job
