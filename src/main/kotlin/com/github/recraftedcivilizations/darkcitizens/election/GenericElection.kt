@@ -6,6 +6,7 @@ import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayer
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
 import com.github.recraftedcivilizations.darkcitizens.jobs.IJob
 import net.milkbowl.vault.economy.Economy
+import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.boss.BarColor
 import org.bukkit.boss.BarStyle
@@ -140,7 +141,7 @@ abstract class GenericElection(
 
         if (state == ElectionStates.CANDIDATE){
             this.state = ElectionStates.VOTE
-            HelperRunnable(this, plugin, voteTime * 20L * 60).runTaskLaterAsynchronously(plugin, (0.5 * 20L).toLong())
+            Bukkit.getScheduler().runTaskLater(plugin, this as Runnable, voteTime * 20L * 60)
             bukkitWrapper.notify("You can now vote for a candidate in the election for ${job.name}", BarColor.RED, BarStyle.SEGMENTED_20, 5, bukkitWrapper.getOnlinePlayers())
 
         } else if (state == ElectionStates.VOTE){// Only evaluate after the Vote phase
