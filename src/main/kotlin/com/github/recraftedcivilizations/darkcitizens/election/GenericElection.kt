@@ -124,8 +124,12 @@ abstract class GenericElection(
     }
 
     override fun run() {
-        // Only evaluate after the Vote phase
-        if (state == ElectionStates.VOTE){
+
+        if (state == ElectionStates.CANDIDATE){
+            this.state = ElectionStates.VOTE
+            this.runTaskLaterAsynchronously(plugin, voteTime * 20L * 60)
+
+        } else if (state == ElectionStates.VOTE){// Only evaluate after the Vote phase
             // Get the winner and put him into his job
             val winner = evaluateVotes()
             if (winner != null){
@@ -134,15 +138,13 @@ abstract class GenericElection(
                 job.join(winner)
                 bukkitWrapper.notify("${winnerPlayer!!.name} won the election and is now a ${job.name}", BarColor.YELLOW, BarStyle.SEGMENTED_10, 5, bukkitWrapper.getOnlinePlayers())
             }
+            this.state = ElectionStates.ENDED
             electionManager.electionEnded(this)
         }
     }
 
     override fun start() {
         this.runTaskLaterAsynchronously(plugin, candidateTime * 20L * 60)
-        this.state = ElectionStates.VOTE
-        this.runTaskLaterAsynchronously(plugin, voteTime * 20L * 60)
-        this.state = ElectionStates.ENDED
     }
 
     @EventHandler
