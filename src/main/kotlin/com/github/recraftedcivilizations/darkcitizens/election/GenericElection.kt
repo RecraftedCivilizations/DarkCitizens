@@ -57,11 +57,15 @@ abstract class GenericElection(
 
     override fun evaluateVotes(): DPlayer? {
         if (candidates.isEmpty()) return null
-        val sorted = votes.toList().sortedByDescending { (_, value) -> value }.toMap()
-        val winnerUUID = sorted.entries.first().key
+        return if(votes.isNotEmpty()){
+            val sorted = votes.toList().sortedByDescending { (_, value) -> value }.toMap()
+            val winnerUUID = sorted.entries.first().key
+            dPlayerManager.getDPlayer(winnerUUID)!!
+        }else{
+            candidates.first()
+        }
 
         // TODO("Decide what to do if they have the same number of votes")
-        return dPlayerManager.getDPlayer(winnerUUID)!!
     }
 
     override fun addVote(uuid: UUID) { 
