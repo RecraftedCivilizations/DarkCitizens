@@ -49,7 +49,6 @@ class ElectedMajor(lawManager: LawManager,
     bukkitWrapper
 ), ElectableJob{
     /**
-     * TODO("Maybe rework this")
      * Join this job, this does not check for any requirements
      * @param dPlayer The Player to join
      */
