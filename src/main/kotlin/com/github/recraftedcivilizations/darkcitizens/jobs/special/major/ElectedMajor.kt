@@ -48,18 +48,6 @@ class ElectedMajor(lawManager: LawManager,
     jobManager,
     bukkitWrapper
 ), ElectableJob{
-    /**
-     * Join this job, this does not check for any requirements
-     * @param dPlayer The Player to join
-     */
-    override fun join(dPlayer: DPlayer) {
-        // Leave the old job, ugly ik
-        dPlayer.job?.let { jobManager.getJob(it) }?.leave(dPlayer)
-        this.addPlayer(dPlayer)
-        dPlayer.job = name
-        bukkitWrapper.getPlayer(dPlayer)?.sendMessage("${ChatColor.GREEN}You successfully joined the job $name")
-        dPlayerManager.setDPlayer(dPlayer)
-    }
 
     /**
      * Leave the elected job, this will display a message to every player that a new election will take place
