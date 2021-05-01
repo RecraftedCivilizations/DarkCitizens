@@ -59,7 +59,6 @@ class DarkCitizens : ARecraftedPlugin() {
         configParser = ConfigParser(config, dataFolder.absolutePath, taskManager, jobManager, groupManager)
         configParser.read()
 
-        Bukkit.getServer().pluginManager.registerEvents(GUIListener(), this)
         this.getCommand("jobs")?.setExecutor(ShowJobs(jobManager, dPlayerManager, electionManager))
         this.getCommand("tasks")?.setExecutor(ShowTasks(jobManager, dPlayerManager))
         this.getCommand("elections")?.setExecutor(ShowElections(electionManager))
