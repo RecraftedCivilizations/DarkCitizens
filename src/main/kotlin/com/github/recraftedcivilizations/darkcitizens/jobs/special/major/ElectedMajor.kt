@@ -25,7 +25,7 @@ class ElectedMajor(lawManager: LawManager,
                    icon: Material,
                    leaveOnDeath: Boolean,
                    override val dPlayerManager: DPlayerManager,
-                   jobManager: JobManager,
+                   private val jobManager: JobManager,
                    override val candidateTime: Int,
                    override val voteTime: Int,
                    override val voteFee: Int,
@@ -54,9 +54,12 @@ class ElectedMajor(lawManager: LawManager,
      * @param dPlayer The Player to join
      */
     override fun join(dPlayer: DPlayer) {
-        val player = bukkitWrapper.getPlayer(dPlayer.uuid)!!
-        addPlayer(dPlayer)
-        player.sendMessage("${ChatColor.GREEN}You are now a $name")
+        // Leave the old job, ugly ik
+        dPlayer.job?.let { jobManager.getJob(it) }?.leave(dPlayer)
+        this.addPlayer(dPlayer)
+        dPlayer.job = name
+        bukkitWrapper.getPlayer(dPlayer)?.sendMessage("${ChatColor.GREEN}You successfully joined the job $name")
+        dPlayerManager.setDPlayer(dPlayer)
     }
 
     /**
