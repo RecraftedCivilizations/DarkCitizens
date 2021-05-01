@@ -130,14 +130,19 @@ abstract class GenericElection(
     override fun canCandidate(dPlayer: DPlayer): Boolean {
         val player = bukkitWrapper.getPlayer(dPlayer.uuid)!!
 
-        return if(job.canJoin(dPlayer)){
-            if (economy.has(player, candidateFee.toDouble())){
-                true
+        return if(dPlayer !in candidates){
+             if(job.canJoin(dPlayer)){
+                if (economy.has(player, candidateFee.toDouble())){
+                    true
+                }else{
+                    player.sendMessage("${ChatColor.RED}You don't have enough money to run for this job")
+                    false
+                }
             }else{
-                player.sendMessage("${ChatColor.RED}You don't have enough money to run for this job")
                 false
             }
         }else{
+            player.sendMessage("${ChatColor.RED}You already are a candidate")
             false
         }
     }
