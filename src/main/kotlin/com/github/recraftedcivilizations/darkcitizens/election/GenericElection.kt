@@ -23,18 +23,6 @@ import java.util.*
 
 fun <T> MutableMap<T, Int>.inc(key: T, more: Int = 1) = merge(key, more, Int::plus)
 
-/**
- * Schedule a task after some time
- * @param toSchedule The task to schedule
- * @param plugin The plugin to schedule for
- * @param delay The delay the task should run after to run with
- */
-class HelperRunnable(private val toSchedule: BukkitRunnable, private val plugin: ARecraftedPlugin, private val delay: Long): BukkitRunnable() {
-    override fun run() {
-        toSchedule.runTaskLaterAsynchronously(plugin, delay)
-    }
-
-}
 
 abstract class GenericElection(
     override val candidates: MutableSet<DPlayer>,
@@ -169,7 +157,7 @@ abstract class GenericElection(
     }
 
     override fun start() {
-        this.runTaskLaterAsynchronously(plugin, candidateTime * 20L * 60)
+        this.runTaskLater(plugin, candidateTime * 20L * 60)
     }
 
     @EventHandler
