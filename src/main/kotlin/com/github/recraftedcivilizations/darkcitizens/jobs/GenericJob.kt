@@ -59,6 +59,7 @@ abstract class GenericJob(
         for (member in currentMembers){
             if (member.uuid == player.uuid){
                 currentMembers.remove(member)
+                break
             }
         }
     }
