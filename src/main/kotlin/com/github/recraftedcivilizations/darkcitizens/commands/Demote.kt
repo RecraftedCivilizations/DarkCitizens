@@ -45,7 +45,7 @@ class Demote(private val dPlayerManager: DPlayerManager, private val jobManager:
 
         // Check if the demote arg is a job if yes display all members and make it
         // possible to demote them
-        val demoteJob = jobManager.getJob(args[0])
+        val demoteJob = jobManager.getJob(args.joinToString(" "))
         if (demoteJob != null){
             if (senderJob != null){
                 if (demoteJob.name in senderJob.canDemote){
