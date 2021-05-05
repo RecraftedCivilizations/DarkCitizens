@@ -10,6 +10,7 @@ import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.boss.BarColor
 import org.bukkit.boss.BarStyle
+import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.HandlerList.unregisterAll
 import org.bukkit.event.Listener
@@ -117,7 +118,7 @@ abstract class GenericElection(
 
     override fun canCandidate(dPlayer: DPlayer): Boolean {
         val player = bukkitWrapper.getPlayer(dPlayer.uuid)!!
-
+        bukkitWrapper.info("[DEBUG] candidates are" )
         return if(dPlayer !in candidates){
              if(job.canJoin(dPlayer)){
                 if (economy.has(player, candidateFee.toDouble())){
@@ -158,6 +159,24 @@ abstract class GenericElection(
 
     override fun start() {
         this.runTaskLater(plugin, candidateTime * 20L * 60)
+    }
+
+    fun isCandidate(dPlayer: DPlayer): Boolean{
+        for (candidate in candidates){
+            if (candidate.uuid == dPlayer.uuid){
+                return true
+            }
+        }
+        return false
+    }
+
+    fun isCandidate(player: Player): Boolean {
+        for (candidate in candidates){
+            if(candidate.uuid == player.uniqueId){
+                return true
+            }
+        }
+        return false
     }
 
     @EventHandler
