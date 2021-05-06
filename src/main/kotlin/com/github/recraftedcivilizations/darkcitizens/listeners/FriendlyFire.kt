@@ -1,9 +1,11 @@
 package com.github.recraftedcivilizations.darkcitizens.listeners
 
+import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayer
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
 import com.github.recraftedcivilizations.darkcitizens.groups.GroupManager
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
 import org.bukkit.entity.Player
+import org.bukkit.entity.Projectile
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityDamageByEntityEvent
@@ -15,10 +17,25 @@ class FriendlyFire(private val dPlayerManager: DPlayerManager, private val jobMa
         val attacked = e.entity
         val attacker = e.damager
 
-        if (attacked is Player && attacker is Player){
-            // Get the groups
+        if(attacked is Player){
             val attackedDPlayer = dPlayerManager.getDPlayer(attacked.uniqueId)
-            val attackerDPlayer = dPlayerManager.getDPlayer(attacker.uniqueId)
+            val attackerDPlayer: DPlayer? = when (attacker) {
+                is Player -> {
+                    // Get the groups
+                    dPlayerManager.getDPlayer(attacker.uniqueId)
+                }
+                is Projectile -> {
+                    // Check that the projectile came from a player
+                    if (attacker.shooter !is Player) return
+                    dPlayerManager.getDPlayer(attacker.shooter as Player)
+
+                }
+                else -> {
+                    // If we don't have an direct attack or a projectile return
+                    return
+                }
+            }
+
 
             val attackedJob = jobManager.getJob(attackedDPlayer?.job)
             val attackerJob = jobManager.getJob(attackerDPlayer?.job)
