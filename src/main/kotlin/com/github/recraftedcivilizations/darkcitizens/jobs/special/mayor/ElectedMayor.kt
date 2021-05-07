@@ -1,4 +1,4 @@
-package com.github.recraftedcivilizations.darkcitizens.jobs.special.major
+package com.github.recraftedcivilizations.darkcitizens.jobs.special.mayor
 
 import com.github.recraftedcivilizations.darkcitizens.BukkitWrapper
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayer
@@ -12,7 +12,7 @@ import org.bukkit.ChatColor
 import org.bukkit.Material
 
 
-class ElectedMajor(lawManager: LawManager,
+class ElectedMayor(lawManager: LawManager,
                    name: String,
                    group: String,
                    playerLimit: Int,
@@ -31,7 +31,7 @@ class ElectedMajor(lawManager: LawManager,
                    override val voteFee: Int,
                    override val candidateFee: Int,
                    val bukkitWrapper: BukkitWrapper = BukkitWrapper(),
-) : GenericMajor(
+) : GenericMayor(
     lawManager,
     name,
     group,

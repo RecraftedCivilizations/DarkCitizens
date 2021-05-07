@@ -2,8 +2,7 @@ package com.github.recraftedcivilizations.darkcitizens.commands
 
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
-import com.github.recraftedcivilizations.darkcitizens.jobs.special.major.IMajor
-import com.github.recraftedcivilizations.darkcitizens.laws.LawManager
+import com.github.recraftedcivilizations.darkcitizens.jobs.special.mayor.IMayor
 import org.bukkit.ChatColor
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
@@ -17,7 +16,7 @@ class SetTaxes(private val dPlayerManager: DPlayerManager, private val jobManage
         val dPlayer = dPlayerManager.getDPlayer(sender)!!
         val playerJob = jobManager.getJob(dPlayer.job)!!
 
-        if (playerJob !is IMajor){ sender.sendMessage("${ChatColor.RED}You need to be a major to set laws"); return false}
+        if (playerJob !is IMayor){ sender.sendMessage("${ChatColor.RED}You need to be a mayor to set laws"); return false}
 
         val amount: Int
         try{

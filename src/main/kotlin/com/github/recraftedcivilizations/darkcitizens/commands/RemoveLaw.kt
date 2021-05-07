@@ -2,8 +2,7 @@ package com.github.recraftedcivilizations.darkcitizens.commands
 
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
-import com.github.recraftedcivilizations.darkcitizens.jobs.special.major.IMajor
-import com.github.recraftedcivilizations.darkcitizens.laws.LawManager
+import com.github.recraftedcivilizations.darkcitizens.jobs.special.mayor.IMayor
 import org.bukkit.ChatColor
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
@@ -18,7 +17,7 @@ class RemoveLaw(private val dPlayerManager: DPlayerManager, private val jobManag
         val dPlayer = dPlayerManager.getDPlayer(sender)!!
         val job = jobManager.getJob(dPlayer.job)
 
-        if(job !is IMajor){ sender.sendMessage("${ChatColor.RED}You need to be a major to do that"); return false }
+        if(job !is IMayor){ sender.sendMessage("${ChatColor.RED}You need to be a mayor to do that"); return false }
 
         if (args.isEmpty()){return false}
 

@@ -65,15 +65,15 @@ permissions:
     default: true
 
   drp.laws.taxes:
-    description: Set taxes when in a job that is taged with major
+    description: Set taxes when in a job that is taged with mayor
     default: true
 
   drp.laws.create:
-    description: Makes it possible to create a new law when in a job taged with major
+    description: Makes it possible to create a new law when in a job taged with mayor
     default: true
 
   drp.laws.remove:
-    description: Makes it possible to remove an existing law when in a job taged with major
+    description: Makes it possible to remove an existing law when in a job taged with mayor
     default: true
 
   drp.laws.show:
