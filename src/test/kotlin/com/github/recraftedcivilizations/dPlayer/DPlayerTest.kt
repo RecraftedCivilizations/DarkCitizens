@@ -45,9 +45,10 @@ internal class DPlayerTest {
         assertEquals(dPlayerData, dPlayer.serializeData())
     }
 
-    @Ignore("Depreceated")
+    @Disabled("Depreceated")
     @Test
     fun joinJob() {
+        assertEquals(0, 1)
         val icon = mock<Material>{}
         // Player Stuff
         val uuid = UUID.randomUUID()
