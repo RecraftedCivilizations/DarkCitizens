@@ -45,7 +45,7 @@ internal class DPlayerTest {
         assertEquals(dPlayerData, dPlayer.serializeData())
     }
 
-    @Ignore
+    @Ignore("Depreceated")
     @Test
     fun joinJob() {
         val icon = mock<Material>{}
