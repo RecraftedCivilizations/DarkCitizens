@@ -45,6 +45,7 @@ internal class DPlayerTest {
         assertEquals(dPlayerData, dPlayer.serializeData())
     }
 
+    @Ignore
     @Test
     fun joinJob() {
         val icon = mock<Material>{}
