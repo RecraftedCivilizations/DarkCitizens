@@ -108,13 +108,13 @@ internal class DPlayerTest {
         val dPlayer = DPlayer(dPlayerData)
         dPlayer.setBukkitWrapper(bukkitWrapper)
 
-        val group1 = Group("Foo", 10, listOf(100), false, false)
+        val group1 = Group("Foo", 10, listOf(100), false, false, "")
 
         dPlayer.addXP(group1, 10)
 
         assertEquals(13, dPlayer.groupXps["Foo"])
 
-        val group2 = Group("Bar", 10, listOf(100), false, false)
+        val group2 = Group("Bar", 10, listOf(100), false, false, "")
         dPlayer.addXP(group2, 101)
 
         assertEquals(1, dPlayer.groupLvls["Bar"])
@@ -140,7 +140,7 @@ internal class DPlayerTest {
             mapOf(Pair("Foo", 3), Pair("", 10))
         )
 
-        val group = Group("FooBar", 5, emptyList(), false, false)
+        val group = Group("FooBar", 5, emptyList(), false, false, "")
         val dPlayer = DPlayer(dPlayerData)
         dPlayer.setBukkitWrapper(bukkitWrapper)
 
