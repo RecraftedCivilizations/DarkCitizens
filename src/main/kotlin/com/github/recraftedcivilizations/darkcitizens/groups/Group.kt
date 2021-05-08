@@ -13,4 +13,4 @@ package com.github.recraftedcivilizations.darkcitizens.groups
  * @param friendlyFire Should the group be able to damage each other
  * @param canBeCriminal Can members of the group be criminals
  */
-data class Group(val name: String, val maxLvl: Int, val lvlThreshold: List<Int>, val friendlyFire: Boolean, val canBeCriminal: Boolean)
+data class Group(val name: String, val maxLvl: Int, val lvlThreshold: List<Int>, val friendlyFire: Boolean, val canBeCriminal: Boolean, val prefix: String)

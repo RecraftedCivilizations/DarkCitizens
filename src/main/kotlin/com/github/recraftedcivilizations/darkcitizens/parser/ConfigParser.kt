@@ -255,9 +255,10 @@ class ConfigParser(
 
         val friendlyFire = configurationSection.getBoolean(groupFriendlyFireName, false)
         val canBeCriminal = configurationSection.getBoolean(groupCanBeCriminalName, false)
+        val prefix = configurationSection.getString(groupPrefixName, "")?: ""
 
         groupNames.add(groupName)
-        groupManager.createGroup(groupName, maxLvl, lvlThresholds, friendlyFire, canBeCriminal)
+        groupManager.createGroup(groupName, maxLvl, lvlThresholds, friendlyFire, canBeCriminal, prefix)
     }
 
     /**
@@ -337,6 +338,7 @@ class ConfigParser(
         const val groupLvlThresholdsName = "lvlThresholds"
         const val groupFriendlyFireName = "friendlyFire"
         const val groupCanBeCriminalName = "canBeCriminal"
+        const val groupPrefixName ="prefix"
         const val baseIncomeTimeName = "baseIncomeTime"
         const val taskIconName = "icon"
     }
