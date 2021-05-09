@@ -3,6 +3,7 @@ package com.github.recraftedcivilizations.darkcitizens
 import com.github.darkvanityoflight.recraftedcore.ARecraftedPlugin
 import com.github.darkvanityoflight.recraftedcore.gui.GUIListener
 import com.github.recraftedcivilizations.darkcitizens.api.PAPI.GroupsPlaceholder
+import com.github.recraftedcivilizations.darkcitizens.api.PAPI.JobsPlaceholder
 import com.github.recraftedcivilizations.darkcitizens.api.PAPI.LawsPlaceholder
 import com.github.recraftedcivilizations.darkcitizens.commands.*
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
@@ -111,6 +112,7 @@ class DarkCitizens : ARecraftedPlugin() {
     private fun initApi(){
         LawsPlaceholder(lawManager, description.authors.joinToString(", "), description.version).register()
         GroupsPlaceholder(groupManager, dPlayerManager, jobManager, description.authors.joinToString(", "), description.version).register()
+        JobsPlaceholder(jobManager, dPlayerManager, description.authors.joinToString(", "), description.version).register()
         DarkCitizens.taskManager = taskManager
         DarkCitizens.jobManager = jobManager
         DarkCitizens.groupManager = groupManager
