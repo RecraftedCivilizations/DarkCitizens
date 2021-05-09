@@ -235,7 +235,7 @@ class ConfigParser(
         val prefix = configurationSection.getString(jobPrefixName, "")?: ""
 
         jobNames.add(jobName)
-        jobManager.createJob(jobName, group, playerLimit, tasks.toSet(), canDemote.toSet(), baseIncome, baseXp, minLvl, electionRequired, permissionRequired, icon, leaveOnDeath, candidateTime, voteTime, candidateFee, voteFee, isMajor, prefix)
+        jobManager.createJob(jobName, group, playerLimit, tasks.toSet(), canDemote.toSet(), baseIncome, baseXp, minLvl, electionRequired, permissionRequired, icon, leaveOnDeath, prefix, candidateTime, voteTime, candidateFee, voteFee, isMajor)
     }
 
     /**
