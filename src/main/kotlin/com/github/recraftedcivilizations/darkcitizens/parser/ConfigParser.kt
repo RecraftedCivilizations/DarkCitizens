@@ -232,8 +232,10 @@ class ConfigParser(
         val leaveOnDeath = configurationSection.getBoolean(jobLeaveOnDeathName, false)
         val isMajor = configurationSection.getBoolean(jobIsMajorName, false)
 
+        val prefix = configurationSection.getString(jobPrefixName, "")?: ""
+
         jobNames.add(jobName)
-        jobManager.createJob(jobName, group, playerLimit, tasks.toSet(), canDemote.toSet(), baseIncome, baseXp, minLvl, electionRequired, permissionRequired, icon, leaveOnDeath, candidateTime, voteTime, candidateFee, voteFee, isMajor)
+        jobManager.createJob(jobName, group, playerLimit, tasks.toSet(), canDemote.toSet(), baseIncome, baseXp, minLvl, electionRequired, permissionRequired, icon, leaveOnDeath, candidateTime, voteTime, candidateFee, voteFee, isMajor, prefix)
     }
 
     /**
@@ -334,6 +336,7 @@ class ConfigParser(
         const val jobVoteFeeName = "voteFee"
         const val jobLeaveOnDeathName = "leaveOnDeath"
         const val jobIsMajorName = "isMajor"
+        const val jobPrefixName = "prefix"
         const val groupMaxLvlName = "maxLvl"
         const val groupLvlThresholdsName = "lvlThresholds"
         const val groupFriendlyFireName = "friendlyFire"

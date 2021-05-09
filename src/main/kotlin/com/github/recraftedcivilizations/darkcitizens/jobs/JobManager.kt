@@ -71,6 +71,7 @@ class JobManager(private val dPlayerManager: DPlayerManager, private val lawMana
         voteFee: Int? = null,
         candidateFee: Int? = null,
         isMajor: Boolean = false,
+        prefix: String
         ){
         val iTasks = emptySet<ITask>().toMutableSet()
 
@@ -94,6 +95,7 @@ class JobManager(private val dPlayerManager: DPlayerManager, private val lawMana
                 permissionRequired,
                 icon,
                 leaveOnDeath,
+                prefix,
                 dPlayerManager,
                 this,
                 candidateTime,

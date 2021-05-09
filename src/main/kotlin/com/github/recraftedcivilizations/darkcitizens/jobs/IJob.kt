@@ -31,6 +31,7 @@ interface IJob {
     val permissionRequired: Boolean
     val icon: Material
     val leaveOnDeath: Boolean
+    val prefix: String
 
     fun setBukkitWrapper(bukkitWrapper: BukkitWrapper)
 

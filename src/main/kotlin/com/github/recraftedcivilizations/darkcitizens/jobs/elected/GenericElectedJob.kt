@@ -27,6 +27,7 @@ open class GenericElectedJob(
     minLvl: Int,
     permissionRequired: Boolean,
     icon: Material,
+    prefix: String,
     private val jobManager: JobManager,
     val bukkitWrapper: BukkitWrapper = BukkitWrapper()
 ): ElectableJob, GenericJob(
@@ -41,6 +42,7 @@ open class GenericElectedJob(
     permissionRequired,
     icon,
     leaveOnDeath,
+    prefix,
     dPlayerManager,
     jobManager,
     bukkitWrapper

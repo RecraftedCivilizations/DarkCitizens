@@ -47,6 +47,7 @@ object JobFactory {
         permissionRequired: Boolean,
         icon: Material,
         leaveOnDeath: Boolean,
+        prefix: String,
         dPlayerManager: DPlayerManager,
         jobManager: JobManager,
         candidateTime: Int? = null,
@@ -61,12 +62,12 @@ object JobFactory {
             if (electionRequired){
                 return ElectedMayor(lawManager!!,
                     name, group, playerLimit, tasks, canDemote, baseIncome, baseXPGain, minLvl, permissionRequired, icon,
-                    leaveOnDeath, dPlayerManager, jobManager, candidateTime!!, voteTime!!, voteFee!!, candidateFee!!)
+                    leaveOnDeath, prefix, dPlayerManager, jobManager, candidateTime!!, voteTime!!, voteFee!!, candidateFee!!)
             }else{
                 return UnelectedMayor(
                     lawManager!!,
                     name, group, playerLimit, tasks, canDemote, baseIncome, baseXPGain, minLvl, permissionRequired, icon,
-                    leaveOnDeath, dPlayerManager, jobManager)
+                    leaveOnDeath, prefix, dPlayerManager, jobManager)
             }
         }else{
             if (electionRequired){
@@ -78,6 +79,7 @@ object JobFactory {
                     candidateFee!!,
                     dPlayerManager,
                     name, group, playerLimit, tasks, canDemote, baseIncome, baseXPGain, minLvl, permissionRequired, icon,
+                    prefix,
                     jobManager)
             }else{
 
@@ -93,6 +95,7 @@ object JobFactory {
                 permissionRequired,
                 icon,
                 leaveOnDeath,
+                prefix,
                 dPlayerManager,
                 jobManager)
             }
