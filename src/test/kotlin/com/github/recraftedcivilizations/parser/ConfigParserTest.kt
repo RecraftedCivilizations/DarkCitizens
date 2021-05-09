@@ -269,6 +269,7 @@ internal class ConfigParserTest {
             jobArgs[ConfigParser.jobPermissionRequiredName] as Boolean,
             jobArgs[ConfigParser.jobIconName] as Material,
             jobArgs[ConfigParser.jobLeaveOnDeathName] as Boolean,
+            jobArgs[ConfigParser.jobPrefixName] as String,
             jobArgs[ConfigParser.jobCandidateTimeName] as Int,
             jobArgs[ConfigParser.jobVoteTimeName] as Int,
             jobArgs[ConfigParser.jobCandidateFeeName] as Int,
@@ -333,6 +334,7 @@ internal class ConfigParserTest {
             Pair(ConfigParser.jobVoteTimeName, Random.nextInt()),
             Pair(ConfigParser.jobCandidateFeeName, Random.nextInt()),
             Pair(ConfigParser.jobVoteFeeName, Random.nextInt()),
+            Pair(ConfigParser.jobPrefixName, randomString())
         )
     }
 

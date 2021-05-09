@@ -13,6 +13,7 @@ import com.github.recraftedcivilizations.darkcitizens.parser.dataparser.IParseDa
 import com.github.recraftedcivilizations.darkcitizens.tasks.ITask
 import com.github.recraftedcivilizations.darkcitizens.tasks.Task
 import com.github.recraftedcivilizations.darkcitizens.tasks.TaskManager
+import com.github.recraftedcivilizations.jobs.createRandomJob
 import com.github.recraftedcivilizations.jobs.randomString
 import com.nhaarman.mockitokotlin2.*
 import net.milkbowl.vault.economy.Economy
@@ -82,7 +83,7 @@ internal class DPlayerTest {
 
         // Job stuff
         val jobManager = JobManager(dPlayerManager, lawManager)
-        val job = Job(randomString(), randomString(), Random.nextInt(10), emptySet(), emptySet(), Random.nextInt(), Random.nextInt(), 0, false, icon, Random.nextBoolean(), dPlayerManager, jobManager, bukkitWrapper)
+        val job = createRandomJob(bukkitWrapper, icon, dPlayerManager, jobManager)
 
         dPlayer.setJobManager(jobManager)
         dPlayer.setBukkitWrapper(bukkitWrapper)

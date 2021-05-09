@@ -53,8 +53,8 @@ internal class JobManagerTest {
 
         val jobManager = JobManager(dPlayerManager, lawManager)
         jobManager.setTaskManager(taskManager)
-        val job = Job(randomString(), randomString(), Random.nextInt(), setOf(task1, task2), emptySet(), Random.nextInt(), Random.nextInt(), Random.nextInt(), Random.nextBoolean(), icon, Random.nextBoolean(), dPlayerManager, jobManager)
-        jobManager.createJob(job.name, job.group, job.playerLimit, tasks, job.canDemote, job.baseIncome, job.baseXPGain, job.minLvl, false, job.permissionRequired, job.icon, job.leaveOnDeath)
+        val job = createRandomJob(mock{}, icon, dPlayerManager, jobManager)
+        jobManager.createJob(job.name, job.group, job.playerLimit, tasks, job.canDemote, job.baseIncome, job.baseXPGain, job.minLvl, false, job.permissionRequired, job.icon, job.leaveOnDeath, job.prefix)
 
         val jobsField = JobManager::class.java.getDeclaredField("jobs")
         jobsField.isAccessible = true
@@ -85,8 +85,8 @@ internal class JobManagerTest {
 
         val jobManager = JobManager(dPlayerManager, lawManager)
         jobManager.setTaskManager(taskManager)
-        val job = Job(randomString(), randomString(), Random.nextInt(), setOf(task1, task2), emptySet(), Random.nextInt(), Random.nextInt(), Random.nextInt(), Random.nextBoolean(), icon, Random.nextBoolean(), dPlayerManager, jobManager)
-        jobManager.createJob(job.name, job.group, job.playerLimit, tasks, job.canDemote, job.baseIncome, job.baseXPGain, job.minLvl, true, job.permissionRequired, job.icon, job.leaveOnDeath, Random.nextInt(), Random.nextInt(), Random.nextInt(), Random.nextInt(),)
+        val job = createRandomGenericElectedJob(mock{}, icon, dPlayerManager, jobManager)
+        jobManager.createJob(job.name, job.group, job.playerLimit, tasks, job.canDemote, job.baseIncome, job.baseXPGain, job.minLvl, true, job.permissionRequired, job.icon, job.leaveOnDeath, job.prefix, job.candidateTime, job.voteTime, job.voteFee, job.candidateFee, false)
 
         val jobsField = JobManager::class.java.getDeclaredField("jobs")
         jobsField.isAccessible = true
@@ -117,11 +117,11 @@ internal class JobManagerTest {
 
         val jobManager = JobManager(dPlayerManager, lawManager)
         jobManager.setTaskManager(taskManager)
-        val job = Job(randomString(), randomString(), Random.nextInt(), setOf(task1, task2), emptySet(), Random.nextInt(), Random.nextInt(), Random.nextInt(), Random.nextBoolean(), icon, Random.nextBoolean(), dPlayerManager, jobManager)
+        val job = createRandomJob(mock{}, icon, dPlayerManager, jobManager)
 
         assertEquals(null, jobManager.getJob(randomString()))
 
-        jobManager.createJob(job.name, job.group, job.playerLimit, tasks, job.canDemote, job.baseIncome, job.baseXPGain, job.minLvl, false, job.permissionRequired, job.icon, job.leaveOnDeath)
+        jobManager.createJob(job.name, job.group, job.playerLimit, tasks, job.canDemote, job.baseIncome, job.baseXPGain, job.minLvl, false, job.permissionRequired, job.icon, job.leaveOnDeath, job.prefix)
         val thatJob = jobManager.getJob(job.name)
 
         thatJob!!
