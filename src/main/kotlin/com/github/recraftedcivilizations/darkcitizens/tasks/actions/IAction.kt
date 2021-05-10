@@ -25,4 +25,9 @@ interface IAction {
      * @param player The player to check for
      */
     fun isCompletedForPlayer(player: Player): Boolean
+
+    /**
+     * Register this action at the [ActionManager]
+     */
+    fun register()
 }

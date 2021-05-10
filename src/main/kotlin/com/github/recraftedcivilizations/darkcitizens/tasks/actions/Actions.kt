@@ -23,6 +23,10 @@ enum class Actions : IAction {
         override fun isCompletedForPlayer(player: Player): Boolean {
             return true
         }
+
+        override fun register() {
+            ActionManager.registerAction(this)
+        }
     }
 
 }
