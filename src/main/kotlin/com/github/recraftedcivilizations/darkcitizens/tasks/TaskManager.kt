@@ -3,6 +3,7 @@ package com.github.recraftedcivilizations.darkcitizens.tasks
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
 import com.github.recraftedcivilizations.darkcitizens.groups.GroupManager
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
+import com.github.recraftedcivilizations.darkcitizens.tasks.actions.ActionManager
 import com.github.recraftedcivilizations.darkcitizens.tasks.actions.Actions
 import com.github.recraftedcivilizations.darkcitizens.tasks.actions.IAction
 import net.milkbowl.vault.economy.Economy
@@ -41,6 +42,10 @@ class TaskManager(private val econ: Economy, private val dPlayerManager: DPlayer
                 parsedActions.add(parsedAction)
 
             } catch (e: IllegalArgumentException) {
+                val parsedAction = ActionManager.getAction(action)
+                if (parsedAction != null){
+                    parsedActions.add(parsedAction)
+                }
             }
 
         }
