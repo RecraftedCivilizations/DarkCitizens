@@ -56,6 +56,19 @@ object ActionManager {
         return null
     }
 
+    fun getActions(): Set<IAction>{
+
+        val s = setOf<IAction>().toMutableSet()
+
+        for (action in actions){
+            if (action is IAction){
+                s.add(action)
+            }
+        }
+
+        return s
+
+    }
 
 
 }
