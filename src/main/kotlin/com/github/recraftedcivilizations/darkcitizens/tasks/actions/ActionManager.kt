@@ -8,7 +8,7 @@ package com.github.recraftedcivilizations.darkcitizens.tasks.actions
  * Register new actions here and get registered ones
  */
 object ActionManager {
-    val actions: MutableSet<Any> = emptySet<Any>().toMutableSet()
+    private val actions: MutableSet<Any> = emptySet<Any>().toMutableSet()
 
     /**
      * Register a new action
@@ -39,7 +39,7 @@ object ActionManager {
      * @return The action wrapper or null if nothing is found
      */
     @Experimental
-    fun experimentalGetAction(name: String?, mockParam: Any = Unit): ActionWrapper<*>? {
+    fun experimentalGetAction(name: String?): ActionWrapper<*>? {
         for (action in actions){
             if (action is IAction){
                 if (action.name == name){
