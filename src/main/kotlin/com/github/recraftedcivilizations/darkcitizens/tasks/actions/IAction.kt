@@ -9,6 +9,8 @@ import org.bukkit.entity.Player
  * can finish.
  * A Simple Action consists of a name and a description,
  * the [isCompletedForPlayer] function should check if the player finished a task
+ * If the player completed a task the action should emit an [ActionCompleteEvent],
+ * the tasks will listen on this and check if all actions are complete to reward the player
  */
 interface IAction {
     val name: String
