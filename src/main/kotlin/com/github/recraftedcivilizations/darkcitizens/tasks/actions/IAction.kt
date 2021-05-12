@@ -32,4 +32,16 @@ interface IAction {
      * Register this action at the [ActionManager]
      */
     fun register()
+
+    /**
+     * Reset this task for the given player
+     * @param player The player to reset for
+     */
+    fun resetForPlayer(player: Player)
+
+    /**
+     * Reset this task for the given player
+     * @param player The player to reset for
+     */
+    fun resetForPlayer(player: DPlayer)
 }
