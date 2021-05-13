@@ -4,10 +4,13 @@ import com.github.recraftedcivilizations.darkcitizens.BukkitWrapper
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayer
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
 import com.github.recraftedcivilizations.darkcitizens.events.JobLeaveEvent
+import com.github.recraftedcivilizations.darkcitizens.events.TaskCompleteEvent
 import com.github.recraftedcivilizations.darkcitizens.tasks.ITask
 import org.bukkit.ChatColor
 import org.bukkit.Material
 import org.bukkit.entity.Player
+import org.bukkit.event.EventHandler
+import org.bukkit.event.Listener
 import java.util.*
 
 /**
@@ -41,7 +44,7 @@ abstract class GenericJob(
     private val dPlayerManager: DPlayerManager,
     private val jobManager: JobManager,
     private var bukkitWrapper: BukkitWrapper = BukkitWrapper()
-) : IJob {
+) : IJob, Listener {
     override val currentMembers: MutableSet<DPlayer> = emptySet<DPlayer>().toMutableSet()
 
     /**
@@ -211,5 +214,14 @@ abstract class GenericJob(
      */
     override fun leave(player: Player) {
         dPlayerManager.getDPlayer(player.uniqueId)?.let { leave(it) }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    fun onTaskComplete(e: TaskCompleteEvent){
+
+        if (e.task in this.tasks && e.dPlayer in this.currentMembers){
+            e.task.completeForPlayer(e.dPlayer)
+        }
+
     }
 }
