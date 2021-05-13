@@ -3,7 +3,7 @@ package com.github.recraftedcivilizations.darkcitizens.tasks
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
 import com.github.recraftedcivilizations.darkcitizens.groups.GroupManager
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
-import com.github.recraftedcivilizations.darkcitizens.tasks.actions.IAction
+import com.github.recraftedcivilizations.darkcitizens.actions.IAction
 import net.milkbowl.vault.economy.Economy
 import org.bukkit.Material
 

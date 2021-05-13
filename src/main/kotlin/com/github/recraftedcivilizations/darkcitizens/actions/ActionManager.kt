@@ -1,4 +1,4 @@
-package com.github.recraftedcivilizations.darkcitizens.tasks.actions
+package com.github.recraftedcivilizations.darkcitizens.actions
 
 /**
  * @author DarkVanityOfLight

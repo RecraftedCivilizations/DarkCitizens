@@ -1,8 +1,7 @@
 package com.github.recraftedcivilizations.darkcitizens.events
 
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayer
-import com.github.recraftedcivilizations.darkcitizens.jobs.IJob
-import com.github.recraftedcivilizations.darkcitizens.tasks.actions.IAction
+import com.github.recraftedcivilizations.darkcitizens.actions.IAction
 import org.bukkit.event.Event
 import org.bukkit.event.HandlerList
 

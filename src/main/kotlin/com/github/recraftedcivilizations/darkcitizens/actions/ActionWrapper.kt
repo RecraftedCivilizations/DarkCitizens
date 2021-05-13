@@ -1,8 +1,8 @@
-package com.github.recraftedcivilizations.darkcitizens.tasks.actions
+package com.github.recraftedcivilizations.darkcitizens.actions
 
 annotation class Experimental(val message: String = "This feature is experimental, use with caution, this may be removed without any notice in the future")
 
-fun <T: IAction>wrapAction(action: T): ActionWrapper<T>{
+fun <T: IAction>wrapAction(action: T): ActionWrapper<T> {
     val a = ActionWrapper<T>(action.name)
     a.setAction(action)
     return a

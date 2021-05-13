@@ -10,7 +10,7 @@ import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
 import com.github.recraftedcivilizations.darkcitizens.parser.dataparser.IParseData
 import com.github.recraftedcivilizations.darkcitizens.tasks.ITask
 import com.github.recraftedcivilizations.darkcitizens.tasks.Task
-import com.github.recraftedcivilizations.darkcitizens.tasks.actions.IAction
+import com.github.recraftedcivilizations.darkcitizens.actions.IAction
 import com.github.recraftedcivilizations.jobs.randomString
 import com.nhaarman.mockitokotlin2.*
 import net.milkbowl.vault.economy.Economy

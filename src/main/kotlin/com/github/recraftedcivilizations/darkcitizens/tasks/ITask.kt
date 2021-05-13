@@ -1,8 +1,7 @@
 package com.github.recraftedcivilizations.darkcitizens.tasks
 
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayer
-import com.github.recraftedcivilizations.darkcitizens.groups.GroupManager
-import com.github.recraftedcivilizations.darkcitizens.tasks.actions.IAction
+import com.github.recraftedcivilizations.darkcitizens.actions.IAction
 import org.bukkit.Material
 import org.bukkit.entity.Player
 

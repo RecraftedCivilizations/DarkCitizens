@@ -8,8 +8,8 @@ import com.github.recraftedcivilizations.darkcitizens.parser.dataparser.IParseDa
 import com.github.recraftedcivilizations.darkcitizens.tasks.ITask
 import com.github.recraftedcivilizations.darkcitizens.tasks.Task
 import com.github.recraftedcivilizations.darkcitizens.tasks.TaskManager
-import com.github.recraftedcivilizations.darkcitizens.tasks.actions.Actions
-import com.github.recraftedcivilizations.darkcitizens.tasks.actions.IAction
+import com.github.recraftedcivilizations.darkcitizens.actions.Actions
+import com.github.recraftedcivilizations.darkcitizens.actions.IAction
 import com.github.recraftedcivilizations.jobs.randomString
 import com.nhaarman.mockitokotlin2.mock
 import net.milkbowl.vault.economy.Economy
