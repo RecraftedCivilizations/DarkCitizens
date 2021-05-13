@@ -82,6 +82,10 @@ class Task(
         val playerSet = setOf(player)
         bukkitWrapper.notify("You completed the task $name", BarColor.GREEN, BarStyle.SOLID, 5, playerSet)
         pay(player)
+
+        for (action in this.actions){
+            action.resetForPlayer(player)
+        }
     }
 
     /**
