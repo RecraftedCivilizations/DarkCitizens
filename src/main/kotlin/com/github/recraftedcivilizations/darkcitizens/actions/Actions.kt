@@ -27,6 +27,14 @@ enum class Actions : IAction {
         override fun register() {
             ActionManager.registerAction(this)
         }
+
+        override fun resetForPlayer(player: Player) {
+            return
+        }
+
+        override fun resetForPlayer(player: DPlayer) {
+            return
+        }
     }
 
 }
