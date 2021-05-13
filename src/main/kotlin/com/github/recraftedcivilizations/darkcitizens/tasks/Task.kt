@@ -3,6 +3,8 @@ package com.github.recraftedcivilizations.darkcitizens.tasks
 import com.github.recraftedcivilizations.darkcitizens.BukkitWrapper
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayer
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
+import com.github.recraftedcivilizations.darkcitizens.events.ActionCompleteEvent
+import com.github.recraftedcivilizations.darkcitizens.events.TaskCompleteEvent
 import com.github.recraftedcivilizations.darkcitizens.groups.GroupManager
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
 import com.github.recraftedcivilizations.darkcitizens.tasks.actions.IAction
@@ -11,6 +13,8 @@ import org.bukkit.Material
 import org.bukkit.boss.BarColor
 import org.bukkit.boss.BarStyle
 import org.bukkit.entity.Player
+import org.bukkit.event.EventHandler
+import org.bukkit.event.Listener
 
 /**
  * @author DarkVanityOfLight
@@ -35,7 +39,7 @@ class Task(
     private val jobManager: JobManager,
     private val groupManager: GroupManager,
     private val bukkitWrapper: BukkitWrapper = BukkitWrapper(),
-) : ITask {
+) : ITask, Listener {
 
     /**
      * Check if all actions are completed for a given player
@@ -97,5 +101,17 @@ class Task(
      */
     override fun pay(player: Player) {
         pay(dPlayerManager.getDPlayer(player)!!)
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    fun onActionComplete(e: ActionCompleteEvent){
+        if (e.action in this.actions){
+
+            if (isCompletedForPlayer(e.dPlayer)){
+                val taskEvent = TaskCompleteEvent(e.dPlayer, this)
+                bukkitWrapper.getPluginManager().callEvent(taskEvent)
+            }
+
+        }
     }
 }
