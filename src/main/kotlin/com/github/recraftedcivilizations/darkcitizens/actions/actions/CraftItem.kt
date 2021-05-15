@@ -31,13 +31,14 @@ class CraftItem(val number: Int, val itemType: Material, override val name: Stri
 
         if (e.slotType == InventoryType.SlotType.RESULT){
             val result = e.recipe.result
-            storage.inc(crafter.uniqueId, result.amount)
-            val surplus = (storage[crafter.uniqueId]?: 0) - number
-            if (surplus >= 0 ){
-                val completeEvent = ActionCompleteEvent(dPlayer, this)
-                bukkitWrapper.getPluginManager().callEvent(completeEvent)
+            if (result.type == itemType) {
+                storage.inc(crafter.uniqueId, result.amount)
+                val surplus = (storage[crafter.uniqueId] ?: 0) - number
+                if (surplus >= 0) {
+                    val completeEvent = ActionCompleteEvent(dPlayer, this)
+                    bukkitWrapper.getPluginManager().callEvent(completeEvent)
+                }
             }
-
         }
 
     }
