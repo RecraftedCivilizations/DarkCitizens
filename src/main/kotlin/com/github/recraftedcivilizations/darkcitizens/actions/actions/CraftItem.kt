@@ -12,6 +12,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.inventory.CraftItemEvent
 import org.bukkit.event.inventory.InventoryType
+import org.bukkit.event.player.PlayerQuitEvent
 import java.util.*
 
 /**
@@ -41,6 +42,11 @@ class CraftItem(val number: Int, val itemType: Material, override val name: Stri
             }
         }
 
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    fun playerLeave(e: PlayerQuitEvent) {
+        storage.remove(e.player.uniqueId)
     }
 
 
