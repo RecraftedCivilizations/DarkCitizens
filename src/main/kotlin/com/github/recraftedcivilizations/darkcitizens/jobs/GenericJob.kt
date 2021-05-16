@@ -191,8 +191,10 @@ abstract class GenericJob(
             dPlayer.job = name
             bukkitWrapper.getPlayer(dPlayer)?.sendMessage("${ChatColor.GREEN}You successfully joined the job $name")
             dPlayerManager.setDPlayer(dPlayer)
+            resetForPlayer(dPlayer)
         }
     }
+
 
     /**
      * Leave this job
@@ -214,6 +216,16 @@ abstract class GenericJob(
      */
     override fun leave(player: Player) {
         dPlayerManager.getDPlayer(player.uniqueId)?.let { leave(it) }
+    }
+
+    override fun resetForPlayer(player: DPlayer) {
+        resetForPlayer(bukkitWrapper.getPlayer(player)!!)
+    }
+
+    override fun resetForPlayer(player: Player) {
+        for (task in tasks){
+            task.resetForPlayer(player)
+        }
     }
 
     @EventHandler(ignoreCancelled = true)

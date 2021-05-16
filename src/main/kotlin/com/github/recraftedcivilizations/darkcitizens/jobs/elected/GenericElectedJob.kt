@@ -58,6 +58,7 @@ open class GenericElectedJob(
         dPlayer.job = name
         bukkitWrapper.getPlayer(dPlayer)?.sendMessage("${ChatColor.GREEN}You successfully joined the job $name")
         dPlayerManager.setDPlayer(dPlayer)
+        resetForPlayer(dPlayer)
     }
 
     /**
