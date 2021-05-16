@@ -15,6 +15,7 @@ import org.bukkit.boss.BarStyle
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
+import java.util.*
 
 /**
  * @author DarkVanityOfLight
@@ -105,6 +106,16 @@ class Task(
      */
     override fun pay(player: Player) {
         pay(dPlayerManager.getDPlayer(player)!!)
+    }
+
+    override fun resetForPlayer(dPlayer: DPlayer) {
+        resetForPlayer(bukkitWrapper.getPlayer(dPlayer)!!)
+    }
+
+    override fun resetForPlayer(player: Player) {
+        for (action in actions){
+            action.resetForPlayer(player)
+        }
     }
 
     @EventHandler(ignoreCancelled = true)

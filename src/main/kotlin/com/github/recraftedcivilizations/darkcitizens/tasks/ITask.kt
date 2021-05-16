@@ -4,6 +4,7 @@ import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayer
 import com.github.recraftedcivilizations.darkcitizens.actions.IAction
 import org.bukkit.Material
 import org.bukkit.entity.Player
+import java.util.*
 
 /**
  * @author DarkVanityOfLight
@@ -60,4 +61,17 @@ interface ITask {
      * @param player The player to pay out
      */
     fun pay(player: Player)
+
+    /**
+     * Reset all actions in this task for a certain player
+     * @param dPlayer The dPlayer to reset for
+     */
+    fun resetForPlayer(dPlayer: DPlayer)
+
+    /**
+     * Reset all actions in this task for a certain player
+     * @param player The player to reset for
+     */
+    fun resetForPlayer(player: Player)
+
 }
