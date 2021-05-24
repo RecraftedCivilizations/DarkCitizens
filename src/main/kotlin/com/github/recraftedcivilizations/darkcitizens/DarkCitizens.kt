@@ -40,6 +40,7 @@ class DarkCitizens : ARecraftedPlugin() {
     private lateinit var dPlayerManager: DPlayerManager
     private lateinit var electionManager: ElectionManager
     private lateinit var lawManager: LawManager
+    private lateinit var dataCleaner: DataCleaner
 
     override fun onEnable(){
 
@@ -69,7 +70,8 @@ class DarkCitizens : ARecraftedPlugin() {
         this.getCommand("laws")?.setExecutor(ShowLaws(lawManager))
         this.getCommand("setTaxes")?.setExecutor(SetTaxes(dPlayerManager, jobManager))
         this.getCommand("demote")?.setExecutor(Demote(dPlayerManager, jobManager))
-        server.pluginManager.registerEvents(DataCleaner(dPlayerManager, jobManager), this)
+        dataCleaner = DataCleaner(dPlayerManager, jobManager)
+        server.pluginManager.registerEvents(dataCleaner, this)
         server.pluginManager.registerEvents(ElectionTrigger(dPlayerManager, jobManager, electionManager), this)
         server.pluginManager.registerEvents(FriendlyFire(dPlayerManager, jobManager, groupManager), this)
         server.pluginManager.registerEvents(InfoDisplay(groupManager), this)
@@ -92,6 +94,10 @@ class DarkCitizens : ARecraftedPlugin() {
 
 
         initApi()
+    }
+
+    override fun onDisable() {
+        dataCleaner.onShutdown()
     }
 
     /**
