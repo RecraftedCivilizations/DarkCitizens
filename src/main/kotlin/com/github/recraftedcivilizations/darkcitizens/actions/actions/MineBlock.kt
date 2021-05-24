@@ -27,7 +27,7 @@ import kotlin.reflect.KClass
  * @param description The description of this action
  * @param name The name of this action
  */
-class MineBlock (block: Block, val number: Int, override val description: String, override val name: String, private val dPlayerManager: DPlayerManager, private val bukkitWrapper: BukkitWrapper = BukkitWrapper()): Listener, Action() {
+class MineBlock (override val name: String, override val description: String, block: Block, val number: Int, private val dPlayerManager: DPlayerManager, private val bukkitWrapper: BukkitWrapper = BukkitWrapper()): Listener, Action() {
     private val blockClass: KClass<out Block> = block::class
     private val storage: MutableMap<UUID, Int> = mutableMapOf()
 

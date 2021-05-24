@@ -10,7 +10,7 @@ import org.bukkit.event.player.PlayerFishEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import java.util.*
 
-class Fish(val number: Int, override val name: String, override val description: String) : Action(), Listener {
+class Fish(override val name: String, override val description: String, val number: Int) : Action(), Listener {
     private val storage: MutableMap<UUID, Int> = emptyMap<UUID, Int>().toMutableMap()
 
     @EventHandler(ignoreCancelled = true)

@@ -20,7 +20,7 @@ import java.util.*
  * TODO("Reset only the required number of items")
  */
 
-class CraftItem(val number: Int, val itemType: Material, override val name: String, override val description: String, private val dPlayerManager: DPlayerManager, private val bukkitWrapper: BukkitWrapper = BukkitWrapper()) : Action(), Listener {
+class CraftItem(override val name: String, override val description: String, val number: Int, val itemType: Material, private val dPlayerManager: DPlayerManager, private val bukkitWrapper: BukkitWrapper = BukkitWrapper()) : Action(), Listener {
     private val storage: MutableMap<UUID, Int> = emptyMap<UUID, Int>().toMutableMap()
 
     @EventHandler(ignoreCancelled = true)
