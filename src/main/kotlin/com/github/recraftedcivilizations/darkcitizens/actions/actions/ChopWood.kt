@@ -48,7 +48,7 @@ class ChopWood(override val name: String, override val description: String, val 
     }
 
     private fun isCompletedForPlayer(uuid: UUID): Boolean{
-        return storage[uuid] == number
+        return storage[uuid]?:0 >= number
     }
 
     override fun resetForPlayer(player: Player) {

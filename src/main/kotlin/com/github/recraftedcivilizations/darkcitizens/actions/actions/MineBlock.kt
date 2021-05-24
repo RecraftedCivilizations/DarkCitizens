@@ -51,11 +51,15 @@ class MineBlock (block: Block, val number: Int, override val description: String
     }
 
     override fun isCompletedForPlayer(player: DPlayer): Boolean {
-        return storage[player.uuid] == number
+        return isCompletedForPlayer(player.uuid)
     }
 
     override fun isCompletedForPlayer(player: Player): Boolean {
-        return storage[player.uniqueId] == number
+        return isCompletedForPlayer(player.uniqueId)
+    }
+
+    private fun isCompletedForPlayer(uuid: UUID): Boolean{
+        return storage[uuid]?:0 >= number
     }
 
     override fun resetForPlayer(player: Player) {
