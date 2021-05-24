@@ -85,7 +85,7 @@ class Task(
         pay(player)
 
         for (action in this.actions){
-            action.resetForPlayer(player)
+            action.resetOneForPlayer(player)
         }
     }
 
