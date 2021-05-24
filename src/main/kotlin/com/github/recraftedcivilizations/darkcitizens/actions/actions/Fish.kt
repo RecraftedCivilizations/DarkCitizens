@@ -48,4 +48,19 @@ class Fish(override val name: String, override val description: String, val numb
     private fun resetForPlayer(uuid: UUID){
         storage[uuid] = 0
     }
+
+    override fun resetOneForPlayer(player: DPlayer) {
+        resetOneForPlayer(player.uuid)
+    }
+
+    override fun resetOneForPlayer(player: Player) {
+        resetOneForPlayer(player.uniqueId)
+    }
+
+    private fun resetOneForPlayer(uuid: UUID){
+
+        if (storage[uuid]?:0 >= number){
+            storage[uuid]!!.minus(number)
+        }
+    }
 }

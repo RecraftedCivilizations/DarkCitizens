@@ -44,4 +44,16 @@ interface IAction {
      * @param player The player to reset for
      */
     fun resetForPlayer(player: DPlayer)
+
+    /**
+     * Reset for one task completion
+     * @param player The player to reset for
+     */
+    fun resetOneForPlayer(player: Player)
+
+    /**
+     * Reset for one task completion
+     * @param player The player to reset for
+     */
+    fun resetOneForPlayer(player: DPlayer)
 }
