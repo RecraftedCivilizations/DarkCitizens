@@ -7,6 +7,7 @@ import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayer
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.inc
 import com.github.recraftedcivilizations.darkcitizens.events.ActionCompleteEvent
+import org.bukkit.Material
 import org.bukkit.block.Block
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -27,15 +28,14 @@ import kotlin.reflect.KClass
  * @param description The description of this action
  * @param name The name of this action
  */
-class MineBlock (override val name: String, override val description: String, block: Block, val number: Int, private val dPlayerManager: DPlayerManager, private val bukkitWrapper: BukkitWrapper = BukkitWrapper()): Listener, Action() {
-    private val blockClass: KClass<out Block> = block::class
+class MineBlock (override val name: String, override val description: String, val block: Material, val number: Int, private val dPlayerManager: DPlayerManager, private val bukkitWrapper: BukkitWrapper = BukkitWrapper()): Listener, Action() {
     private val storage: MutableMap<UUID, Int> = mutableMapOf()
 
 
     @EventHandler(ignoreCancelled = true)
     fun blockBreak(e: BlockBreakEvent) {
         val dPlayer = dPlayerManager.getDPlayer(e.player.uniqueId)!!
-        if (blockClass.isInstance(e.block)) {
+        if (e.block.type == block) {
             storage.inc(e.player.uniqueId)
         }
 
