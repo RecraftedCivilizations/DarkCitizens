@@ -18,7 +18,7 @@ object ActionFactory {
      * Creates a new action and register it
      * @param type The action type
      */
-    fun createNewAction(type: ActionType, name: String, description: String, number: Int?, itemType: Material?, block: Block?, dPlayerManager: DPlayerManager?){
+    fun createNewAction(type: ActionType, name: String, description: String, number: Int?, itemType: Material?, block: Material?, dPlayerManager: DPlayerManager?){
 
         val action: IAction = when (type){
             ActionType.ChopWood -> ChopWood(name, description, number!!, dPlayerManager!!)
