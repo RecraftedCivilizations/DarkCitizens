@@ -47,6 +47,17 @@ class ConfigParser(
      * Call this method to read and parse the config
      */
     override fun read() {
+
+        // Check that the action section exists
+        if (!config.isSet(actionSectionName)) {
+            bukkitWrapper.severe("Could not find the Actions section, please define it using the $actionSectionName tag, I created it for you, but it does not contain any groups")
+            config.createSection(actionSectionName)
+            save()
+        }
+        // Parse actions
+        val actionSection = config.getConfigurationSection(actionSectionName)!!
+        parseActions(actionSection)
+
         // Check that the group section exists
         if (!config.isSet(groupSectionName)) {
             bukkitWrapper.severe("Could not find the Groups section, please define it using the $groupSectionName tag, I created it for you, but it does not contain any groups")
