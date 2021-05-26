@@ -59,7 +59,7 @@ class DarkCitizens : ARecraftedPlugin() {
         initManagers()
 
         // Read the config
-        configParser = ConfigParser(config, dataFolder.absolutePath, taskManager, jobManager, groupManager)
+        configParser = ConfigParser(config, dataFolder.absolutePath, taskManager, jobManager, groupManager, dPlayerManager)
         configParser.read()
 
         this.getCommand("jobs")?.setExecutor(ShowJobs(jobManager, dPlayerManager, electionManager))
