@@ -1,10 +1,16 @@
 package com.github.recraftedcivilizations.darkcitizens.parser
 
 import com.github.darkvanityoflight.recraftedcore.configparser.ARecraftedConfigParser
+import com.github.recraftedcivilizations.darkcitizens.DarkCitizens
+import com.github.recraftedcivilizations.darkcitizens.actions.IAction
+import com.github.recraftedcivilizations.darkcitizens.actions.actions.ActionFactory
+import com.github.recraftedcivilizations.darkcitizens.actions.actions.ActionType
+import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
 import com.github.recraftedcivilizations.darkcitizens.groups.GroupManager
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
 import com.github.recraftedcivilizations.darkcitizens.tasks.TaskManager
 import org.bukkit.Material
+import org.bukkit.block.Block
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.configuration.file.FileConfiguration
 import java.io.File
@@ -13,6 +19,10 @@ import java.io.File
  * @author DarkVanityOfLight
  */
 
+fun ConfigurationSection.getMaterial(key: String, default: Material? = null): Material? {
+    val name = this.getString(key, null) ?: return default
+    return Material.getMaterial(name)
+}
 /**
  * Parse, create and store all values form the config file.
  * Store all task, group and job names in [taskNames], [jobNames] and [groupNames]
@@ -23,7 +33,9 @@ class ConfigParser(
     private val dataDir: String,
     private val taskManager: TaskManager,
     private val jobManager: JobManager,
-    private val groupManager: GroupManager, private val bukkitWrapper: com.github.recraftedcivilizations.darkcitizens.BukkitWrapper = com.github.recraftedcivilizations.darkcitizens.BukkitWrapper()
+    private val groupManager: GroupManager,
+    private val dPlayerManager: DPlayerManager,
+    private val bukkitWrapper: com.github.recraftedcivilizations.darkcitizens.BukkitWrapper = com.github.recraftedcivilizations.darkcitizens.BukkitWrapper()
 ) : ARecraftedConfigParser(config) {
     val taskNames = emptySet<String>().toMutableSet()
     val jobNames = emptySet<String>().toMutableSet()
@@ -75,6 +87,17 @@ class ConfigParser(
             bukkitWrapper.info("Your config is valid, good job, now get a cookie and some hot choc and enjoy your server.")
         }else{
             bukkitWrapper.info("Your config is invalid at some point, it may work anyway, but do you really want to live with the knowledge that something may go wrong at any point?")
+        }
+    }
+
+    /**
+     * Parse all actions in the action section
+     * @param actionsSection The action section to parse
+     */
+    private fun parseActions(actionsSection: ConfigurationSection){
+        for (actionName in actionsSection.getKeys(false)){
+            val actionSection = actionsSection.getConfigurationSection(actionName)!!
+            configSectionToAction(actionName, actionSection)
         }
     }
 
@@ -264,6 +287,25 @@ class ConfigParser(
     }
 
     /**
+     * Parse a config section to an action and register it at the [ActionManager]
+     * @param actionName The name of this action
+     * @param actionSection The section to parse as Action
+     */
+    private fun configSectionToAction(actionName: String, actionSection: ConfigurationSection){
+        val type = ActionType.valueOf(actionSection.getString(actionTypeName)?: return)
+
+        val name = actionSection.getString(actionNameName)?: ""
+        val description = actionSection.getString(actionDescriptionName)?: ""
+        val number = actionSection.getInt(actionNumberName)
+        val itemType = actionSection.getMaterial(actionItemTypeName)
+        val block = actionSection.getMaterial(actionBlockTypeName)
+
+        // Create and register the new action
+        ActionFactory.createNewAction(type, name, description, number, itemType, block, dPlayerManager)
+
+    }
+
+    /**
      * Verify that the config is parsed correctly
      */
     private fun verify(): Boolean {
@@ -344,5 +386,13 @@ class ConfigParser(
         const val groupPrefixName ="prefix"
         const val baseIncomeTimeName = "baseIncomeTime"
         const val taskIconName = "icon"
+        const val actionSectionName = "Actions"
+        const val actionTypeName = "type"
+        const val actionNameName = "name"
+        const val actionDescriptionName = "description"
+        const val actionBlockTypeName = "blockType"
+        const val actionItemTypeName = "itemType"
+        const val actionNumberName = "number"
+
     }
 }
