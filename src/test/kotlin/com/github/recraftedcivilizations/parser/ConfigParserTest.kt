@@ -115,7 +115,7 @@ internal class ConfigParserTest {
         fileConfig.set(ConfigParser.baseIncomeTimeName, baseIncomeDelay)
 
         // Start the testing
-        val configParser = ConfigParser(fileConfig, dataDir, taskManager, jobManager, groupManager, bukkitWrapper)
+        val configParser = ConfigParser(fileConfig, dataDir, taskManager, jobManager, groupManager, dPlayerManager, bukkitWrapper)
         configParser.read()
 
         // Check that we got no errors
@@ -141,7 +141,7 @@ internal class ConfigParserTest {
     @Test
     fun readWithMissingSections(){
 
-        val configParser = ConfigParser(fileConfig, dataDir, taskManager, jobManager, groupManager, bukkitWrapper)
+        val configParser = ConfigParser(fileConfig, dataDir, taskManager, jobManager, groupManager, dPlayerManager, bukkitWrapper)
         configParser.read()
         verify(bukkitWrapper, times(1)).severe("Could not find the Groups section, please define it using the ${ConfigParser.groupSectionName} tag, I created it for you, but it does not contain any groups")
         verify(bukkitWrapper, times(1)).severe("Could not find the Tasks section, please define it using the ${ConfigParser.taskSectionName} tag, I created it for you, but it does not contain any tasks")
@@ -159,7 +159,7 @@ internal class ConfigParserTest {
 
         tasksSection.createSection(taskName)
 
-        val configParser = ConfigParser(fileConfig, dataDir, taskManager, jobManager, groupManager, bukkitWrapper)
+        val configParser = ConfigParser(fileConfig, dataDir, taskManager, jobManager, groupManager, dPlayerManager, bukkitWrapper)
         configParser.read()
         verify(bukkitWrapper, times(1)).warning("The task $taskName has no income defined, I ll default it to 100, but you should define it using the ${ConfigParser.taskIncomeName} tag!")
         verify(bukkitWrapper, times(1)).warning("The task $taskName has no xp defined, I ll default it to 100, but you should define it using the ${ConfigParser.taskXpName} tag!")
@@ -182,7 +182,7 @@ internal class ConfigParserTest {
 
         jobsSection.createSection(jobName)
         
-        val configParser = ConfigParser(fileConfig, dataDir, taskManager, jobManager, groupManager, bukkitWrapper)
+        val configParser = ConfigParser(fileConfig, dataDir, taskManager, jobManager, groupManager, dPlayerManager, bukkitWrapper)
         configParser.read()
         verify(bukkitWrapper, times(1)).warning("The job $jobName has no group defined, this may lead to severe errors later on, please define the group using the ${ConfigParser.jobGroupName} tag!")
         verify(bukkitWrapper, times(1)).warning("The job $jobName has no player limit defined, I'll default it to 10 but you should define it using the ${ConfigParser.jobPlayerLimitName}")
@@ -215,7 +215,7 @@ internal class ConfigParserTest {
 
         groupsSection.createSection(groupName)
 
-        val configParser = ConfigParser(fileConfig, dataDir, taskManager, jobManager, groupManager, bukkitWrapper)
+        val configParser = ConfigParser(fileConfig, dataDir, taskManager, jobManager, groupManager, dPlayerManager, bukkitWrapper)
         configParser.read()
 
         verify(bukkitWrapper).warning("The group $groupName has no maximum lvl defined, I'll default it to 50, but you should define it using the ${ConfigParser.groupMaxLvlName} tag!")
@@ -247,7 +247,7 @@ internal class ConfigParserTest {
 
     @Test
     fun shouldVerify(){
-        val configParser = ConfigParser(fileConfig, dataDir, taskManager, jobManager, groupManager, bukkitWrapper)
+        val configParser = ConfigParser(fileConfig, dataDir, taskManager, jobManager, groupManager, dPlayerManager, bukkitWrapper)
 
         val groupName = randomString()
         val jobName1 = randomString()
