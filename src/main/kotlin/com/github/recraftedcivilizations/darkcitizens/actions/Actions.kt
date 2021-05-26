@@ -35,6 +35,14 @@ enum class Actions : IAction {
         override fun resetForPlayer(player: DPlayer) {
             return
         }
+
+        override fun resetOneForPlayer(player: Player) {
+            return
+        }
+
+        override fun resetOneForPlayer(player: DPlayer) {
+            return
+        }
     }
 
 }
