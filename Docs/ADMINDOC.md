@@ -171,6 +171,43 @@ baseIncomeTime: 5
 ```
 Would set the interval to 5 minutes and so every 5 minutes everyone with a job will be paid the base income the base XP.
 
+## Permissions
+Permissions enable you to give different rights/possibility to different players.
+```yaml
+  drp.*:
+    description: Access ALL DarkRp commands
+
+  drp.job:
+    description: Access all basic job commands
+    
+  drp.tasks:
+    description: Access all basic task commands
+    
+  drp.job.*:
+    description: Join all jobs, where a permission is required
+    
+  drp.vote:
+    description: Show all elections and vote for a candidate
+
+  drp.laws.taxes:
+    description: Set taxes when in a job that is taged with mayor
+
+  drp.laws.create:
+    description: Makes it possible to create a new law when in a job taged with mayor
+
+  drp.laws.remove:
+    description: Makes it possible to remove an existing law when in a job taged with mayor
+
+  drp.laws.show:
+    description: Makes it possible to see all laws that are currently available
+```
+Normally a player should have access to all these permissions, except the `drp.*` and maybe the `drp.job.*`, therefore
+all except these are default permissions each player will gain. If you to exclude someone from these certain actions,
+for eg. don't let him open the job menu just disable the `drp.job` permission for him. 
+The only really interesting permission here are the ones that enable/dissable players to join certain jobs.
+To make a job exclusive to these permissions use the `permissionRequired` tag in the job config. And then give 
+the permission `drp.job.<jobname>` permission to the player, for eg. you defined an exclusive `policeman` job.
+The permission will be `drp.job.policeman`
 
 ## Additional Dependencies
 To get this Plugin to run you will need Vault, RecraftedCore and a Plugin providing an economy for Vault.
