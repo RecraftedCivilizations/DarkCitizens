@@ -212,6 +212,28 @@ The permission will be `drp.job.policeman`
 ## Additional Dependencies
 To get this Plugin to run you will need Vault, RecraftedCore and a Plugin providing an economy for Vault.
 
+## Edit stored data
+Normally you shouldn't do this, but because there are no admin commands yet you might need to, but make sure the server isn't running
+while you are editing the data.yml file.
+A data file should look like this when the server is stopped:  
+```yaml
+DPlayerData:
+  030a8a3b-913c-4454-b9c3-c3dc04b449b5:
+    wanted: false
+    isCriminal: false
+    groupLvls: 
+      Civilian: 3
+    groupXps:
+      Civilian: 150
+```
+The data for each player will be stored under his Unique ID, here mine is `030a8a3b-913c-4454-b9c3-c3dc04b449b5`.
+To modify a players' data, find his UUID and then the section in the data file that belongs to him.
+Now if you want to make the player wanted go ahead and just put wanted to `true` same with `isCriminal`.
+You also can edit his experience and his levels
+> Note: Edit the xp and not the levels, but best is of course both
+
+Both sections will contain the group name followed by the amount of xp/lvl the player has.
+
 ## FAQ
 ### Wait I don't understand exactly how XP works
 So, Xp can be earned through completing tasks or just the base income(base XP) every job has. The Xp will be added to the group
