@@ -194,6 +194,7 @@ internal class ConfigParserTest {
         verify(bukkitWrapper, times(1)).info("Your config is invalid at some point, it may work anyway, but do you really want to live with the knowledge that something may go wrong at any point?")
         verify(bukkitWrapper).warning("Could not find the baseIncomeTime it will be defaulted to 5 minutes, please define it using the ${ConfigParser.baseIncomeTimeName} tag")
         verify(bukkitWrapper).warning("The job $jobName has no icon defined, I'll default it to a player head, but you should define it using the ${ConfigParser.jobIconName} tag!")
+        verify(bukkitWrapper).severe("Could not find the Actions section, please define it using the ${ConfigParser.actionSectionName} tag, I created it for you, but it does not contain any groups")
         verifyNoMoreInteractions(bukkitWrapper)
 
         val job = jobManager.getJob(jobName)
@@ -223,6 +224,7 @@ internal class ConfigParserTest {
         verify(bukkitWrapper).warning("The group $groupName has no or not enough level thresholds defined, I'll fill them in for you, but you should define them using the ${ConfigParser.groupLvlThresholdsName} tag!")
         verify(bukkitWrapper).info("Your config is valid, good job, now get a cookie and some hot choc and enjoy your server.")
         verify(bukkitWrapper).warning("Could not find the baseIncomeTime it will be defaulted to 5 minutes, please define it using the ${ConfigParser.baseIncomeTimeName} tag")
+        verify(bukkitWrapper).severe("Could not find the Actions section, please define it using the ${ConfigParser.actionSectionName} tag, I created it for you, but it does not contain any groups")
         verifyNoMoreInteractions(bukkitWrapper)
 
 
