@@ -1,5 +1,6 @@
 package com.github.recraftedcivilizations.tasks
 
+import com.github.recraftedcivilizations.darkcitizens.actions.ActionManager
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
 import com.github.recraftedcivilizations.darkcitizens.groups.GroupManager
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
@@ -11,7 +12,9 @@ import com.github.recraftedcivilizations.darkcitizens.tasks.TaskManager
 import com.github.recraftedcivilizations.darkcitizens.actions.Actions
 import com.github.recraftedcivilizations.darkcitizens.actions.IAction
 import com.github.recraftedcivilizations.jobs.randomString
+import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.verify
 import net.milkbowl.vault.economy.Economy
 import org.bukkit.Material
 import org.junit.jupiter.api.Test
@@ -49,7 +52,7 @@ internal class TaskManagerTest {
         taskManager.setJobManager(jobManager)
         jobManager.setTaskManager(taskManager)
 
-        taskManager.createTask(task1.name, task1.income, task1.xp, listOf("DEBUG", "FOO"), task1.description, icon)
+        taskManager.createTask(task1.name, task1.income, task1.xp, listOf("DEBUG"), task1.description, icon)
 
         val tasks = taskField.get(taskManager) as Set<*>
 
@@ -64,6 +67,43 @@ internal class TaskManagerTest {
         assertEquals(task1.description, task2.description)
         assertEquals(task1.icon, task2.icon)
 
+    }
+
+    @Test
+    fun createCustomActionTask(){
+        val action = mock<IAction>{
+            on { name } doReturn "Foo"
+        }
+        ActionManager.registerAction(action)
+
+        val taskManager = TaskManager(econ, dPlayerManager, groupManager)
+        taskManager.setJobManager(jobManager)
+
+        val taskArgs = randomTaskArgs()
+        val task = Task(taskArgs["name"] as String, taskArgs["income"] as Int, taskArgs["xp"] as Int, listOf(action), taskArgs["description"] as String, icon, dPlayerManager, econ, jobManager, groupManager)
+
+
+        taskManager.createTask(task.name, task.income, task.xp, listOf("Foo"), task.description, icon)
+
+        assertTask(taskManager.getTask(taskArgs["name"] as String)!!, taskArgs)
+        assert(task.actions == taskManager.getTask(taskArgs["name"] as String)!!.actions)
+    }
+
+    @Test
+    fun tryCreateTaskWithNonExistingAction(){
+        val action = mock<IAction>{
+            on { name } doReturn "Foo"
+        }
+        ActionManager.registerAction(action)
+
+        val taskManager = TaskManager(econ, dPlayerManager, groupManager)
+        taskManager.setJobManager(jobManager)
+
+        val taskArgs = randomTaskArgs()
+
+        taskManager.createTask(taskArgs["name"] as String, taskArgs["income"] as Int, taskArgs["xp"] as Int, listOf("bar"), taskArgs["description"] as String, icon)
+
+        assertEquals(null, taskManager.getTask(taskArgs["name"] as String))
     }
 
     @Test
