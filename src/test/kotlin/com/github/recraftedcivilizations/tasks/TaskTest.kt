@@ -223,7 +223,6 @@ internal class TaskTest {
         verify(bukkitWrapper).getPlayer(dPlayerMock1)
         verify(actionMock).resetForPlayer(playerMock1)
         verifyNoMoreInteractions(actionMock)
-        verifyNoMoreInteractions(task)
         verifyNoMoreInteractions(bukkitWrapper)
 
     }
