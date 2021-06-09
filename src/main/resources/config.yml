@@ -91,7 +91,7 @@ Tasks:
   Mine Stone:
     income: 10
     xp: 10
-    actions: [DEBUG]
+    actions: [mineStone]
     description: "Mine 15 stone"
 
   Capture Criminal:
@@ -111,3 +111,32 @@ Tasks:
     xp: 10
     actions: [ DEBUG ]
     description: "Rob the local bank"
+
+Actions:
+  chop_25:
+    name: Chop Wood
+    description: Chop 25 wood
+    type: ChopWood
+    number: 25
+  craft_sticks:
+    name: STICKSSSS
+    description: Craft 25 sticks
+    type: CraftItem
+    number: 25
+    itemType: STICK
+  fish:
+    name: Go Fishing
+    description: Fish 25 fish
+    number: 25
+  mineIron:
+    name: Mine Iron
+    description: Mine 25 iron
+    type: MineBlock
+    number: 25
+    blockType: IRON_ORE
+  mineStone:
+    name: Mine 15 Stone
+    description: Mine 15 stone
+    type: MineBlock
+    number: 15
+    blockType: STONE
