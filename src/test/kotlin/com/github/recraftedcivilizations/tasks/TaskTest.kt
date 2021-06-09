@@ -209,5 +209,21 @@ internal class TaskTest {
 
     }
 
+    @Test
+    fun resetForPlayer(){
+        val actionMock = mock<IAction>{}
+
+        val taskArgs = randomTaskArgs()
+        val task = Task(taskArgs["name"] as String, taskArgs["income"] as Int, taskArgs["xp"] as Int, listOf(actionMock), taskArgs["description"] as String, icon, dPlayerManager, economy, jobManager, groupManager, bukkitWrapper)
+
+        task.resetForPlayer(dPlayerMock1)
+        verify(bukkitWrapper).getPlayer(dPlayerMock1)
+        verify(actionMock).resetForPlayer(playerMock1)
+        verifyNoMoreInteractions(actionMock)
+        verifyNoMoreInteractions(task)
+        verifyNoMoreInteractions(bukkitWrapper)
+
+    }
+
 
 }
