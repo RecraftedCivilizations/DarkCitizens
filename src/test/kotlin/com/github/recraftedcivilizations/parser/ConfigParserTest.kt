@@ -88,7 +88,7 @@ internal class ConfigParserTest {
     }
 
     @Test
-    fun readJobsGroupsAndTaskAllValid() {
+    fun readAllValid() {
         val jobName1 = randomString()
         val groupName1 = randomString()
         val taskName1 = randomString()
@@ -98,6 +98,7 @@ internal class ConfigParserTest {
         val jobsSection = fileConfig.createSection(ConfigParser.jobSectionName)
         val tasksSection = fileConfig.createSection(ConfigParser.taskSectionName)
         val groupsSection = fileConfig.createSection(ConfigParser.groupSectionName)
+        val actionsSection = fileConfig.createSection(ConfigParser.actionSectionName)
 
         // Create new jobs
         val jobArgs = createRandomJob(setOf(taskName1), groupName1).toMutableMap()
