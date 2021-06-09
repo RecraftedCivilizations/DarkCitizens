@@ -45,6 +45,8 @@ class TaskManager(private val econ: Economy, private val dPlayerManager: DPlayer
                 val parsedAction = ActionManager.getAction(action)
                 if (parsedAction != null){
                     parsedActions.add(parsedAction)
+                }else{
+                    return
                 }
             }
 
