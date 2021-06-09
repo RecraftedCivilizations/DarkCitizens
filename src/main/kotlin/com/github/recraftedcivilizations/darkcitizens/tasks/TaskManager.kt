@@ -38,7 +38,7 @@ class TaskManager(private val econ: Economy, private val dPlayerManager: DPlayer
 
         for (action in actions) {
             try {
-                val parsedAction = ActionManager.getAction(action)!!
+                val parsedAction = Actions.valueOf(action)
                 parsedActions.add(parsedAction)
 
             } catch (e: IllegalArgumentException) {
