@@ -28,6 +28,22 @@ import java.util.*
 import kotlin.random.Random
 import kotlin.random.nextInt
 
+fun assertTask(task: ITask, taskArgs: Map<String, Any>){
+    assertEquals(taskArgs["name"], task.name)
+    assertEquals(taskArgs["income"], task.income)
+    assertEquals(taskArgs["xp"], task.xp)
+    assertEquals(taskArgs["description"], task.description)
+}
+
+fun randomTaskArgs(): Map<String, Any> {
+    return mapOf(
+        Pair("name", randomString()),
+        Pair("income", Random.nextInt(0..100)),
+        Pair("xp", Random.nextInt(0..100)),
+        Pair("description", randomString()),
+    )
+}
+
 internal class TaskTest {
 
     private var economy = mock<Economy>{}
@@ -94,23 +110,6 @@ internal class TaskTest {
             return@doAnswer pl == dPlayerMock1
         }
 
-    }
-
-
-    fun randomTaskArgs(): Map<String, Any> {
-        return mapOf(
-            Pair("name", randomString()),
-            Pair("income", Random.nextInt(0..100)),
-            Pair("xp", Random.nextInt(0..100)),
-            Pair("description", randomString()),
-        )
-    }
-
-    fun assertTask(task: ITask, taskArgs: Map<String, Any>){
-        assertEquals(taskArgs["name"], task.name)
-        assertEquals(taskArgs["income"], task.income)
-        assertEquals(taskArgs["xp"], task.xp)
-        assertEquals(taskArgs["description"], task.description)
     }
 
     private fun mockFunc(){
@@ -202,13 +201,14 @@ internal class TaskTest {
     fun completeForPlayer(){
 
         val taskArgs = randomTaskArgs()
-        val task = Task(taskArgs["name"] as String, taskArgs["income"] as Int, taskArgs["xp"] as Int, emptyList(), taskArgs["description"] as String, icon, dPlayerManager, economy, jobManager, groupManager, bukkitWrapper)
+        val task = Task(taskArgs["name"] as String, taskArgs["income"] as Int, taskArgs["xp"] as Int, listOf(action1), taskArgs["description"] as String, icon, dPlayerManager, economy, jobManager, groupManager, bukkitWrapper)
 
         task.completeForPlayer(dPlayerMock1)
 
         verify(bukkitWrapper).notify("You completed the task ${taskArgs["name"] as String}", BarColor.GREEN, BarStyle.SOLID, 5, setOf(playerMock1))
         verify(dPlayerMock1).addXP(groupMock, taskArgs["xp"] as Int)
         verify(economy).depositPlayer(playerMock1, (taskArgs["income"] as Int).toDouble())
+        verify(action1).resetOneForPlayer(playerMock1)
 
     }
 
