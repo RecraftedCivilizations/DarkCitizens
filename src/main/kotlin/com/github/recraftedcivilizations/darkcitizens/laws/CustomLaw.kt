@@ -5,7 +5,7 @@ package com.github.recraftedcivilizations.darkcitizens.laws
  */
 
 /**
- * Represents a custom law the major can set
+ * Represents a custom law the mayor can set
  * @param description The description of the law
  * @param name The name of the law
  */

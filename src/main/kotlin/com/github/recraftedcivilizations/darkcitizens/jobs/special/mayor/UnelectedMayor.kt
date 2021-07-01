@@ -1,14 +1,13 @@
-package com.github.recraftedcivilizations.darkcitizens.jobs.special.major
+package com.github.recraftedcivilizations.darkcitizens.jobs.special.mayor
 
 import com.github.recraftedcivilizations.darkcitizens.BukkitWrapper
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
-import com.github.recraftedcivilizations.darkcitizens.jobs.GenericJob
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
 import com.github.recraftedcivilizations.darkcitizens.laws.LawManager
 import com.github.recraftedcivilizations.darkcitizens.tasks.ITask
 import org.bukkit.Material
 
-class UnelectedMajor(lawManager: LawManager,
+class UnelectedMayor(lawManager: LawManager,
                      name: String,
                      group: String,
                      playerLimit: Int,
@@ -20,10 +19,11 @@ class UnelectedMajor(lawManager: LawManager,
                      permissionRequired: Boolean,
                      icon: Material,
                      leaveOnDeath: Boolean,
+                     prefix: String,
                      dPlayerManager: DPlayerManager,
                      jobManager: JobManager,
                      bukkitWrapper: BukkitWrapper = BukkitWrapper()
-) : GenericMajor(
+) : GenericMayor(
     lawManager,
     name,
     group,
@@ -36,6 +36,7 @@ class UnelectedMajor(lawManager: LawManager,
     permissionRequired,
     icon,
     leaveOnDeath,
+    prefix,
     dPlayerManager,
     jobManager,
     bukkitWrapper

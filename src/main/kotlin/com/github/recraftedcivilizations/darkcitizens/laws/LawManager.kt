@@ -61,6 +61,7 @@ class LawManager {
         for (law in laws){
             if (law.name == name){
                 laws.remove(law)
+                break
             }
         }
     }

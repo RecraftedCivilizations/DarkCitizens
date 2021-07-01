@@ -20,6 +20,11 @@ class JobLeaveEvent(
 
     companion object{
         private val HANDLER_LIST: HandlerList = HandlerList()
+
+        @JvmStatic
+        fun getHandlerList(): HandlerList{
+            return HANDLER_LIST
+        }
     }
 
     /**

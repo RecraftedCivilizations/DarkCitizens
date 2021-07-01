@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id 'org.jetbrains.kotlin.jvm' version '1.4.20'
+    id 'org.jetbrains.kotlin.jvm' version '1.4.32'
     id 'org.jetbrains.dokka' version '1.4.10.2'
     id 'com.github.johnrengelman.shadow' version '2.0.4'
     id 'ru.endlesscode.bukkitgradle' version '0.8.2'
@@ -69,7 +69,7 @@ bukkit {
     meta {
         name = pluginName
         description = pluginDescription
-        main = group + '.' + pluginName.toLowerCase() + '.' + 'Main'
+        main = group + '.' + pluginName.toLowerCase() + '.' + pluginName
         version = version
         authors = pluginAuthors
     }

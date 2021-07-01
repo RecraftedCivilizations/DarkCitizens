@@ -31,6 +31,7 @@ interface IJob {
     val permissionRequired: Boolean
     val icon: Material
     val leaveOnDeath: Boolean
+    val prefix: String
 
     fun setBukkitWrapper(bukkitWrapper: BukkitWrapper)
 
@@ -122,4 +123,16 @@ interface IJob {
      * @param player The player to join this job
      */
     fun join(player: Player)
+
+    /**
+     * Reset all tasks in this job for a certain player
+     * @param player The player to reset for
+     */
+    fun resetForPlayer(player: Player)
+
+    /**
+     * Reset all tasks in this job for a certain player
+     * @param player The player to reset for
+     */
+    fun resetForPlayer(player: DPlayer)
 }

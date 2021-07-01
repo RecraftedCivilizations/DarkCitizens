@@ -13,11 +13,13 @@ import com.github.recraftedcivilizations.darkcitizens.parser.dataparser.IParseDa
 import com.github.recraftedcivilizations.darkcitizens.tasks.ITask
 import com.github.recraftedcivilizations.darkcitizens.tasks.Task
 import com.github.recraftedcivilizations.darkcitizens.tasks.TaskManager
+import com.github.recraftedcivilizations.jobs.createRandomJob
 import com.github.recraftedcivilizations.jobs.randomString
 import com.nhaarman.mockitokotlin2.*
 import net.milkbowl.vault.economy.Economy
 import org.bukkit.Material
 import org.bukkit.entity.Player
+import org.bukkit.plugin.PluginManager
 import org.junit.Ignore
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Disabled
@@ -44,8 +46,10 @@ internal class DPlayerTest {
         assertEquals(dPlayerData, dPlayer.serializeData())
     }
 
+    @Disabled("Depreceated")
     @Test
     fun joinJob() {
+        assertEquals(0, 1)
         val icon = mock<Material>{}
         // Player Stuff
         val uuid = UUID.randomUUID()
@@ -79,7 +83,7 @@ internal class DPlayerTest {
 
         // Job stuff
         val jobManager = JobManager(dPlayerManager, lawManager)
-        val job = Job(randomString(), randomString(), Random.nextInt(10), emptySet(), emptySet(), Random.nextInt(), Random.nextInt(), 0, false, icon, Random.nextBoolean(), dPlayerManager, jobManager, bukkitWrapper)
+        val job = createRandomJob(bukkitWrapper, icon, dPlayerManager, jobManager)
 
         dPlayer.setJobManager(jobManager)
         dPlayer.setBukkitWrapper(bukkitWrapper)
@@ -89,6 +93,10 @@ internal class DPlayerTest {
 
     @Test
     fun addXP() {
+        val pluginManager = mock<PluginManager>{}
+        val bukkitWrapper = mock<BukkitWrapper>{
+            on { getPluginManager() } doReturn pluginManager
+        }
         val uuid = UUID(23423483952389, 3909432134)
         val dPlayerData = DPlayerData1(
             uuid,
@@ -99,22 +107,30 @@ internal class DPlayerTest {
             mapOf(Pair("Foo", 3), Pair("", 10))
         )
         val dPlayer = DPlayer(dPlayerData)
+        dPlayer.setBukkitWrapper(bukkitWrapper)
 
-        val group1 = Group("Foo", 10, listOf(100), false, false)
+        val group1 = Group("Foo", 10, listOf(100), false, false, "")
 
         dPlayer.addXP(group1, 10)
 
         assertEquals(13, dPlayer.groupXps["Foo"])
 
-        val group2 = Group("Bar", 10, listOf(100), false, false)
+        val group2 = Group("Bar", 10, listOf(100), false, false, "")
         dPlayer.addXP(group2, 101)
 
         assertEquals(1, dPlayer.groupLvls["Bar"])
+        verify(pluginManager, times(3)).callEvent(any())
 
     }
 
     @Test
     fun addXpToNonExistingGroup() {
+
+        val pluginManager = mock<PluginManager>{}
+        val bukkitWrapper = mock<BukkitWrapper>{
+            on { getPluginManager() } doReturn pluginManager
+        }
+
         val uuid = UUID(23423483952389, 3909432134)
         val dPlayerData = DPlayerData1(
             uuid,
@@ -125,12 +141,14 @@ internal class DPlayerTest {
             mapOf(Pair("Foo", 3), Pair("", 10))
         )
 
-        val group = Group("FooBar", 5, emptyList(), false, false)
+        val group = Group("FooBar", 5, emptyList(), false, false, "")
         val dPlayer = DPlayer(dPlayerData)
+        dPlayer.setBukkitWrapper(bukkitWrapper)
 
         dPlayer.addXP(group, 10)
 
         assertEquals(10, dPlayer.groupXps["FooBar"])
+        verify(pluginManager, times(1)).callEvent(any())
     }
 
     @Test

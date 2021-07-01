@@ -1,6 +1,7 @@
 package com.github.recraftedcivilizations.darkcitizens.commands
 
 import com.github.recraftedcivilizations.darkcitizens.laws.LawManager
+import com.github.recraftedcivilizations.darkcitizens.laws.TaxLaw
 import org.bukkit.Material
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
@@ -23,7 +24,12 @@ class ShowLaws(private val lawManager: LawManager): CommandExecutor {
         lawBookMeta.author = "The Government"
 
         val pages = List<String>(laws.size) { i ->
-            "${laws[i].name}\n${laws[i].description}" }
+            if (laws[i] is TaxLaw){
+                "${laws[i].name}\n${laws[i].description}\nThe current tax is at ${(laws[i] as TaxLaw).taxAmount}%"
+            }else{
+                "${laws[i].name}\n${laws[i].description}"
+            }
+        }
 
         lawBookMeta.pages = pages
 

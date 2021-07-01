@@ -10,7 +10,9 @@ import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
 import com.github.recraftedcivilizations.darkcitizens.parser.dataparser.IParseData
 import com.github.recraftedcivilizations.darkcitizens.tasks.ITask
 import com.github.recraftedcivilizations.darkcitizens.tasks.Task
-import com.github.recraftedcivilizations.darkcitizens.tasks.actions.IAction
+import com.github.recraftedcivilizations.darkcitizens.actions.IAction
+import com.github.recraftedcivilizations.darkcitizens.events.ActionCompleteEvent
+import com.github.recraftedcivilizations.darkcitizens.events.TaskCompleteEvent
 import com.github.recraftedcivilizations.jobs.randomString
 import com.nhaarman.mockitokotlin2.*
 import net.milkbowl.vault.economy.Economy
@@ -18,12 +20,29 @@ import org.bukkit.Material
 import org.bukkit.boss.BarColor
 import org.bukkit.boss.BarStyle
 import org.bukkit.entity.Player
+import org.bukkit.plugin.PluginManager
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.util.*
 import kotlin.random.Random
 import kotlin.random.nextInt
+
+fun assertTask(task: ITask, taskArgs: Map<String, Any>){
+    assertEquals(taskArgs["name"], task.name)
+    assertEquals(taskArgs["income"], task.income)
+    assertEquals(taskArgs["xp"], task.xp)
+    assertEquals(taskArgs["description"], task.description)
+}
+
+fun randomTaskArgs(): Map<String, Any> {
+    return mapOf(
+        Pair("name", randomString()),
+        Pair("income", Random.nextInt(0..100)),
+        Pair("xp", Random.nextInt(0..100)),
+        Pair("description", randomString()),
+    )
+}
 
 internal class TaskTest {
 
@@ -91,23 +110,6 @@ internal class TaskTest {
             return@doAnswer pl == dPlayerMock1
         }
 
-    }
-
-
-    fun randomTaskArgs(): Map<String, Any> {
-        return mapOf(
-            Pair("name", randomString()),
-            Pair("income", Random.nextInt(0..100)),
-            Pair("xp", Random.nextInt(0..100)),
-            Pair("description", randomString()),
-        )
-    }
-
-    fun assertTask(task: ITask, taskArgs: Map<String, Any>){
-        assertEquals(taskArgs["name"], task.name)
-        assertEquals(taskArgs["income"], task.income)
-        assertEquals(taskArgs["xp"], task.xp)
-        assertEquals(taskArgs["description"], task.description)
     }
 
     private fun mockFunc(){
@@ -199,13 +201,53 @@ internal class TaskTest {
     fun completeForPlayer(){
 
         val taskArgs = randomTaskArgs()
-        val task = Task(taskArgs["name"] as String, taskArgs["income"] as Int, taskArgs["xp"] as Int, emptyList(), taskArgs["description"] as String, icon, dPlayerManager, economy, jobManager, groupManager, bukkitWrapper)
+        val task = Task(taskArgs["name"] as String, taskArgs["income"] as Int, taskArgs["xp"] as Int, listOf(action1), taskArgs["description"] as String, icon, dPlayerManager, economy, jobManager, groupManager, bukkitWrapper)
 
         task.completeForPlayer(dPlayerMock1)
 
         verify(bukkitWrapper).notify("You completed the task ${taskArgs["name"] as String}", BarColor.GREEN, BarStyle.SOLID, 5, setOf(playerMock1))
         verify(dPlayerMock1).addXP(groupMock, taskArgs["xp"] as Int)
         verify(economy).depositPlayer(playerMock1, (taskArgs["income"] as Int).toDouble())
+        verify(action1).resetOneForPlayer(playerMock1)
+
+    }
+
+    @Test
+    fun resetForPlayer(){
+        val actionMock = mock<IAction>{}
+
+        val taskArgs = randomTaskArgs()
+        val task = Task(taskArgs["name"] as String, taskArgs["income"] as Int, taskArgs["xp"] as Int, listOf(actionMock), taskArgs["description"] as String, icon, dPlayerManager, economy, jobManager, groupManager, bukkitWrapper)
+
+        task.resetForPlayer(dPlayerMock1)
+        verify(bukkitWrapper).getPlayer(dPlayerMock1)
+        verify(actionMock).resetForPlayer(playerMock1)
+        verifyNoMoreInteractions(actionMock)
+        verifyNoMoreInteractions(bukkitWrapper)
+
+    }
+
+    @Test
+    fun onActionComplete(){
+        val actionMock = mock<IAction>{
+            on { isCompletedForPlayer(dPlayerMock1) } doReturn true
+        }
+        val pluginManagerMock = mock<PluginManager>{}
+
+        whenever(bukkitWrapper.getPluginManager()).doAnswer {
+            return@doAnswer pluginManagerMock
+        }
+
+        val taskArgs = randomTaskArgs()
+        val task = Task(taskArgs["name"] as String, taskArgs["income"] as Int, taskArgs["xp"] as Int, listOf(actionMock), taskArgs["description"] as String, icon, dPlayerManager, economy, jobManager, groupManager, bukkitWrapper)
+
+        val e = ActionCompleteEvent(dPlayerMock1, actionMock)
+        task.onActionComplete(e)
+
+        verify(bukkitWrapper).getPluginManager()
+        verify(pluginManagerMock).callEvent(any<TaskCompleteEvent>())
+        verifyNoMoreInteractions(bukkitWrapper)
+        verifyNoMoreInteractions(pluginManagerMock)
 
     }
 

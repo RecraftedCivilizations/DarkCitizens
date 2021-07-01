@@ -10,7 +10,9 @@ import com.github.recraftedcivilizations.darkcitizens.jobs.elected.GenericElecte
 import com.github.recraftedcivilizations.darkcitizens.laws.LawManager
 import com.github.recraftedcivilizations.darkcitizens.parser.dataparser.IParseData
 import com.github.recraftedcivilizations.darkcitizens.tasks.ITask
+import com.github.recraftedcivilizations.darkcitizens.tasks.Task
 import com.github.recraftedcivilizations.darkcitizens.tasks.TaskManager
+import com.github.recraftedcivilizations.tasks.randomTaskArgs
 import com.nhaarman.mockitokotlin2.*
 import net.milkbowl.vault.economy.Economy
 import org.bukkit.Material
@@ -35,6 +37,7 @@ internal class JobManagerTest {
     val groupManager = GroupManager()
     val taskManager = TaskManager(econ, dPlayerManager, groupManager)
     val lawManager = mock<LawManager>{}
+    val icon = mock<Material>{}
 
     @BeforeAll
     fun init() {
@@ -53,8 +56,8 @@ internal class JobManagerTest {
 
         val jobManager = JobManager(dPlayerManager, lawManager)
         jobManager.setTaskManager(taskManager)
-        val job = Job(randomString(), randomString(), Random.nextInt(), setOf(task1, task2), emptySet(), Random.nextInt(), Random.nextInt(), Random.nextInt(), Random.nextBoolean(), icon, Random.nextBoolean(), dPlayerManager, jobManager)
-        jobManager.createJob(job.name, job.group, job.playerLimit, tasks, job.canDemote, job.baseIncome, job.baseXPGain, job.minLvl, false, job.permissionRequired, job.icon, job.leaveOnDeath)
+        val job = createRandomJob(mock{}, icon, dPlayerManager, jobManager)
+        jobManager.createJob(job.name, job.group, job.playerLimit, tasks, job.canDemote, job.baseIncome, job.baseXPGain, job.minLvl, false, job.permissionRequired, job.icon, job.leaveOnDeath, job.prefix)
 
         val jobsField = JobManager::class.java.getDeclaredField("jobs")
         jobsField.isAccessible = true
@@ -79,14 +82,57 @@ internal class JobManagerTest {
     }
 
     @Test
+    fun createJobWithActualTask(){
+        val jobManager = JobManager(dPlayerManager, lawManager)
+
+        val taskArgs = randomTaskArgs()
+        val task = Task(taskArgs["name"] as String, taskArgs["income"] as Int, taskArgs["xp"] as Int, emptyList(), taskArgs["description"] as String, icon, dPlayerManager, econ, jobManager, groupManager)
+
+
+        val taskManager = mock<TaskManager>{
+            on { getTask("Foo") } doReturn task
+        }
+
+        jobManager.setTaskManager(taskManager)
+
+        val tasks = setOf<String>("Foo")
+        val icon = mock<Material>{}
+
+        val job = createRandomJob(mock{}, icon, dPlayerManager, jobManager)
+        jobManager.createJob(job.name, job.group, job.playerLimit, tasks, job.canDemote, job.baseIncome, job.baseXPGain, job.minLvl, false, job.permissionRequired, job.icon, job.leaveOnDeath, job.prefix)
+
+        val jobsField = JobManager::class.java.getDeclaredField("jobs")
+        jobsField.isAccessible = true
+        val jobs = jobsField.get(jobManager) as Set<IJob>
+        var thatJob: IJob? = null
+        for (accessedJob in jobs){
+            if (accessedJob.name == job.name){
+                thatJob = accessedJob
+            }
+        }
+        thatJob!!
+
+        assertEquals(job.name, thatJob.name)
+        assertEquals(job.group, thatJob.group)
+        assertEquals(job.playerLimit, thatJob.playerLimit)
+        assertEquals(job.canDemote, thatJob.canDemote)
+        assertEquals(job.baseIncome, thatJob.baseIncome)
+        assertEquals(job.baseXPGain, thatJob.baseXPGain)
+        assertEquals(job.minLvl, thatJob.minLvl)
+        assertEquals(job.permissionRequired, thatJob.permissionRequired)
+        assertEquals(true, thatJob is Job)
+        assert(setOf(taskManager.getTask("Foo")!!) == thatJob.tasks)
+    }
+
+    @Test
     fun createElectedJob() {
         val tasks = setOf<String>("Foo", "Bar", "FooBar")
         val icon = mock<Material>{}
 
         val jobManager = JobManager(dPlayerManager, lawManager)
         jobManager.setTaskManager(taskManager)
-        val job = Job(randomString(), randomString(), Random.nextInt(), setOf(task1, task2), emptySet(), Random.nextInt(), Random.nextInt(), Random.nextInt(), Random.nextBoolean(), icon, Random.nextBoolean(), dPlayerManager, jobManager)
-        jobManager.createJob(job.name, job.group, job.playerLimit, tasks, job.canDemote, job.baseIncome, job.baseXPGain, job.minLvl, true, job.permissionRequired, job.icon, job.leaveOnDeath, Random.nextInt(), Random.nextInt(), Random.nextInt(), Random.nextInt(),)
+        val job = createRandomGenericElectedJob(mock{}, icon, dPlayerManager, jobManager)
+        jobManager.createJob(job.name, job.group, job.playerLimit, tasks, job.canDemote, job.baseIncome, job.baseXPGain, job.minLvl, true, job.permissionRequired, job.icon, job.leaveOnDeath, job.prefix, job.candidateTime, job.voteTime, job.voteFee, job.candidateFee, false)
 
         val jobsField = JobManager::class.java.getDeclaredField("jobs")
         jobsField.isAccessible = true
@@ -117,11 +163,11 @@ internal class JobManagerTest {
 
         val jobManager = JobManager(dPlayerManager, lawManager)
         jobManager.setTaskManager(taskManager)
-        val job = Job(randomString(), randomString(), Random.nextInt(), setOf(task1, task2), emptySet(), Random.nextInt(), Random.nextInt(), Random.nextInt(), Random.nextBoolean(), icon, Random.nextBoolean(), dPlayerManager, jobManager)
+        val job = createRandomJob(mock{}, icon, dPlayerManager, jobManager)
 
         assertEquals(null, jobManager.getJob(randomString()))
 
-        jobManager.createJob(job.name, job.group, job.playerLimit, tasks, job.canDemote, job.baseIncome, job.baseXPGain, job.minLvl, false, job.permissionRequired, job.icon, job.leaveOnDeath)
+        jobManager.createJob(job.name, job.group, job.playerLimit, tasks, job.canDemote, job.baseIncome, job.baseXPGain, job.minLvl, false, job.permissionRequired, job.icon, job.leaveOnDeath, job.prefix)
         val thatJob = jobManager.getJob(job.name)
 
         thatJob!!

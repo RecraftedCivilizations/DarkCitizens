@@ -9,18 +9,15 @@ import com.github.recraftedcivilizations.darkcitizens.jobs.IJob
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
 import com.github.recraftedcivilizations.darkcitizens.laws.LawManager
 import com.github.recraftedcivilizations.darkcitizens.parser.dataparser.IParseData
-import com.github.recraftedcivilizations.darkcitizens.tasks.actions.IAction
 import com.github.recraftedcivilizations.jobs.randomString
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import net.milkbowl.vault.economy.Economy
-import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.junit.jupiter.api.Test
 
-import org.junit.jupiter.api.Assertions.*
 import java.util.*
 import kotlin.random.Random
 

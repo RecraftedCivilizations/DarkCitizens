@@ -25,7 +25,7 @@ class ElectionItem(val election: GUIElection, itemStack: ItemStack) : Clickable(
      * @param player The player to show the GUI to
      */
     override fun onClick(player: Player) {
-        election.invGUI.show(player)
+        election.display(player)
     }
 
 }

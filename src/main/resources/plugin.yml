@@ -19,15 +19,26 @@ commands:
   createLaw:
     description: Create a new law
     usage: /createLaw <law name> <Description>
+    permission: drp.laws.create
+    permission-message: You don't have the permission to create laws
   removeLaw:
     description: Delete an existing law
     usage: /removeLaw <law name>
+    permission: drp.laws.remove
+    permission-message: You don't have the permissions to remove laws
   laws:
     description: Show all laws
     usage: /laws
+    permission: drp.laws.show
+    permission-message: You don't have the permissions to see the laws
   setTaxes:
     description: Set the tax amount
     usage: /setTaxes <amount>
+    permission: drp.laws.taxes
+    permission-message: You don't have the permissions to set the taxes
+  demote:
+    description: Demote another player from his job
+    usage: /demote <playername>
 
 permissions:
   drp.*:
@@ -51,4 +62,20 @@ permissions:
 
   drp.vote:
     description: Show all elections and vote for a candidate
+    default: true
+
+  drp.laws.taxes:
+    description: Set taxes when in a job that is taged with mayor
+    default: true
+
+  drp.laws.create:
+    description: Makes it possible to create a new law when in a job taged with mayor
+    default: true
+
+  drp.laws.remove:
+    description: Makes it possible to remove an existing law when in a job taged with mayor
+    default: true
+
+  drp.laws.show:
+    description: Makes it possible to see all laws that are currently available
     default: true

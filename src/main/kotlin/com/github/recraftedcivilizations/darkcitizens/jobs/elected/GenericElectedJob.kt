@@ -27,7 +27,8 @@ open class GenericElectedJob(
     minLvl: Int,
     permissionRequired: Boolean,
     icon: Material,
-    jobManager: JobManager,
+    prefix: String,
+    private val jobManager: JobManager,
     val bukkitWrapper: BukkitWrapper = BukkitWrapper()
 ): ElectableJob, GenericJob(
     name,
@@ -41,19 +42,23 @@ open class GenericElectedJob(
     permissionRequired,
     icon,
     leaveOnDeath,
+    prefix,
     dPlayerManager,
     jobManager,
     bukkitWrapper
 ) {
     /**
-     * TODO("Maybe rework this")
      * Join this job, this does not check for any requirements
      * @param dPlayer The Player to join
      */
     override fun join(dPlayer: DPlayer) {
-        val player = bukkitWrapper.getPlayer(dPlayer.uuid)!!
-        addPlayer(dPlayer)
-        player.sendMessage("${ChatColor.GREEN}You are now a $name")
+        // Leave the old job, ugly ik
+        dPlayer.job?.let { jobManager.getJob(it) }?.leave(dPlayer)
+        this.addPlayer(dPlayer)
+        dPlayer.job = name
+        bukkitWrapper.getPlayer(dPlayer)?.sendMessage("${ChatColor.GREEN}You successfully joined the job $name")
+        dPlayerManager.setDPlayer(dPlayer)
+        resetForPlayer(dPlayer)
     }
 
     /**

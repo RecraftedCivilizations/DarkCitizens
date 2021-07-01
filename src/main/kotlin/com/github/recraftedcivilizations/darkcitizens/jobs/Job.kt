@@ -36,6 +36,7 @@ class Job(
     override val permissionRequired: Boolean,
     override val icon: Material,
     override val leaveOnDeath: Boolean,
+    override val prefix: String,
     private val dPlayerManager: DPlayerManager,
     private val jobManager: JobManager,
     private var bukkitWrapper: BukkitWrapper = BukkitWrapper(),
@@ -50,6 +51,7 @@ class Job(
     permissionRequired,
     icon,
     leaveOnDeath,
+    prefix,
     dPlayerManager,
     jobManager,
     bukkitWrapper

@@ -33,7 +33,7 @@ class GroupManager {
      * @param friendlyFire Can members of the group damage each other
      * @param canBeCriminal Can members of the group be criminals
      */
-    fun createGroup(name: String, maxLvl: Int, lvlThresholds: List<Int>, friendlyFire: Boolean, canBeCriminal: Boolean){
+    fun createGroup(name: String, maxLvl: Int, lvlThresholds: List<Int>, friendlyFire: Boolean, canBeCriminal: Boolean, prefix: String){
 
         val fixedThresholds = lvlThresholds.toMutableList()
         if(maxLvl > lvlThresholds.size){
@@ -48,7 +48,7 @@ class GroupManager {
 
         }
 
-        val newGroup = Group(name, maxLvl, fixedThresholds, friendlyFire, canBeCriminal)
+        val newGroup = Group(name, maxLvl, fixedThresholds, friendlyFire, canBeCriminal, prefix)
 
         if (getGroup(newGroup.name) == null){
             groups.add(newGroup)

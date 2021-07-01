@@ -1,4 +1,4 @@
-package com.github.recraftedcivilizations.darkcitizens.jobs.special.major
+package com.github.recraftedcivilizations.darkcitizens.jobs.special.mayor
 
 import com.github.recraftedcivilizations.darkcitizens.BukkitWrapper
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayer
@@ -12,7 +12,7 @@ import org.bukkit.ChatColor
 import org.bukkit.Material
 
 
-class ElectedMajor(lawManager: LawManager,
+class ElectedMayor(lawManager: LawManager,
                    name: String,
                    group: String,
                    playerLimit: Int,
@@ -24,14 +24,15 @@ class ElectedMajor(lawManager: LawManager,
                    permissionRequired: Boolean,
                    icon: Material,
                    leaveOnDeath: Boolean,
+                   prefix: String,
                    override val dPlayerManager: DPlayerManager,
-                   jobManager: JobManager,
+                   private val jobManager: JobManager,
                    override val candidateTime: Int,
                    override val voteTime: Int,
                    override val voteFee: Int,
                    override val candidateFee: Int,
                    val bukkitWrapper: BukkitWrapper = BukkitWrapper(),
-) : GenericMajor(
+) : GenericMayor(
     lawManager,
     name,
     group,
@@ -44,20 +45,11 @@ class ElectedMajor(lawManager: LawManager,
     permissionRequired,
     icon,
     leaveOnDeath,
+    prefix,
     dPlayerManager,
     jobManager,
     bukkitWrapper
 ), ElectableJob{
-    /**
-     * TODO("Maybe rework this")
-     * Join this job, this does not check for any requirements
-     * @param dPlayer The Player to join
-     */
-    override fun join(dPlayer: DPlayer) {
-        val player = bukkitWrapper.getPlayer(dPlayer.uuid)!!
-        addPlayer(dPlayer)
-        player.sendMessage("${ChatColor.GREEN}You are now a $name")
-    }
 
     /**
      * Leave the elected job, this will display a message to every player that a new election will take place

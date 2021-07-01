@@ -51,7 +51,7 @@ class JobManager(private val dPlayerManager: DPlayerManager, private val lawMana
      * @param voteTime The time span in which can be voted in an elected job
      * @param voteFee The amount of money that has to be paid to vote
      * @param candidateFee The amount of money that has to be paid to candidate for a job
-     * @param isMajor If the job is a major and can set tax laws etc.
+     * @param isMajor If the job is a mayor and can set tax laws etc.
      */
     fun createJob(
         name: String,
@@ -66,6 +66,7 @@ class JobManager(private val dPlayerManager: DPlayerManager, private val lawMana
         permissionRequired: Boolean,
         icon: Material,
         leaveOnDeath: Boolean,
+        prefix: String,
         candidateTime: Int? = null,
         voteTime: Int? = null,
         voteFee: Int? = null,
@@ -94,6 +95,7 @@ class JobManager(private val dPlayerManager: DPlayerManager, private val lawMana
                 permissionRequired,
                 icon,
                 leaveOnDeath,
+                prefix,
                 dPlayerManager,
                 this,
                 candidateTime,

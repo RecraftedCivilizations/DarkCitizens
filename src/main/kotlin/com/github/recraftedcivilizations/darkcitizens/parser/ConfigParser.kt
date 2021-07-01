@@ -1,6 +1,9 @@
 package com.github.recraftedcivilizations.darkcitizens.parser
 
 import com.github.darkvanityoflight.recraftedcore.configparser.ARecraftedConfigParser
+import com.github.recraftedcivilizations.darkcitizens.actions.actions.ActionFactory
+import com.github.recraftedcivilizations.darkcitizens.actions.actions.ActionType
+import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
 import com.github.recraftedcivilizations.darkcitizens.groups.GroupManager
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
 import com.github.recraftedcivilizations.darkcitizens.tasks.TaskManager
@@ -13,6 +16,10 @@ import java.io.File
  * @author DarkVanityOfLight
  */
 
+fun ConfigurationSection.getMaterial(key: String, default: Material? = null): Material? {
+    val name = this.getString(key, null) ?: return default
+    return Material.getMaterial(name)
+}
 /**
  * Parse, create and store all values form the config file.
  * Store all task, group and job names in [taskNames], [jobNames] and [groupNames]
@@ -23,7 +30,9 @@ class ConfigParser(
     private val dataDir: String,
     private val taskManager: TaskManager,
     private val jobManager: JobManager,
-    private val groupManager: GroupManager, private val bukkitWrapper: com.github.recraftedcivilizations.darkcitizens.BukkitWrapper = com.github.recraftedcivilizations.darkcitizens.BukkitWrapper()
+    private val groupManager: GroupManager,
+    private val dPlayerManager: DPlayerManager,
+    private val bukkitWrapper: com.github.recraftedcivilizations.darkcitizens.BukkitWrapper = com.github.recraftedcivilizations.darkcitizens.BukkitWrapper()
 ) : ARecraftedConfigParser(config) {
     val taskNames = emptySet<String>().toMutableSet()
     val jobNames = emptySet<String>().toMutableSet()
@@ -35,6 +44,17 @@ class ConfigParser(
      * Call this method to read and parse the config
      */
     override fun read() {
+
+        // Check that the action section exists
+        if (!config.isSet(actionSectionName)) {
+            bukkitWrapper.severe("Could not find the Actions section, please define it using the $actionSectionName tag, I created it for you, but it does not contain any groups")
+            config.createSection(actionSectionName)
+            save()
+        }
+        // Parse actions
+        val actionSection = config.getConfigurationSection(actionSectionName)!!
+        parseActions(actionSection)
+
         // Check that the group section exists
         if (!config.isSet(groupSectionName)) {
             bukkitWrapper.severe("Could not find the Groups section, please define it using the $groupSectionName tag, I created it for you, but it does not contain any groups")
@@ -75,6 +95,17 @@ class ConfigParser(
             bukkitWrapper.info("Your config is valid, good job, now get a cookie and some hot choc and enjoy your server.")
         }else{
             bukkitWrapper.info("Your config is invalid at some point, it may work anyway, but do you really want to live with the knowledge that something may go wrong at any point?")
+        }
+    }
+
+    /**
+     * Parse all actions in the action section
+     * @param actionsSection The action section to parse
+     */
+    private fun parseActions(actionsSection: ConfigurationSection){
+        for (actionName in actionsSection.getKeys(false)){
+            val actionSection = actionsSection.getConfigurationSection(actionName)!!
+            configSectionToAction(actionName, actionSection)
         }
     }
 
@@ -232,8 +263,10 @@ class ConfigParser(
         val leaveOnDeath = configurationSection.getBoolean(jobLeaveOnDeathName, false)
         val isMajor = configurationSection.getBoolean(jobIsMajorName, false)
 
+        val prefix = configurationSection.getString(jobPrefixName, "")?: ""
+
         jobNames.add(jobName)
-        jobManager.createJob(jobName, group, playerLimit, tasks.toSet(), canDemote.toSet(), baseIncome, baseXp, minLvl, electionRequired, permissionRequired, icon, leaveOnDeath, candidateTime, voteTime, candidateFee, voteFee, isMajor)
+        jobManager.createJob(jobName, group, playerLimit, tasks.toSet(), canDemote.toSet(), baseIncome, baseXp, minLvl, electionRequired, permissionRequired, icon, leaveOnDeath, prefix, candidateTime, voteTime, candidateFee, voteFee, isMajor)
     }
 
     /**
@@ -255,9 +288,28 @@ class ConfigParser(
 
         val friendlyFire = configurationSection.getBoolean(groupFriendlyFireName, false)
         val canBeCriminal = configurationSection.getBoolean(groupCanBeCriminalName, false)
+        val prefix = configurationSection.getString(groupPrefixName, "")?: ""
 
         groupNames.add(groupName)
-        groupManager.createGroup(groupName, maxLvl, lvlThresholds, friendlyFire, canBeCriminal)
+        groupManager.createGroup(groupName, maxLvl, lvlThresholds, friendlyFire, canBeCriminal, prefix)
+    }
+
+    /**
+     * Parse a config section to an action and register it at the [ActionManager]
+     * @param actionName The name of this action
+     * @param actionSection The section to parse as Action
+     */
+    private fun configSectionToAction(actionName: String, actionSection: ConfigurationSection){
+        val type = ActionType.valueOf(actionSection.getString(actionTypeName)?: return)
+
+        val description = actionSection.getString(actionDescriptionName)?: ""
+        val number = actionSection.getInt(actionNumberName)
+        val itemType = actionSection.getMaterial(actionItemTypeName)
+        val block = actionSection.getMaterial(actionBlockTypeName)
+
+        // Create and register the new action
+        ActionFactory.createNewAction(type, actionName, description, number, itemType, block, dPlayerManager)
+
     }
 
     /**
@@ -333,11 +385,20 @@ class ConfigParser(
         const val jobVoteFeeName = "voteFee"
         const val jobLeaveOnDeathName = "leaveOnDeath"
         const val jobIsMajorName = "isMajor"
+        const val jobPrefixName = "prefix"
         const val groupMaxLvlName = "maxLvl"
         const val groupLvlThresholdsName = "lvlThresholds"
         const val groupFriendlyFireName = "friendlyFire"
         const val groupCanBeCriminalName = "canBeCriminal"
+        const val groupPrefixName ="prefix"
         const val baseIncomeTimeName = "baseIncomeTime"
         const val taskIconName = "icon"
+        const val actionSectionName = "Actions"
+        const val actionTypeName = "type"
+        const val actionDescriptionName = "description"
+        const val actionBlockTypeName = "blockType"
+        const val actionItemTypeName = "itemType"
+        const val actionNumberName = "number"
+
     }
 }

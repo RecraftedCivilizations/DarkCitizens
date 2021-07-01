@@ -88,7 +88,7 @@ internal class ConfigParserTest {
     }
 
     @Test
-    fun readJobsGroupsAndTaskAllValid() {
+    fun readAllValid() {
         val jobName1 = randomString()
         val groupName1 = randomString()
         val taskName1 = randomString()
@@ -98,6 +98,7 @@ internal class ConfigParserTest {
         val jobsSection = fileConfig.createSection(ConfigParser.jobSectionName)
         val tasksSection = fileConfig.createSection(ConfigParser.taskSectionName)
         val groupsSection = fileConfig.createSection(ConfigParser.groupSectionName)
+        val actionsSection = fileConfig.createSection(ConfigParser.actionSectionName)
 
         // Create new jobs
         val jobArgs = createRandomJob(setOf(taskName1), groupName1).toMutableMap()
@@ -115,7 +116,7 @@ internal class ConfigParserTest {
         fileConfig.set(ConfigParser.baseIncomeTimeName, baseIncomeDelay)
 
         // Start the testing
-        val configParser = ConfigParser(fileConfig, dataDir, taskManager, jobManager, groupManager, bukkitWrapper)
+        val configParser = ConfigParser(fileConfig, dataDir, taskManager, jobManager, groupManager, dPlayerManager, bukkitWrapper)
         configParser.read()
 
         // Check that we got no errors
@@ -141,7 +142,7 @@ internal class ConfigParserTest {
     @Test
     fun readWithMissingSections(){
 
-        val configParser = ConfigParser(fileConfig, dataDir, taskManager, jobManager, groupManager, bukkitWrapper)
+        val configParser = ConfigParser(fileConfig, dataDir, taskManager, jobManager, groupManager, dPlayerManager, bukkitWrapper)
         configParser.read()
         verify(bukkitWrapper, times(1)).severe("Could not find the Groups section, please define it using the ${ConfigParser.groupSectionName} tag, I created it for you, but it does not contain any groups")
         verify(bukkitWrapper, times(1)).severe("Could not find the Tasks section, please define it using the ${ConfigParser.taskSectionName} tag, I created it for you, but it does not contain any tasks")
@@ -159,7 +160,7 @@ internal class ConfigParserTest {
 
         tasksSection.createSection(taskName)
 
-        val configParser = ConfigParser(fileConfig, dataDir, taskManager, jobManager, groupManager, bukkitWrapper)
+        val configParser = ConfigParser(fileConfig, dataDir, taskManager, jobManager, groupManager, dPlayerManager, bukkitWrapper)
         configParser.read()
         verify(bukkitWrapper, times(1)).warning("The task $taskName has no income defined, I ll default it to 100, but you should define it using the ${ConfigParser.taskIncomeName} tag!")
         verify(bukkitWrapper, times(1)).warning("The task $taskName has no xp defined, I ll default it to 100, but you should define it using the ${ConfigParser.taskXpName} tag!")
@@ -182,7 +183,7 @@ internal class ConfigParserTest {
 
         jobsSection.createSection(jobName)
         
-        val configParser = ConfigParser(fileConfig, dataDir, taskManager, jobManager, groupManager, bukkitWrapper)
+        val configParser = ConfigParser(fileConfig, dataDir, taskManager, jobManager, groupManager, dPlayerManager, bukkitWrapper)
         configParser.read()
         verify(bukkitWrapper, times(1)).warning("The job $jobName has no group defined, this may lead to severe errors later on, please define the group using the ${ConfigParser.jobGroupName} tag!")
         verify(bukkitWrapper, times(1)).warning("The job $jobName has no player limit defined, I'll default it to 10 but you should define it using the ${ConfigParser.jobPlayerLimitName}")
@@ -193,6 +194,7 @@ internal class ConfigParserTest {
         verify(bukkitWrapper, times(1)).info("Your config is invalid at some point, it may work anyway, but do you really want to live with the knowledge that something may go wrong at any point?")
         verify(bukkitWrapper).warning("Could not find the baseIncomeTime it will be defaulted to 5 minutes, please define it using the ${ConfigParser.baseIncomeTimeName} tag")
         verify(bukkitWrapper).warning("The job $jobName has no icon defined, I'll default it to a player head, but you should define it using the ${ConfigParser.jobIconName} tag!")
+        verify(bukkitWrapper).severe("Could not find the Actions section, please define it using the ${ConfigParser.actionSectionName} tag, I created it for you, but it does not contain any groups")
         verifyNoMoreInteractions(bukkitWrapper)
 
         val job = jobManager.getJob(jobName)
@@ -215,13 +217,14 @@ internal class ConfigParserTest {
 
         groupsSection.createSection(groupName)
 
-        val configParser = ConfigParser(fileConfig, dataDir, taskManager, jobManager, groupManager, bukkitWrapper)
+        val configParser = ConfigParser(fileConfig, dataDir, taskManager, jobManager, groupManager, dPlayerManager, bukkitWrapper)
         configParser.read()
 
         verify(bukkitWrapper).warning("The group $groupName has no maximum lvl defined, I'll default it to 50, but you should define it using the ${ConfigParser.groupMaxLvlName} tag!")
         verify(bukkitWrapper).warning("The group $groupName has no or not enough level thresholds defined, I'll fill them in for you, but you should define them using the ${ConfigParser.groupLvlThresholdsName} tag!")
         verify(bukkitWrapper).info("Your config is valid, good job, now get a cookie and some hot choc and enjoy your server.")
         verify(bukkitWrapper).warning("Could not find the baseIncomeTime it will be defaulted to 5 minutes, please define it using the ${ConfigParser.baseIncomeTimeName} tag")
+        verify(bukkitWrapper).severe("Could not find the Actions section, please define it using the ${ConfigParser.actionSectionName} tag, I created it for you, but it does not contain any groups")
         verifyNoMoreInteractions(bukkitWrapper)
 
 
@@ -247,7 +250,7 @@ internal class ConfigParserTest {
 
     @Test
     fun shouldVerify(){
-        val configParser = ConfigParser(fileConfig, dataDir, taskManager, jobManager, groupManager, bukkitWrapper)
+        val configParser = ConfigParser(fileConfig, dataDir, taskManager, jobManager, groupManager, dPlayerManager, bukkitWrapper)
 
         val groupName = randomString()
         val jobName1 = randomString()
@@ -269,6 +272,7 @@ internal class ConfigParserTest {
             jobArgs[ConfigParser.jobPermissionRequiredName] as Boolean,
             jobArgs[ConfigParser.jobIconName] as Material,
             jobArgs[ConfigParser.jobLeaveOnDeathName] as Boolean,
+            jobArgs[ConfigParser.jobPrefixName] as String,
             jobArgs[ConfigParser.jobCandidateTimeName] as Int,
             jobArgs[ConfigParser.jobVoteTimeName] as Int,
             jobArgs[ConfigParser.jobCandidateFeeName] as Int,
@@ -333,6 +337,7 @@ internal class ConfigParserTest {
             Pair(ConfigParser.jobVoteTimeName, Random.nextInt()),
             Pair(ConfigParser.jobCandidateFeeName, Random.nextInt()),
             Pair(ConfigParser.jobVoteFeeName, Random.nextInt()),
+            Pair(ConfigParser.jobPrefixName, randomString())
         )
     }
 

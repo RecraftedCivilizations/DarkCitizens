@@ -1,9 +1,9 @@
-package com.github.recraftedcivilizations.darkcitizens.jobs.special.major
+package com.github.recraftedcivilizations.darkcitizens.jobs.special.mayor
 
 import com.github.recraftedcivilizations.darkcitizens.jobs.IJob
 import com.github.recraftedcivilizations.darkcitizens.laws.LawManager
 
-interface IMajor : IJob {
+interface IMayor : IJob {
     val lawManager: LawManager
 
     /**

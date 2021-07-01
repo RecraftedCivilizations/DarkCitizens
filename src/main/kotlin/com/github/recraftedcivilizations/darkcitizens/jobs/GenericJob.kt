@@ -4,10 +4,13 @@ import com.github.recraftedcivilizations.darkcitizens.BukkitWrapper
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayer
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
 import com.github.recraftedcivilizations.darkcitizens.events.JobLeaveEvent
+import com.github.recraftedcivilizations.darkcitizens.events.TaskCompleteEvent
 import com.github.recraftedcivilizations.darkcitizens.tasks.ITask
 import org.bukkit.ChatColor
 import org.bukkit.Material
 import org.bukkit.entity.Player
+import org.bukkit.event.EventHandler
+import org.bukkit.event.Listener
 import java.util.*
 
 /**
@@ -37,10 +40,11 @@ abstract class GenericJob(
     override val permissionRequired: Boolean,
     override val icon: Material,
     override val leaveOnDeath: Boolean,
+    override val prefix: String,
     private val dPlayerManager: DPlayerManager,
     private val jobManager: JobManager,
     private var bukkitWrapper: BukkitWrapper = BukkitWrapper()
-) : IJob {
+) : IJob, Listener {
     override val currentMembers: MutableSet<DPlayer> = emptySet<DPlayer>().toMutableSet()
 
     /**
@@ -59,6 +63,7 @@ abstract class GenericJob(
         for (member in currentMembers){
             if (member.uuid == player.uuid){
                 currentMembers.remove(member)
+                break
             }
         }
     }
@@ -186,8 +191,10 @@ abstract class GenericJob(
             dPlayer.job = name
             bukkitWrapper.getPlayer(dPlayer)?.sendMessage("${ChatColor.GREEN}You successfully joined the job $name")
             dPlayerManager.setDPlayer(dPlayer)
+            resetForPlayer(dPlayer)
         }
     }
+
 
     /**
      * Leave this job
@@ -209,5 +216,24 @@ abstract class GenericJob(
      */
     override fun leave(player: Player) {
         dPlayerManager.getDPlayer(player.uniqueId)?.let { leave(it) }
+    }
+
+    override fun resetForPlayer(player: DPlayer) {
+        resetForPlayer(bukkitWrapper.getPlayer(player)!!)
+    }
+
+    override fun resetForPlayer(player: Player) {
+        for (task in tasks){
+            task.resetForPlayer(player)
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    fun onTaskComplete(e: TaskCompleteEvent){
+
+        if (e.task in this.tasks && e.dPlayer in this.currentMembers){
+            e.task.completeForPlayer(e.dPlayer)
+        }
+
     }
 }
