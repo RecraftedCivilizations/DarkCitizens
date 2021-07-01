@@ -1,8 +1,6 @@
 package com.github.recraftedcivilizations.darkcitizens.parser
 
 import com.github.darkvanityoflight.recraftedcore.configparser.ARecraftedConfigParser
-import com.github.recraftedcivilizations.darkcitizens.DarkCitizens
-import com.github.recraftedcivilizations.darkcitizens.actions.IAction
 import com.github.recraftedcivilizations.darkcitizens.actions.actions.ActionFactory
 import com.github.recraftedcivilizations.darkcitizens.actions.actions.ActionType
 import com.github.recraftedcivilizations.darkcitizens.dPlayer.DPlayerManager
@@ -10,7 +8,6 @@ import com.github.recraftedcivilizations.darkcitizens.groups.GroupManager
 import com.github.recraftedcivilizations.darkcitizens.jobs.JobManager
 import com.github.recraftedcivilizations.darkcitizens.tasks.TaskManager
 import org.bukkit.Material
-import org.bukkit.block.Block
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.configuration.file.FileConfiguration
 import java.io.File
@@ -305,14 +302,13 @@ class ConfigParser(
     private fun configSectionToAction(actionName: String, actionSection: ConfigurationSection){
         val type = ActionType.valueOf(actionSection.getString(actionTypeName)?: return)
 
-        val name = actionSection.getString(actionNameName)?: ""
         val description = actionSection.getString(actionDescriptionName)?: ""
         val number = actionSection.getInt(actionNumberName)
         val itemType = actionSection.getMaterial(actionItemTypeName)
         val block = actionSection.getMaterial(actionBlockTypeName)
 
         // Create and register the new action
-        ActionFactory.createNewAction(type, name, description, number, itemType, block, dPlayerManager)
+        ActionFactory.createNewAction(type, actionName, description, number, itemType, block, dPlayerManager)
 
     }
 
@@ -399,7 +395,6 @@ class ConfigParser(
         const val taskIconName = "icon"
         const val actionSectionName = "Actions"
         const val actionTypeName = "type"
-        const val actionNameName = "name"
         const val actionDescriptionName = "description"
         const val actionBlockTypeName = "blockType"
         const val actionItemTypeName = "itemType"

@@ -67,27 +67,28 @@ the `number` tag.
 So to make it clear I'll show you an example configuration with every action:
 ```YAML
 Actions:
-    chop_25:
-        name: Chop Wood
-        description: Chop 25 wood
-        type: ChopWood
-        number: 25
-    craft_sticks:
-        name: STICKSSSS
-        description: Craft 25 sticks
-        type: CraftItem
-        number: 25
-        itemType: STICK
-    fish:
-        name: Go Fishing
-        description: Fish 25 fish
-        number: 25
-    mineIron:
-        name: Mine Iron
-        description: Mine 25 iron
-        type: MineBlock
-        number: 25
-        blockType: IRON_ORE
+  Chop Wood:
+    description: Chop 25 wood
+    type: ChopWood
+    number: 25
+  STICKSSSS:
+    description: Craft 25 sticks
+    type: CraftItem
+    number: 25
+    itemType: STICK
+  fish:
+    description: Fish 25 fish
+    number: 25
+  Mine Iron:
+    description: Mine 25 iron
+    type: MineBlock
+    number: 25
+    blockType: IRON_ORE
+  Mine Stone:
+    description: Mine 15 stone
+    type: MineBlock
+    number: 15
+    blockType: STONE
 ```
 To get a list of the itemType and blockType visit the [Spigot Website](https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html).
 Okay next on we use the actions in our tasks, if all actions in a task are completed the task will be completed.
